@@ -12,10 +12,13 @@ from codeHelpers import test
 from codeHelpers import test_flake8
 from codeHelpers import ex_runs
 
+sys.path.append("../me")
+
 # from codeHelpers import test
 from week1 import exercise1
 
 WEEK_NUMBER = 1
+ME = "../me"
 
 # the context of this file
 LOCAL = os.path.dirname(os.path.realpath(__file__))
@@ -59,7 +62,7 @@ def test_dev_env():
 
 
 def lab_book_entry_completed():
-    lab_book = Path("week1/readme.md")
+    lab_book = Path(os.path.join(ME, "week1/readme.md"))
     if lab_book.is_file():
         with open(lab_book, "r") as f:
             lines = f.readlines()
