@@ -37,7 +37,7 @@ class RunCmd(threading.Thread):
             self.join()
 
 
-class Timeout():
+class Timeout:
     """Timeout class using ALARM signal."""
 
     class Timeout(Exception):
@@ -51,7 +51,7 @@ class Timeout():
         signal.alarm(self.sec)
 
     def __exit__(self, *args):
-        signal.alarm(0)    # disable alarm
+        signal.alarm(0)  # disable alarm
 
     def raise_timeout(self, *args):
         raise Timeout.Timeout("Timeout: you took toooo damn long!")
@@ -72,13 +72,13 @@ def test(testResult, name):
 
 def test_flake8(fileName):
     """Check to see if the file at file_path is flake8 compliant."""
-    test_dir = os.path.dirname(os.path.abspath(inspect.getfile(
-        inspect.currentframe())))
+    test_dir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 
     files = [os.path.join(test_dir, fileName)]
     # Import the legacy API as flake8 3.0 currently has no official
     # public API - this has to be changed at some point.
     from flake8.api import legacy as flake8
+
     style_guide = flake8.get_style_guide()
     report = style_guide.check_files(files)
 
@@ -91,14 +91,16 @@ def test_flake8(fileName):
 
 def test_pydocstyle(fileName, flags="-e"):
     """Check to see if the file at file_path is pydocstyle compliant."""
-    test_dir = os.path.dirname(os.path.abspath(inspect.getfile(
-        inspect.currentframe())))
+    getFrame = inspect.getfile(inspect.currentframe())
+    absPath = os.path.abspath(getFrame)
+    test_dir = os.path.dirname(absPath)
 
     file_path = os.path.join(test_dir, fileName)
     print(file_path)
     try:
-        child = subprocess.Popen(["pydocstyle", file_path, flags],
-                                 stdout=subprocess.PIPE)
+        child = subprocess.Popen(
+            ["pydocstyle", file_path, flags], stdout=subprocess.PIPE
+        )
         streamdata = child.communicate()[0]
         print(("streamdata", streamdata))  # I don't know what streamdata is for
         rc = child.returncode
@@ -130,11 +132,11 @@ def ex_runs(path, exNumber, weekNumber):
 
 def syntax_error_message(exNumber, e):
     """Give a readable error message."""
-    print(('\n{s:{c}^{n}}\n{s:{c}^{n}}'.format(n=50, c='*', s="")))
+    print(("\n{s:{c}^{n}}\n{s:{c}^{n}}".format(n=50, c="*", s="")))
     print(("There is a syntax error in exercise{}\n{}".format(exNumber, str(e))))
     print("WARNING: there might be more tests, but they won't run")
     print(("until you fix the syntax errors in exercise{}.py".format(exNumber)))
-    print(('{s:{c}^{n}}\n{s:{c}^{n}}\n'.format(n=50, c='*', s="")))
+    print(("{s:{c}^{n}}\n{s:{c}^{n}}\n".format(n=50, c="*", s="")))
 
 
 def completion_message(message, width):
@@ -148,15 +150,15 @@ def completion_message(message, width):
 
     ******************************
     """
-    cap = '{start}{s:{c}^{n}}{end}'.format(n=width, c='*', s="",
-                                           start=Fore.GREEN,
-                                           end=Style.RESET_ALL)
+    cap = "{start}{s:{c}^{n}}{end}".format(
+        n=width, c="*", s="", start=Fore.GREEN, end=Style.RESET_ALL
+    )
     print(cap + "\n")
     print((Fore.GREEN + "✔ " + message + Style.RESET_ALL))
     print("\n" + cap)
 
 
-def nyan_cat(block='█'):
+def nyan_cat(block="█"):
     """Return a coloured string that shows a nyan cat."""
     c = [
          ['{BRIGHT_BLUE}', '{x}'*80],
@@ -234,7 +236,8 @@ def nyan_cat(block='█'):
          ['{x}'*80, '{WHITE}']
     ]
     c = "\n".join(["".join(x) for x in c])
-    return c.format(BLACK=Style.NORMAL + "" + Fore.BLACK,
+    return c.format(
+        BLACK=Style.NORMAL + "" + Fore.BLACK,
                     BLUE=Style.NORMAL + "" + Fore.BLUE,
                     BRIGHT_BLUE=Style.BRIGHT + "" + Fore.BLUE,
                     BRIGHT_GREEN=Style.BRIGHT + "" + Fore.GREEN,
@@ -243,7 +246,8 @@ def nyan_cat(block='█'):
                     MAGENTA=Style.NORMAL + "" + Fore.MAGENTA,
                     RED=Style.NORMAL + "" + Fore.RED,
                     WHITE=Style.BRIGHT + "" + Fore.WHITE,
-                    x=block)
+        x=block,
+    )
 
 
 def grumpy():
