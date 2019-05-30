@@ -122,8 +122,15 @@ def test_pydocstyle(fileName, flags="-e"):
 def ex_runs(path, exNumber, weekNumber):
     """Check that this exercise runs at all."""
     try:
-        # path = "exercise{}.py".format(exNumber)
-        imp.load_source("exercise{}".format(exNumber), path)
+        spec = importlib.util.spec_from_file_location(
+            "exercise", "../me/week{w}/exercise{e}.py".format(e=exNumber, w=weekNumber)
+        )
+        ex = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(ex)
+        # # path = "exercise{}.py".format(exNumber)
+        # e = "exercise{}".format(exNumber)
+        # p = os.path.join(path, "week" + str(weekNumber))
+        # imp.load_source(e, p)
         return True
     except Exception as e:
         syntax_error_message(exNumber, e)
