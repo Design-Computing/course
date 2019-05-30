@@ -6,77 +6,89 @@ to check that everything works.
 
 import json
 import os
+import platform
 import requests
 
 LOCAL = os.path.dirname(os.path.realpath(__file__))
+REMOTE = "../me/week1"
+
+print(os.getcwd(), LOCAL)
 
 
-def check_vm_ID():
+def check_system_details():
     """Look inside yourself.
 
     Gets a unique value from each VM to check that it's actually set up
     """
-    # read it from the OS
-    m = open(os.path.join(LOCAL, "/var/lib/dbus/machine-id"), "r")
-    machine_id = m.read()
-    m.close()
-    print(machine_id)
+
+    systemInfo = {
+        "architecture": platform.architecture(),
+        "machine": platform.machine(),
+        "os_name": os.name,
+        "platform": platform.platform(),
+        "processor": platform.processor(),
+        "release": platform.release(),
+        "system": platform.system(),
+        "uname": platform.uname(),
+        "version": platform.version(),
+        "python_build": platform.python_build(),
+        "python_compiler": platform.python_compiler(),
+        "python_implementation(": platform.python_implementation(),
+        "python_version(": platform.python_version(),
+        "python_version_tuple": platform.python_version_tuple(),
+        "cpu_count": os.cpu_count(),
+    }
+    print(json.dumps(systemInfo, indent=4))
 
     # Write it to a file in this repo
-    f = open(os.path.join(LOCAL, '_checkID'), 'w')
-    f.write(machine_id)
+    f = open(os.path.join(REMOTE, "_checkID.json"), "w")
+    f.write(json.dumps(systemInfo, indent=4))
     f.close()
 
-    # ultra belt and braces - was being strange in testing
-    c = open(os.path.join(LOCAL, "_checkID"), "r")
-    read_machine_id = c.read()
-    c.close()
-    if machine_id != read_machine_id:
-        print(machine_id)
-        print(read_machine_id)
-        print("Something's not right here.")
 
-
-def test_the_vm():
+def test_for_python_and_requests():
     """Inspect own filesystem.
 
     GETs a small JSON file and displays a message
     """
     width = 38
 
-    gh_url = 'https://raw.githubusercontent.com/'
-    repo = 'notionparallax/code1161base/'
+    gh_url = "https://raw.githubusercontent.com/"
+    repo = "notionparallax/code1161base/"
     file_path = "master/week1/pySuccessMessage.json"
     url = gh_url + repo + file_path
 
     try:
         r = requests.get(url)
-        message = json.loads(r.text)['message']
+        message = json.loads(r.text)["message"]
         subMessage = "All hail his noodly appendage!"
     except Exception as e:
         message = "We are in the darkness"
         subMessage = "Alas, all is lost"
         print("\nThe error message:", e)
 
+    bar = "*{s:{c}^{n}}*".format(n=width, c="*", s="")
+    blank = "*{s:{c}^{n}}*".format(n=width, c=" ", s="")
     doesItWork = [
-        "Let's test Python and Requests:\n",
-        '*{s:{c}^{n}}*'.format(n=width, c='*', s=""),
-        '*{s:{c}^{n}}*'.format(n=width, c=' ', s=""),
-        '*{s:{c}^{n}}*'.format(n=width, c=' ', s=message),
-        '*{s:{c}^{n}}*'.format(n=width, c=' ', s=""),
-        '*{s:{c}^{n}}*'.format(n=width, c=' ', s=subMessage),
-        '*{s:{c}^{n}}*'.format(n=width, c=' ', s=""),
-        '*{s:{c}^{n}}*'.format(n=width, c='*', s="")]
+        bar,
+        blank,
+        "*{s:{c}^{n}}*".format(n=width, c=" ", s=message),
+        blank,
+        "*{s:{c}^{n}}*".format(n=width, c=" ", s=subMessage),
+        blank,
+        bar,
+    ]
 
+    print("Let's test Python and Requests:\n")
     for line in doesItWork:
         print(line)
 
-    f = open(os.path.join(LOCAL, '_requestsWorking'), 'w')
+    f = open(os.path.join(REMOTE, "_requestsWorking"), "w")
     for line in doesItWork:
-        f.write(line)
+        f.write(line + "\n")
     f.close()
 
 
 if __name__ == "__main__":
-    test_the_vm()
-    check_vm_ID()
+    check_system_details()
+    test_for_python_and_requests()
