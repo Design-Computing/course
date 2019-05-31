@@ -5,6 +5,8 @@ from colorama import Style
 import colorama
 import imp
 import inspect
+import traceback
+import importlib.util as importUtils
 import os
 import signal
 import subprocess
@@ -122,10 +124,10 @@ def test_pydocstyle(fileName, flags="-e"):
 def ex_runs(path, exNumber, weekNumber):
     """Check that this exercise runs at all."""
     try:
-        spec = importlib.util.spec_from_file_location(
+        spec = importUtils.spec_from_file_location(
             "exercise", "../me/week{w}/exercise{e}.py".format(e=exNumber, w=weekNumber)
         )
-        ex = importlib.util.module_from_spec(spec)
+        ex = importUtils.module_from_spec(spec)
         spec.loader.exec_module(ex)
         # # path = "exercise{}.py".format(exNumber)
         # e = "exercise{}".format(exNumber)
@@ -141,7 +143,8 @@ def syntax_error_message(exNumber, e):
     """Give a readable error message."""
     print(("\n{s:{c}^{n}}\n{s:{c}^{n}}".format(n=50, c="*", s="")))
     print(("There is a syntax error in exercise{}\n{}".format(exNumber, str(e))))
-    print("WARNING: there might be more tests, but they won't run")
+    print(traceback.print_exc())
+    print("\nWARNING: there might be more tests, but they won't run")
     print(("until you fix the syntax errors in exercise{}.py".format(exNumber)))
     print(("{s:{c}^{n}}\n{s:{c}^{n}}\n".format(n=50, c="*", s="")))
 
