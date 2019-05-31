@@ -12,7 +12,7 @@ from colorama import Fore
 from colorama import Style
 from pathlib import Path
 import imp
-import importlib.util
+import importlib.util as importUtils
 import os
 import sys
 
@@ -213,7 +213,11 @@ def theTests(path_to_code_to_check="../me"):
                 print(
                     (
                         "{norm}Do you have a line that says "
-                        "{em}return{norm} the_answer? "
+                        "{em}return the_answer{norm}?\n"
+                        "Or maybe you have a line that says {em}return None{norm}?"
+                        "Or you are returning a variable that has the value {em}return None{norm}?\n"
+                        "You need to return the computed value, so either assign "
+                        "it to a variable and return that, or return it directly."
                     ).format(em=EM, norm=NORM)
                 )
             if fail == "**********":
@@ -349,8 +353,8 @@ def loadExerciseFile(weekNumber=2, exerciseNumber=0):
     path = os.path.join(
         "..", "me", "week{}".format(weekNumber), "exercise{}.py".format(exerciseNumber)
     )
-    spec = importlib.util.spec_from_file_location("exercise0", path)
-    ex = importlib.util.module_from_spec(spec)
+    spec = importUtils.spec_from_file_location("exercise0", path)
+    ex = importUtils.module_from_spec(spec)
     spec.loader.exec_module(ex)
     return ex
 
