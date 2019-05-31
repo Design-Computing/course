@@ -133,6 +133,8 @@ def lab_book_entry_completed(weekNumber):
             elif lines:
                 return True
     return False
+
+
 def loadExerciseFile(weekNumber=2, exerciseNumber=0):
     path = os.path.join(
         "..", "me", "week{}".format(weekNumber), "exercise{}.py".format(exerciseNumber)
@@ -141,6 +143,8 @@ def loadExerciseFile(weekNumber=2, exerciseNumber=0):
     ex = importUtils.module_from_spec(spec)
     spec.loader.exec_module(ex)
     return ex
+
+
 def ex_runs(path, exerciseNumber, weekNumber):
     """Check that this exercise runs at all."""
     try:
