@@ -7,6 +7,7 @@ of the exercise files does what it's supposed to.
 
 from colorama import Fore
 from colorama import Style
+from func_timeout import func_timeout, FunctionTimedOut
 from pathlib import Path
 import importlib.util as importUtils
 import math
@@ -30,6 +31,7 @@ from codeHelpers import (
 
 EM = Fore.YELLOW
 NORM = Fore.WHITE
+TIMEOUT_IN_SECONDS = 3
 
 WEEK_NUMBER = 3
 
@@ -108,12 +110,22 @@ def test_example_guessingGame(path):
     upperBound = 5
     guesses = list(range(5 + 1))
     mockInputs = [upperBound] + guesses
-    try:
-        with Timeout(3):
-            with mock.patch("builtins.input", side_effect=mockInputs):
-                return exercise2.exampleGuessingGame() == "You got it!"
-    except Exception as e:
-        print("exception:", e)
+    with mock.patch("builtins.input", side_effect=mockInputs):
+        try:
+            my_args = None
+            message = func_timeout(
+                TIMEOUT_IN_SECONDS, exercise2.exampleGuessingGame, args=my_args
+            )
+            print("message was", message)
+            return message == "You got it!"
+        except FunctionTimedOut:
+            print(
+                "{f}({args}) could not complete within {t} seconds and was killed.".format(
+                    f=sys._getframe().f_code.co_name, args=my_args, t=TIMEOUT_IN_SECONDS
+                )
+            )
+        except Exception as e:
+            print(e)
 
 
 def test_advanced_guessingGame(path, mockInputs):
