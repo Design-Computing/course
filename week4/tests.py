@@ -20,7 +20,6 @@ import time
 
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 from codeHelpers import (
-    Timeout,
     completion_message,
     ex_runs,
     lab_book_entry_completed,
