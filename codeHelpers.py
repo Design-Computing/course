@@ -121,7 +121,18 @@ def test_pydocstyle(fileName, flags="-e"):
         return False
 
 
-def ex_runs(path, exNumber, weekNumber):
+def lab_book_entry_completed(weekNumber):
+    lab_book = Path("../me/week{}/readme.md".format(weekNumber))
+    if lab_book.is_file():
+        with open(lab_book, "r") as f:
+            lines = f.readlines()
+            if lines == [
+                "TODO: Reflect on what you learned this week and what is still unclear.\n"
+            ]:
+                return False
+            elif lines:
+                return True
+    return False
     """Check that this exercise runs at all."""
     try:
         spec = importUtils.spec_from_file_location(
