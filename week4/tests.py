@@ -116,8 +116,12 @@ def theTests(path_to_code_to_check="."):
                        'local_tz_offset': '+{}00'.format(int(tzOffset()))}
     try:
         ex_name = "Exercise 1: get some data from the weather underground."
-        theirs = process_wunderground(exercise1.wunderground())
-        mine = process_wunderground(weather_results)
+        theirs = exercise1.wunderground()
+        mine = weather_results
+        if theirs["latitude"] and theirs["longitude"]:
+            theirs = process_wunderground(theirs)
+        if mine["latitude"] and mine["longitude"]:
+            mine = process_wunderground(mine)
         print("you gave:", theirs)
         print("expected:", mine)
         testResults.append(
