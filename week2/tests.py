@@ -125,12 +125,10 @@ def theTests(path_to_code_to_check="../me"):
             )
         )
 
-    testResults.append(
-        test(
-            ex_runs(path_to_code_to_check, exerciseNumber=2, weekNumber=WEEK_NUMBER),
-            "Exercise 2: debug the file",
-        )
-    )
+    ex2_runs = ex_runs(path_to_code_to_check, exerciseNumber=2, weekNumber=WEEK_NUMBER)
+    if not ex2_runs:
+        print("Don't worry, exercise 2 comes with errors. It's your job to fix them!")
+    testResults.append(test(ex2_runs, "Exercise 2: debug the file"))
 
     if ex_runs(path_to_code_to_check, exerciseNumber=3, weekNumber=WEEK_NUMBER):
         exercise3 = exercise0 = loadExerciseFile(weekNumber=2, exerciseNumber=3)
