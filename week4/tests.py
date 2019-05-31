@@ -100,15 +100,16 @@ def theTests(path_to_code_to_check="."):
         test(exercise1.get_some_details() == testDict,
              "Exercise 1: get some data out of a JSON file"))
 
-    lengths = [3, 5, 7, 9, 11, 13, 15, 17, 19, 20,
-               18, 16, 14, 12, 10, 8, 6, 4]
+    testName = "Exercise 1: request some simple data from the internet"
     try:
-        testResults.append(
-            test([len(w) for w in exercise1.wordy_pyramid()] == lengths,
-                 "Exercise 1: request some simple data from the internet"))
+        pyramid = exercise1.wordy_pyramid()
+        if pyramid is not None:
+            testResults.append(test([len(w) for w in pyramid] == lengths, testName))
+        else:
+            testResults.append(test(False, testName))
     except Exception as e:
         testResults.append(0)
-        print("Exercise 1: request some simple data from the internet", e)
+        print(testName, e)
 
     weather_results = {'latitude': '-33.924206',
                        'state': 'NSW',
