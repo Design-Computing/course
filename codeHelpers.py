@@ -141,20 +141,18 @@ def loadExerciseFile(weekNumber=2, exerciseNumber=0):
     ex = importUtils.module_from_spec(spec)
     spec.loader.exec_module(ex)
     return ex
+def ex_runs(path, exerciseNumber, weekNumber):
     """Check that this exercise runs at all."""
     try:
         spec = importUtils.spec_from_file_location(
-            "exercise", "../me/week{w}/exercise{e}.py".format(e=exNumber, w=weekNumber)
+            "exercise",
+            "../me/week{w}/exercise{e}.py".format(e=exerciseNumber, w=weekNumber),
         )
         ex = importUtils.module_from_spec(spec)
         spec.loader.exec_module(ex)
-        # # path = "exercise{}.py".format(exNumber)
-        # e = "exercise{}".format(exNumber)
-        # p = os.path.join(path, "week" + str(weekNumber))
-        # imp.load_source(e, p)
         return True
     except Exception as e:
-        syntax_error_message(exNumber, e)
+        syntax_error_message(exerciseNumber, e)
         return False
 
 
