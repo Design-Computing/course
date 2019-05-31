@@ -32,17 +32,19 @@ from codeHelpers import (
 
 EM = Fore.YELLOW
 NORM = Fore.WHITE
+
 WEEK_NUMBER = 4
 LOCAL = os.path.dirname(os.path.realpath(__file__))
 
 # if working dir contains week, we are one too deep
-if 'week' in os.getcwd():
-    os.chdir('..')
+if "week" in os.getcwd():
+    os.chdir("..")
+
 
 def process_wunderground(json_object):
     """Round down wunderground data to make comparison more stable."""
-    json_object['latitude'] = math.floor(float(json_object['latitude']))
-    json_object['longitude'] = math.floor(float(json_object['longitude']))
+    json_object["latitude"] = math.floor(float(json_object["latitude"]))
+    json_object["longitude"] = math.floor(float(json_object["longitude"]))
     return json_object
 
 
@@ -52,39 +54,43 @@ def find_lasers(path):
     if os.path.isfile(path):
         return int(open(path).read()) == int(6)
     else:
-        print("can't find lasers.pew, did you make it?"
+        print(
+            "can't find lasers.pew, did you make it?"
               " Does it have exactly that file name?"
-              "looking in " + path)
+            "looking in " + path
+        )
         return False
 
 
 def tzOffset():
     """Return tz in hours for current locale."""
     ts = time.time()
-    utc_offset = (datetime.fromtimestamp(ts) -
-                  datetime.utcfromtimestamp(ts)).total_seconds()
+    utc_offset = (
+        datetime.fromtimestamp(ts) - datetime.utcfromtimestamp(ts)
+    ).total_seconds()
     seconds_in_hour = 60 * 60
     return utc_offset / seconds_in_hour
 
 
 def treat():
     """Go and get the coloured ascii face particular to this person."""
-    with open('.git/config', 'r') as f:
+    with open(".git/config", "r") as f:
         for line in f:
-            if ('url = https://github.com/' in line) \
-               and not ('notionparallax' in line):
+            if ("url = https://github.com/" in line) and not ("notionparallax" in line):
                 # ensure it's not Ben's repo
                 print(line)
-                name = line.split('/')[-2]
-                if 'git' in name:
+                name = line.split("/")[-2]
+                if "git" in name:
                     # if ssh url
-                    name = name.split(':')[-1]
-            elif 'url = https://github.com/notionparallax' in line:
+                    name = name.split(":")[-1]
+            elif "url = https://github.com/notionparallax" in line:
                 print("we must be testing the tests")
                 name = "notionparallax"
     try:
-        url = ("https://raw.githubusercontent.com/"
-               "notionparallax/code1161base/master/faces/")
+        url = (
+            "https://raw.githubusercontent.com/"
+            "notionparallax/code1161base/master/faces/"
+        )
         full_url = url + name
         print("treat:\n", full_url, requests.get(full_url).text)
     except Exception as e:
@@ -99,18 +105,20 @@ def theTests(path_to_code_to_check="."):
     path = "{}/week{}/exercise1.py".format(path_to_code_to_check, WEEK_NUMBER)
     print(path)
 
-    exercise1 = imp.load_source("exercise1", path)
+    exercise1 = loadExerciseFile(weekNumber=WEEK_NUMBER, exerciseNumber=1)
 
     testResults = []
 
     # stack the tests below here
-    testDict = {'lastName': 'hoogmoed',
-                'password': 'jokers',
-                'postcodePlusID': 4311240}
+    testDict = {"lastName": "hoogmoed", "password": "jokers", "postcodePlusID": 4311240}
     testResults.append(
-        test(exercise1.get_some_details() == testDict,
-             "Exercise 1: get some data out of a JSON file"))
+        test(
+            exercise1.get_some_details() == testDict,
+            "Exercise 1: get some data out of a JSON file",
+        )
+    )
 
+    lengths = [3, 5, 7, 9, 11, 13, 15, 17, 19, 20, 18, 16, 14, 12, 10, 8, 6, 4]
     testName = "Exercise 1: request some simple data from the internet"
     try:
         pyramid = exercise1.wordy_pyramid()
@@ -122,10 +130,12 @@ def theTests(path_to_code_to_check="."):
         testResults.append(0)
         print(testName, e)
 
-    weather_results = {'latitude': '-33.924206',
-                       'state': 'NSW',
-                       'longitude': '151.187912',
-                       'local_tz_offset': '+{}00'.format(int(tzOffset()))}
+    weather_results = {
+        "latitude": "-33.924206",
+        "state": "NSW",
+        "longitude": "151.187912",
+        "local_tz_offset": "+{}00".format(int(tzOffset())),
+    }
     try:
         ex_name = "Exercise 1: get some data from the weather underground."
         theirs = exercise1.wunderground()
@@ -136,18 +146,16 @@ def theTests(path_to_code_to_check="."):
             mine = process_wunderground(mine)
         print("you gave:", theirs)
         print("expected:", mine)
-        testResults.append(
-            test(theirs == mine, ex_name))
+        testResults.append(test(theirs == mine, ex_name))
     except Exception as e:
         testResults.append(0)
         print(ex_name, e)
 
     testResults.append(
-            test(find_lasers(path_to_code_to_check),
-                 "Exercise 1: count the lasers."))
+        test(find_lasers(path_to_code_to_check), "Exercise 1: count the lasers.")
+    )
 
-    print("{0}/{1} (passed/attempted)".format(sum(testResults),
-                                              len(testResults)))
+    print("{0}/{1} (passed/attempted)".format(sum(testResults), len(testResults)))
 
     if sum(testResults) == len(testResults):
         nyan_cat()
@@ -155,9 +163,11 @@ def theTests(path_to_code_to_check="."):
         completion_message(message, len(message) + 2)
         # treat()
 
-    return {"of_total": len(testResults),
+    return {
+        "of_total": len(testResults),
             "mark": sum(testResults),
-            "results": testResults}
+        "results": testResults,
+    }
 
 
 if __name__ == "__main__":
