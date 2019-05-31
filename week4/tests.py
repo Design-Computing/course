@@ -5,22 +5,33 @@ This file tests your code. It'll check that the work in each
 of the exercise files does what it's supposed to.
 """
 
-
-
-import imp
+from colorama import Fore
+from colorama import Style
+from datetime import datetime
+from pathlib import Path
+import importlib.util as importUtils
 import math
+import mock
 import os
+import random
 import requests
 import sys
 import time
-from datetime import datetime
-sys.path.append(os.path.dirname(os.path.dirname(__file__)))
-from codeHelpers import completion_message
-from codeHelpers import nyan_cat
-from codeHelpers import test
-# from codeHelpers import test_flake8
-# from codeHelpers import Timeout
 
+sys.path.append(os.path.dirname(os.path.dirname(__file__)))
+from codeHelpers import (
+    Timeout,
+    completion_message,
+    ex_runs,
+    lab_book_entry_completed,
+    loadExerciseFile,
+    nyan_cat,
+    syntax_error_message,
+    test,
+)
+
+EM = Fore.YELLOW
+NORM = Fore.WHITE
 WEEK_NUMBER = 4
 LOCAL = os.path.dirname(os.path.realpath(__file__))
 
