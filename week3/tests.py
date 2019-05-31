@@ -319,15 +319,15 @@ def theTests(path_to_code_to_check="."):
 
         testResults.append(
             test(test_stubborn_asker(50, 60), "Exercise 1: Stubborn asker")
-            )
+        )
 
         testResults.append(
             test(test_stubborn_asker(10, 20), "Exercise 1: Stubborn asker")
-            )
+        )
 
         testResults.append(
             test(test_not_number_rejector(), "Exercise 1: not_number_rejector")
-            )
+        )
 
         testResults.append(
             test(test_super_asker(50, 60), "Exercise 1: test_super_asker")
