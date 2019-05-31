@@ -156,13 +156,13 @@ def ex_runs(path, exerciseNumber, weekNumber):
         return False
 
 
-def syntax_error_message(exNumber, e):
+def syntax_error_message(exerciseNumber, e):
     """Give a readable error message."""
     print(("\n{s:{c}^{n}}\n{s:{c}^{n}}".format(n=50, c="*", s="")))
-    print(("There is a syntax error in exercise{}\n{}".format(exNumber, str(e))))
+    print(("There is a syntax error in exercise{}\n{}".format(exerciseNumber, str(e))))
     print(traceback.print_exc())
     print("\nWARNING: there might be more tests, but they won't run")
-    print(("until you fix the syntax errors in exercise{}.py".format(exNumber)))
+    print(("until you fix the syntax errors in exercise{}.py".format(exerciseNumber)))
     print(("{s:{c}^{n}}\n{s:{c}^{n}}\n".format(n=50, c="*", s="")))
 
 
