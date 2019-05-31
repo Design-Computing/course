@@ -7,7 +7,6 @@ import colorama
 import importlib.util as importUtils
 import inspect
 import os
-import signal
 import subprocess
 import threading
 import traceback
@@ -37,26 +36,6 @@ class RunCmd(threading.Thread):
         if self.is_alive():
             self.p.terminate()  # use self.p.kill() if process needs a kill -9
             self.join()
-
-
-class Timeout:
-    """Timeout class using ALARM signal."""
-
-    class Timeout(Exception):
-        pass
-
-    def __init__(self, sec):
-        self.sec = sec
-
-    def __enter__(self):
-        signal.signal(signal.SIGALRM, self.raise_timeout)
-        signal.alarm(self.sec)
-
-    def __exit__(self, *args):
-        signal.alarm(0)  # disable alarm
-
-    def raise_timeout(self, *args):
-        raise Timeout.Timeout("Timeout: you took toooo damn long!")
 
 
 def test(testResult, name):
