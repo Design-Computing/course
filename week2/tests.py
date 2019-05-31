@@ -25,6 +25,7 @@ from codeHelpers import (
     test,
     lab_book_entry_completed,
     loadExerciseFile,
+    syntax_error_message,
 )
 
 EM = Fore.YELLOW
@@ -33,13 +34,6 @@ NORM = Fore.WHITE
 WEEK_NUMBER = 2
 
 sys.path.append("../me/week{}".format(WEEK_NUMBER))
-
-
-def syntax_error_message(e):
-    """Print a well formed error message."""
-    print("something went wring with the import.\nProbably a syntax error.")
-    print("does this file run properly on its own?\n" + str(e))
-    return False
 
 
 def theTests(path_to_code_to_check="../me"):
