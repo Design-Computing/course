@@ -5,20 +5,31 @@ This file tests your code. It'll check that the work in each
 of the exercise files does what it's supposed to.
 """
 
-
-import imp
+from colorama import Fore
+from colorama import Style
+from pathlib import Path
+import importlib.util as importUtils
 import math
 import mock
 import os
 import random
 import sys
+
+
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
-from codeHelpers import completion_message
-from codeHelpers import ex_runs
-from codeHelpers import nyan_cat
-from codeHelpers import syntax_error_message
-from codeHelpers import test
-from codeHelpers import Timeout
+from codeHelpers import (
+    Timeout,
+    completion_message,
+    ex_runs,
+    lab_book_entry_completed,
+    loadExerciseFile,
+    nyan_cat,
+    syntax_error_message,
+    test,
+)
+
+EM = Fore.YELLOW
+NORM = Fore.WHITE
 
 WEEK_NUMBER = 3
 
@@ -26,16 +37,27 @@ WEEK_NUMBER = 3
 def test_stubborn_asker(path, low, high):
     """Test the stubborn asker function."""
     try:
-        path = "exercise1.py"
-        exercise1 = imp.load_source("exercise1", path)
+        exercise1 = loadExerciseFile(weekNumber=WEEK_NUMBER, exerciseNumber=1)
     except Exception as e:
         return syntax_error_message(4, e)
 
     mockInputs = list(range(low - 25, high + 20, 5))
     try:
         # with Timeout(3):
-            with mock.patch('builtins.input', side_effect=mockInputs):
-                return low <= exercise1.stubborn_asker(low, high) <= high
+        with mock.patch("builtins.input", side_effect=mockInputs):
+            try:
+                x = exercise1.stubborn_asker(low, high)
+                if x is not None:
+                    result = low <= x <= high
+                    return result
+                else:
+                    print(
+                        "Trouble testing the test_stubborn_asker.",
+                        "Maybe you haven't started yet?",
+                    )
+            except Exception as e:
+                print(e)
+            return
     except Exception as e:
         print("exception:", e)
 
@@ -43,15 +65,14 @@ def test_stubborn_asker(path, low, high):
 def test_not_number_rejector(path):
     """Test the not number rejector function."""
     try:
-        path = "exercise1.py"
-        exercise1 = imp.load_source("exercise1", path)
+        exercise1 = loadExerciseFile(weekNumber=WEEK_NUMBER, exerciseNumber=1)
     except Exception as e:
         return syntax_error_message(1, e)
 
     mockInputs = ["aword", [1, 2, 3], {"an": "object"}, 40]
     try:
         with Timeout(3):
-            with mock.patch('builtins.input', side_effect=mockInputs):
+            with mock.patch("builtins.input", side_effect=mockInputs):
                 return exercise1.not_number_rejector("Testing some values:")
     except Exception as e:
         print("exception:", e)
@@ -60,8 +81,7 @@ def test_not_number_rejector(path):
 def test_super_asker(path, low, high):
     """Test the super asker function."""
     try:
-        path = "exercise1.py"
-        exercise1 = imp.load_source("exercise1", path)
+        exercise1 = loadExerciseFile(weekNumber=WEEK_NUMBER, exerciseNumber=1)
     except Exception as e:
         return syntax_error_message(1, e)
 
@@ -70,7 +90,7 @@ def test_super_asker(path, low, high):
     mockInputs = dirty_things + neat_range
     try:
         with Timeout(3):
-            with mock.patch('builtins.input', side_effect=mockInputs):
+            with mock.patch("builtins.input", side_effect=mockInputs):
                 return exercise1.super_asker(low, high)
     except Exception as e:
         print("exception:", e)
@@ -82,16 +102,15 @@ def test_example_guessingGame(path):
     This should always pass becasue it's provided code
     """
     try:
-        path = "exercise2.py"
-        exercise2 = imp.load_source("exercise2", path)
+        exercise2 = loadExerciseFile(weekNumber=WEEK_NUMBER, exerciseNumber=2)
     except Exception as e:
         return syntax_error_message(2, e)
     upperBound = 5
-    guesses = list(range(5+1))
+    guesses = list(range(5 + 1))
     mockInputs = [upperBound] + guesses
     try:
         with Timeout(3):
-            with mock.patch('builtins.input', side_effect=mockInputs):
+            with mock.patch("builtins.input", side_effect=mockInputs):
                 return exercise2.exampleGuessingGame() == "You got it!"
     except Exception as e:
         print("exception:", e)
@@ -100,14 +119,13 @@ def test_example_guessingGame(path):
 def test_advanced_guessingGame(path, mockInputs):
     """Test the advanced_guessingGame function."""
     try:
-        path = "exercise3.py"
-        exercise3 = imp.load_source("exercise3", path)
+        exercise3 = loadExerciseFile(weekNumber=WEEK_NUMBER, exerciseNumber=3)
     except Exception as e:
         return syntax_error_message(3, e)
 
     try:
         with Timeout(3):
-            with mock.patch('builtins.input', side_effect=mockInputs):
+            with mock.patch("builtins.input", side_effect=mockInputs):
                 return exercise3.advancedGuessingGame() == "You got it!"
     except Exception as e:
         print("exception:", e)
@@ -119,8 +137,7 @@ def test_binary_search(path, low, high, actual):
     checks to see that it's searching better than O(log n)
     """
     try:
-        path = "exercise4.py"
-        exercise4 = imp.load_source("exercise4", path)
+        exercise4 = loadExerciseFile(weekNumber=WEEK_NUMBER, exerciseNumber=4)
         BASE2 = 2
         b = None
         with Timeout(3):
@@ -139,12 +156,12 @@ def test_binary_search(path, low, high, actual):
 def vis_binary_search_performance(path="."):
     """Provide a visualisation of the performance of the binary search."""
     try:
-        path = "exercise4.py"
-        exercise4 = imp.load_source("exercise4", path)
+        exercise4 = loadExerciseFile(weekNumber=WEEK_NUMBER, exerciseNumber=4)
     except Exception as e:
         return syntax_error_message(4, e)
 
     import matplotlib.pyplot as plt
+
     BASE2 = 2
     results = []
     testRuns = 1000
@@ -154,14 +171,16 @@ def vis_binary_search_performance(path="."):
         guess = random.randint(low + 1, high - 1)
         bs = exercise4.binary_search(low, high, guess)
         # print bs, low, high, guess
-        tries = bs['tries']
+        tries = bs["tries"]
         worst = math.log(high - low, BASE2)
-        ratio = tries/worst
+        ratio = tries / worst
         results.append(ratio)
     plt.hist(results)
-    plt.title("Proportion of worst case performance "
-              "over {} iterations".format(testRuns))
-    print("""
+    plt.title(
+        "Proportion of worst case performance " "over {} iterations".format(testRuns)
+    )
+    print(
+        """
 This histogram shows the number of guesses that it took the search to
 find the answer. The big O worst case is the base 2 log of the range that
 you're guessing within. In other words, what power of two fills that space?
@@ -170,43 +189,61 @@ Think back to when you were playing the game with your brain, sometimes
 you'd go over the worst case because you aren't a perfect arithmatic
 machine but the computer is, so it's always below that worst case limit.
 
-            Close the histogram to finish running the tests.""")
+            Close the histogram to finish running the tests."""
+    )
     plt.show()
 
 
 def theTests(path_to_code_to_check="."):
     """Run all the tests."""
-    print("\nWelcome to week {}!".format(path_to_code_to_check, WEEK_NUMBER))
+    print("\nWelcome to week {}!".format(WEEK_NUMBER))
     print("May the odds be ever in your favour.\n")
 
     testResults = []
 
     # Give each person 10 seconds to complete all tests.
-    ex1path = "exercise1.py"
 
-    if ex_runs(path_to_code_to_check, exNumber=1, weekNumber=WEEK_NUMBER):
-        exercise1 = imp.load_source("exercise1", ex1path)
-
-        testResults.append(
-            test(exercise1.loop_ranger(3, 8, 1) == [3, 4, 5, 6, 7],
-                 "Exercise 1: Loop ranger (3, 8, 1)"))
-        testResults.append(
-            test(exercise1.loop_ranger(100, 104, 2) == [100, 102],
-                 "Exercise 1: Loop ranger (100, 104, 2)"))
+    if ex_runs(path_to_code_to_check, exerciseNumber=1, weekNumber=WEEK_NUMBER):
+        exercise1 = loadExerciseFile(weekNumber=WEEK_NUMBER, exerciseNumber=1)
 
         testResults.append(
-            test(exercise1.lone_ranger(3, 8, 1) == [3, 4, 5, 6, 7],
-                 "Exercise 1: Lone ranger (3, 8, 1)"))
+            test(
+                exercise1.loop_ranger(3, 8, 1) == [3, 4, 5, 6, 7],
+                "Exercise 1: Loop ranger (3, 8, 1)",
+            )
+        )
         testResults.append(
-            test(exercise1.lone_ranger(100, 104, 2) == [100, 102],
-                 "Exercise 1: Lone ranger (100, 104, 2)"))
+            test(
+                exercise1.loop_ranger(100, 104, 2) == [100, 102],
+                "Exercise 1: Loop ranger (100, 104, 2)",
+            )
+        )
 
         testResults.append(
-            test(exercise1.two_step_ranger(100, 104) == [100, 102],
-                 "Exercise 1: Two step ranger (100, 104)"))
+            test(
+                exercise1.lone_ranger(3, 8, 1) == [3, 4, 5, 6, 7],
+                "Exercise 1: Lone ranger (3, 8, 1)",
+            )
+        )
         testResults.append(
-            test(exercise1.two_step_ranger(0, 10) == [0, 2, 4, 6, 8],
-                 "Exercise 1: Two step ranger (100, 104)"))
+            test(
+                exercise1.lone_ranger(100, 104, 2) == [100, 102],
+                "Exercise 1: Lone ranger (100, 104, 2)",
+            )
+        )
+
+        testResults.append(
+            test(
+                exercise1.two_step_ranger(100, 104) == [100, 102],
+                "Exercise 1: Two step ranger (100, 104)",
+            )
+        )
+        testResults.append(
+            test(
+                exercise1.two_step_ranger(0, 10) == [0, 2, 4, 6, 8],
+                "Exercise 1: Two step ranger (100, 104)",
+            )
+        )
 
         # testResults.append(
         #     test(exercise1.gene_krupa_range(0, 10, 2, 1) ==
@@ -218,45 +255,61 @@ def theTests(path_to_code_to_check="."):
         #          "Exercise 1: gene_krupa_range(0, 100, 30, 7)"))
 
         testResults.append(
-            test(test_stubborn_asker(path_to_code_to_check, 50, 60),
-                 "Exercise 1: Stubborn asker"))
+            test(
+                test_stubborn_asker(path_to_code_to_check, 50, 60),
+                "Exercise 1: Stubborn asker",
+            )
+        )
 
         testResults.append(
-            test(test_stubborn_asker(path_to_code_to_check, 10, 20),
-                 "Exercise 1: Stubborn asker"))
+            test(
+                test_stubborn_asker(path_to_code_to_check, 10, 20),
+                "Exercise 1: Stubborn asker",
+            )
+        )
 
         testResults.append(
-            test(test_not_number_rejector(path_to_code_to_check),
-                 "Exercise 1: not_number_rejector"))
+            test(
+                test_not_number_rejector(path_to_code_to_check),
+                "Exercise 1: not_number_rejector",
+            )
+        )
 
         testResults.append(
-            test(test_super_asker(path_to_code_to_check, 50, 60),
-                 "Exercise 1: test_super_asker"))
-
-    local_path = "exercise2.py"
+            test(
+                test_super_asker(path_to_code_to_check, 50, 60),
+                "Exercise 1: test_super_asker",
+            )
+        )
 
     testResults.append(
-        test(test_example_guessingGame(path_to_code_to_check),
-             "Exercise 2: example guessing game"))
+        test(
+            test_example_guessingGame(path_to_code_to_check),
+            "Exercise 2: example guessing game",
+        )
+    )
 
-    if ex_runs(path_to_code_to_check, exNumber=3, weekNumber=WEEK_NUMBER):
-        imp.load_source("exercise3", "exercise3.py")
+    if ex_runs(path_to_code_to_check, exerciseNumber=3, weekNumber=WEEK_NUMBER):
+        exercise1 = loadExerciseFile(weekNumber=WEEK_NUMBER, exerciseNumber=3)
 
         lowerBound = 10
         upperBound = 15
         guesses = list(range(lowerBound, upperBound + 1))
         mockInputs = [lowerBound] + [upperBound] + guesses
         testResults.append(
-            test(test_advanced_guessingGame(path_to_code_to_check,
-                                            mockInputs),
-                 "Exercise 3: guessing game, U&L"))
+            test(
+                test_advanced_guessingGame(path_to_code_to_check, mockInputs),
+                "Exercise 3: guessing game, U&L",
+            )
+        )
 
-        mockInputs = ["ten"] + [lowerBound] + [upperBound] + \
-                     ["cats"] + guesses
+        mockInputs = ["ten"] + [lowerBound] + [upperBound] + ["cats"] + guesses
         testResults.append(
-            test(test_advanced_guessingGame(path_to_code_to_check,
-                                            mockInputs),
-                 "Exercise 3: guessing game, polite failures"))
+            test(
+                test_advanced_guessingGame(path_to_code_to_check, mockInputs),
+                "Exercise 3: guessing game, polite failures",
+            )
+        )
 
         lowerBound = 15
         upperBound = 10
@@ -264,10 +317,11 @@ def theTests(path_to_code_to_check="."):
         guesses = list(range(lowerBound, secondGuess + 1))
         mockInputs = [lowerBound] + [upperBound] + [secondGuess] + guesses
         testResults.append(
-            test(test_advanced_guessingGame(path_to_code_to_check,
-                                            mockInputs),
-                 "Exercise 3: guessing game, lowerBound "
-                 "bigger than upperBound"))
+            test(
+                test_advanced_guessingGame(path_to_code_to_check, mockInputs),
+                "Exercise 3: guessing game, lowerBound " "bigger than upperBound",
+            )
+        )
 
         lowerBound = 10
         upperBound = 11
@@ -275,10 +329,11 @@ def theTests(path_to_code_to_check="."):
         guesses = list(range(lowerBound, secondGuess + 1))
         mockInputs = [lowerBound] + [upperBound] + [secondGuess] + guesses
         testResults.append(
-            test(test_advanced_guessingGame(path_to_code_to_check,
-                                            mockInputs),
-                 "Exercise 3: guessing game, no " +
-                 "range to guess in (delta 1)"))
+            test(
+                test_advanced_guessingGame(path_to_code_to_check, mockInputs),
+                "Exercise 3: guessing game, no " + "range to guess in (delta 1)",
+            )
+        )
 
         lowerBound = 10
         upperBound = 10
@@ -286,31 +341,28 @@ def theTests(path_to_code_to_check="."):
         guesses = list(range(lowerBound, secondGuess + 1))
         mockInputs = [lowerBound] + [upperBound] + [secondGuess] + guesses
         testResults.append(
-            test(test_advanced_guessingGame(path_to_code_to_check,
-                                            mockInputs),
-                 "Exercise 3: guessing game, no " +
-                 "range to guess in (equal)"))
+            test(
+                test_advanced_guessingGame(path_to_code_to_check, mockInputs),
+                "Exercise 3: guessing game, no " + "range to guess in (equal)",
+            )
+        )
 
-    if ex_runs(path_to_code_to_check, exNumber=4, weekNumber=WEEK_NUMBER):
-        path = "exercise4.py"
-        imp.load_source("exercise4", path)
+    if ex_runs(path_to_code_to_check, exerciseNumber=4, weekNumber=WEEK_NUMBER):
+        exercise1 = loadExerciseFile(weekNumber=WEEK_NUMBER, exerciseNumber=4)
 
-
-        try_these = [(1, 100, 5),
-                     (1, 100, 6),
-                     (1, 100, 95),
-                     (1, 51, 5),
-                     (1, 50, 5)]
-        for i in range(10):
+        try_these = [(1, 100, 5), (1, 100, 6), (1, 100, 95), (1, 51, 5), (1, 50, 5)]
+        for _ in range(10):
             try_these.append((0, 100, random.randint(1, 99)))
 
         for tv in try_these:
             print(tv)
             try:
                 testResults.append(  # *tv unpacks this tuple ------v
-                    test(test_binary_search(path_to_code_to_check, *tv),
-                         "Exercise 4: binary_search" +
-                         "({}, {}, {})".format(*tv)))
+                    test(
+                        test_binary_search(path_to_code_to_check, *tv),
+                        "Exercise 4: binary_search" + "({}, {}, {})".format(*tv),
+                    )
+                )
             except Exception:
                 print("********\n\nfailed:", tv)
                 print("tv failure", Exception)
@@ -323,17 +375,18 @@ def theTests(path_to_code_to_check="."):
             # if os.uname()[1] != "um":  # um is ben's computer
             print("binary search works!")
 
-    print("{0}/{1} (passed/attempted)".format(sum(testResults),
-                                              len(testResults)))
+    print("{0}/{1} (passed/attempted)".format(sum(testResults), len(testResults)))
 
     if sum(testResults) == len(testResults):
         print(nyan_cat())
         message = "Cowabunga! You've got all the tests passing!"
         completion_message(message, len(message) + 2)
 
-    return {"of_total": len(testResults),
-            "mark": sum(testResults),
-            "results": testResults}
+    return {
+        "of_total": len(testResults),
+        "mark": sum(testResults),
+        "results": testResults,
+    }
 
 
 if __name__ == "__main__":
