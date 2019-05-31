@@ -40,35 +40,6 @@ def syntax_error_message(e):
     return False
 
 
-def ex3runs(path):
-    """Test w2 ex3 to check it works."""
-    try:
-        from week2 import exercise3
-
-        return True
-    except Exception as e:
-        print("\nThere is a syntax error in exercise3", str(e))
-        print("\n{s:{c}^{n}}\n{s:{c}^{n}}".format(n=50, c="*", s=""))
-        print("WARNING: there are more tests, but they won't run")
-        print("until you fix the syntax errors in exercise3.py")
-        print("{s:{c}^{n}}\n{s:{c}^{n}}\n".format(n=50, c="*", s=""))
-        return False
-
-
-def lab_book_entry_completed():
-    lab_book = Path("week2/readme.md")
-    if lab_book.is_file():
-        with open(lab_book, "r") as f:
-            lines = f.readlines()
-            if lines == [
-                "TODO: Reflect on what you learned this week and what is still unclear.\n"
-            ]:
-                return False
-            elif lines:
-                return True
-    return False
-
-
 def theTests(path_to_code_to_check="../me"):
     """Run the tests."""
     print("\nWelcome to week {}!".format(WEEK_NUMBER))
@@ -78,8 +49,7 @@ def theTests(path_to_code_to_check="../me"):
 
     # Tests from here:
 
-    if ex_runs(path_to_code_to_check, exNumber=0, weekNumber=WEEK_NUMBER):
-        exercise0 = loadExerciseFile(weekNumber=2, exerciseNumber=0)
+        exercise0 = loadExerciseFile(weekNumber=WEEK_NUMBER, exerciseNumber=0)
 
         testResults.append(
             test(exercise0.add_1(55) == 56, "Exercise 0: add_1 - 55 + 1 = 56?")
