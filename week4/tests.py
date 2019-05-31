@@ -56,7 +56,7 @@ def find_lasers(path):
     else:
         print(
             "can't find lasers.pew, did you make it?"
-              " Does it have exactly that file name?"
+            " Does it have exactly that file name?"
             "looking in " + path
         )
         return False
@@ -165,7 +165,7 @@ def theTests(path_to_code_to_check="."):
 
     return {
         "of_total": len(testResults),
-            "mark": sum(testResults),
+        "mark": sum(testResults),
         "results": testResults,
     }
 
