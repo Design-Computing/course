@@ -183,11 +183,15 @@ def test_binary_search(low, high, actual):
             my_args = (low, high, actual)
             b = func_timeout(TIMEOUT_IN_SECONDS, exercise4.binary_search, args=my_args)
             b["WorstCaseO"] = math.log(high - low, BASE2)
-            print("b", b)
             if b is not None:
-                if b["tries"] < b["WorstCaseO"]:
+                if b["tries"] is not 0 and b["tries"] < b["WorstCaseO"]:
+                    print("b", b)
                     print("snuck it in")
                     return True
+                elif b["tries"] is 0:
+                    print(
+                        "Tries is 0, that probably means that you haven't started yet"
+                    )
                 else:
                     print(
                         (
