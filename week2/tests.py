@@ -27,9 +27,10 @@ from codeHelpers import (
     loadExerciseFile,
 )
 
-WEEK_NUMBER = 2
 EM = Fore.YELLOW
 NORM = Fore.WHITE
+
+WEEK_NUMBER = 2
 
 sys.path.append("../me/week{}".format(WEEK_NUMBER))
 
