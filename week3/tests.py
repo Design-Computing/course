@@ -169,7 +169,7 @@ def test_advanced_guessingGame(mockInputs):
             print(e)
 
 
-def test_binary_search( low, high, actual):
+def test_binary_search(low, high, actual):
     # TODO: I don't think this test is working
     """Test the binary search function.
 
@@ -314,38 +314,23 @@ def theTests(path_to_code_to_check="."):
         #          "Exercise 1: gene_krupa_range(0, 100, 30, 7)"))
 
         testResults.append(
-            test(
-                test_stubborn_asker( 50, 60),
-                "Exercise 1: Stubborn asker",
+            test(test_stubborn_asker(50, 60), "Exercise 1: Stubborn asker")
             )
-        )
 
         testResults.append(
-            test(
-                test_stubborn_asker( 10, 20),
-                "Exercise 1: Stubborn asker",
+            test(test_stubborn_asker(10, 20), "Exercise 1: Stubborn asker")
             )
-        )
 
         testResults.append(
-            test(
-                test_not_number_rejector(),
-                "Exercise 1: not_number_rejector",
+            test(test_not_number_rejector(), "Exercise 1: not_number_rejector")
             )
-        )
 
         testResults.append(
-            test(
-                test_super_asker(50, 60),
-                "Exercise 1: test_super_asker",
-            )
+            test(test_super_asker(50, 60), "Exercise 1: test_super_asker")
         )
 
     testResults.append(
-        test(
-            test_example_guessingGame(),
-            "Exercise 2: example guessing game",
-        )
+        test(test_example_guessingGame(), "Exercise 2: example guessing game")
     )
 
     if ex_runs(path_to_code_to_check, exerciseNumber=3, weekNumber=WEEK_NUMBER):
@@ -357,15 +342,14 @@ def theTests(path_to_code_to_check="."):
         mockInputs = [lowerBound] + [upperBound] + guesses
         testResults.append(
             test(
-                test_advanced_guessingGame(mockInputs),
-                "Exercise 3: guessing game, U&L",
+                test_advanced_guessingGame(mockInputs), "Exercise 3: guessing game, U&L"
             )
         )
 
         mockInputs = ["ten"] + [lowerBound] + [upperBound] + ["cats"] + guesses
         testResults.append(
             test(
-                test_advanced_guessingGame( mockInputs),
+                test_advanced_guessingGame(mockInputs),
                 "Exercise 3: guessing game, polite failures",
             )
         )
@@ -375,7 +359,7 @@ def theTests(path_to_code_to_check="."):
         mockInputs = [lowerBound] + [upperBound] + [secondGuess] + guesses
         testResults.append(
             test(
-                test_advanced_guessingGame( mockInputs),
+                test_advanced_guessingGame(mockInputs),
                 "Exercise 3: guessing game, lowerBound " "bigger than upperBound",
             )
         )
@@ -387,7 +371,7 @@ def theTests(path_to_code_to_check="."):
         mockInputs = [lowerBound] + [upperBound] + [secondGuess] + guesses
         testResults.append(
             test(
-                test_advanced_guessingGame( mockInputs),
+                test_advanced_guessingGame(mockInputs),
                 "Exercise 3: guessing game, no " + "range to guess in (delta 1)",
             )
         )
@@ -399,7 +383,7 @@ def theTests(path_to_code_to_check="."):
         mockInputs = [lowerBound] + [upperBound] + [secondGuess] + guesses
         testResults.append(
             test(
-                test_advanced_guessingGame( mockInputs),
+                test_advanced_guessingGame(mockInputs),
                 "Exercise 3: guessing game, no " + "range to guess in (equal)",
             )
         )
@@ -415,7 +399,7 @@ def theTests(path_to_code_to_check="."):
             try:
                 testResults.append(  # *tv unpacks this tuple -------------- vv
                     test(
-                        test_binary_search( *tv),
+                        test_binary_search(*tv),
                         "Exercise 4: binary_search" + "({}, {}, {})".format(*tv),
                     )
                 )
@@ -426,7 +410,7 @@ def theTests(path_to_code_to_check="."):
                 testResults.append(0)
 
         # if the binary search is working, show a graph of guess numbers
-        if test(test_binary_search( 1, 10, 5), ""):
+        if test(test_binary_search(1, 10, 5), ""):
             # If you aren't Ben, then show the histogram
             # if os.uname()[1] != "um":  # um is ben's computer
             print("binary search works!")
