@@ -7,11 +7,10 @@ of the exercise files does what it's supposed to.
 
 # TODO replace flake8 with yapf or calm flake8 down
 
-
 from colorama import Fore
 from colorama import Style
 from pathlib import Path
-import imp
+
 import importlib.util as importUtils
 import os
 import sys
@@ -32,6 +31,8 @@ WEEK_NUMBER = 2
 EM = Fore.YELLOW
 NORM = Fore.WHITE
 
+sys.path.append("../me/week{}".format(WEEK_NUMBER))
+
 
 def syntax_error_message(e):
     """Print a well formed error message."""
@@ -49,6 +50,7 @@ def theTests(path_to_code_to_check="../me"):
 
     # Tests from here:
 
+    if ex_runs(path_to_code_to_check, exerciseNumber=0, weekNumber=WEEK_NUMBER):
         exercise0 = loadExerciseFile(weekNumber=WEEK_NUMBER, exerciseNumber=0)
 
         testResults.append(
@@ -130,12 +132,12 @@ def theTests(path_to_code_to_check="../me"):
 
     testResults.append(
         test(
-            ex_runs(path_to_code_to_check, exNumber=2, weekNumber=WEEK_NUMBER),
+            ex_runs(path_to_code_to_check, exerciseNumber=2, weekNumber=WEEK_NUMBER),
             "Exercise 2: debug the file",
         )
     )
 
-    if ex_runs(path_to_code_to_check, exNumber=3, weekNumber=WEEK_NUMBER):
+    if ex_runs(path_to_code_to_check, exerciseNumber=3, weekNumber=WEEK_NUMBER):
         exercise3 = exercise0 = loadExerciseFile(weekNumber=2, exerciseNumber=3)
         # is odd
         testResults.append(
@@ -310,7 +312,9 @@ def theTests(path_to_code_to_check="../me"):
                 exercise3.loops_7() == pyramid, "Exercise 3: loops_7 - pyramid of stars"
             )
         )
-    testResults.append(test(lab_book_entry_completed(), "Lab book entry completed"))
+    testResults.append(
+        test(lab_book_entry_completed(WEEK_NUMBER), "Lab book entry completed")
+    )
     print("{0}/{1} (passed/attempted)".format(sum(testResults), len(testResults)))
 
     if sum(testResults) == len(testResults):
@@ -323,16 +327,6 @@ def theTests(path_to_code_to_check="../me"):
         "mark": sum(testResults),
         "results": testResults,
     }
-
-
-def loadExerciseFile(weekNumber=2, exerciseNumber=0):
-    path = os.path.join(
-        "..", "me", "week{}".format(weekNumber), "exercise{}.py".format(exerciseNumber)
-    )
-    spec = importUtils.spec_from_file_location("exercise0", path)
-    ex = importUtils.module_from_spec(spec)
-    spec.loader.exec_module(ex)
-    return ex
 
 
 if __name__ == "__main__":
