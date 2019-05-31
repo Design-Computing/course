@@ -55,79 +55,79 @@ def theTests(path_to_code_to_check="../me"):
         exercise0 = loadExerciseFile(weekNumber=WEEK_NUMBER, exerciseNumber=0)
 
         testResults.append(
-            test(exercise0.add_1(55) == 56, "Exercise 0: add_1 - 55 + 1 = 56?")
+            test(exercise0.add_1(55) == 56, "Exercise 0: add_1 - 55 + 1 = 56")
         )
         testResults.append(
-            test(exercise0.add_1(-5) == -4, "Exercise 0: add_1 - -5 + 1 = -4?")
+            test(exercise0.add_1(-5) == -4, "Exercise 0: add_1 - -5 + 1 = -4")
         )
         testResults.append(
-            test(exercise0.add_1(0.1) == 1.1, "Exercise 0: add_1 - 0.1 + 1 = 1.1?")
-        )
-
-        testResults.append(
-            test(exercise0.add_5(55) == 60, "Exercise 0: add_5 - 55 + 5 = 60?")
-        )
-        testResults.append(
-            test(exercise0.add_5(-5) == 0, "Exercise 0: add_5 - -5 + 5 = 0?")
-        )
-        testResults.append(
-            test(exercise0.add_5(0.1) == 5.1, "Exercise 0: add_5 - 0.1 + 5 = 5.1?")
+            test(exercise0.add_1(0.1) == 1.1, "Exercise 0: add_1 - 0.1 + 1 = 1.1")
         )
 
         testResults.append(
-            test(exercise0.adder(5, 5) == 10, "Exercise 0: adder - 5 + 5 = 10?")
+            test(exercise0.add_5(55) == 60, "Exercise 0: add_5 - 55 + 5 = 60")
         )
         testResults.append(
-            test(exercise0.adder(-5, -5) == -10, "Exercise 0: adder - -5 + -5 = -10?")
+            test(exercise0.add_5(-5) == 0, "Exercise 0: add_5 - -5 + 5 = 0")
         )
         testResults.append(
-            test(exercise0.adder(0.1, 0.9) == 1, "Exercise 0: adder - 0.1 + 0.9 = 1?")
+            test(exercise0.add_5(0.1) == 5.1, "Exercise 0: add_5 - 0.1 + 5 = 5.1")
+        )
+
+        testResults.append(
+            test(exercise0.adder(5, 5) == 10, "Exercise 0: adder - 5 + 5 = 10")
+        )
+        testResults.append(
+            test(exercise0.adder(-5, -5) == -10, "Exercise 0: adder - -5 + -5 = -10")
+        )
+        testResults.append(
+            test(exercise0.adder(0.1, 0.9) == 1, "Exercise 0: adder - 0.1 + 0.9 = 1")
         )
 
         testResults.append(
             test(
                 exercise0.shout("you've") == "YOU'VE",
-                "Exercise 0: shout - you've => YOU'VE?",
+                "Exercise 0: shout - you've => YOU'VE",
             )
         )
         testResults.append(
-            test(exercise0.shout("got") == "GOT", "Exercise 0: shout - got => GOT?")
+            test(exercise0.shout("got") == "GOT", "Exercise 0: shout - got => GOT")
         )
         testResults.append(
-            test(exercise0.shout("to") == "TO", "Exercise 0: shout - to => TO?")
+            test(exercise0.shout("to") == "TO", "Exercise 0: shout - to => TO")
         )
 
         testResults.append(
             test(
                 exercise0.really_shout("fight") == "FIGHT!",
-                "Exercise 0: really_shout - fight => FIGHT!?",
+                "Exercise 0: really_shout - fight => FIGHT!",
             )
         )
         testResults.append(
-            test(exercise0.shout("for") == "FOR", "Exercise 0: shout - for => FOR?")
+            test(exercise0.shout("for") == "FOR", "Exercise 0: shout - for => FOR")
         )
         testResults.append(
-            test(exercise0.shout("your") == "YOUR", "Exercise 0: shout - your => YOUR?")
+            test(exercise0.shout("your") == "YOUR", "Exercise 0: shout - your => YOUR")
         )
         testResults.append(
             test(
                 exercise0.really_shout("right") == "RIGHT!",
-                "Exercise 0: really_shout - right => RIGHT!?",
+                "Exercise 0: really_shout - right => RIGHT!",
             )
         )
         testResults.append(
-            test(exercise0.shout("to") == "TO", "Exercise 0: shout - to => TO?")
+            test(exercise0.shout("to") == "TO", "Exercise 0: shout - to => TO")
         )
         testResults.append(
             test(
                 exercise0.really_shout("PARTY") == "PARTY!",
-                "Exercise 0: really_shout - PARTY => PARTY!?",
+                "Exercise 0: really_shout - PARTY => PARTY!",
             )
         )
         testResults.append(
             test(
                 exercise0.shout_with_a_number("hi", 1) == "HI 1",
-                "Exercise 0: shout_with_a_number - hi, 1 => HI 1?",
+                "Exercise 0: shout_with_a_number - hi, 1 => HI 1",
             )
         )
 
@@ -142,10 +142,10 @@ def theTests(path_to_code_to_check="../me"):
         exercise3 = exercise0 = loadExerciseFile(weekNumber=2, exerciseNumber=3)
         # is odd
         testResults.append(
-            test(exercise3.is_odd(2) is False, "Exercise 3: is_odd - is 2 odd?")
+            test(exercise3.is_odd(2) is False, "Exercise 3: is_odd - is 2 odd")
         )
 
-        testResults.append(test(exercise3.is_odd(5), "Exercise 3: is_odd - is 5 odd?"))
+        testResults.append(test(exercise3.is_odd(5), "Exercise 3: is_odd - is 5 odd"))
 
         # fix it
         testResults.append(
