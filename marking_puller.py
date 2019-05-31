@@ -6,7 +6,6 @@ It can clone new repos if you set THERE_ARE_NEW_STUDENTS to true
 """
 
 
-
 import json
 import os
 import re
@@ -54,23 +53,22 @@ def update_for_new_students(chatty=False):
     #                                                       "repo_url",
     #                                                       "slack"])
 
-    ss_of_details_url = open('csv/github.csv').readlines()[1:]
+    ss_of_details_url = open("csv/github.csv").readlines()[1:]
     username_urls = [x.split(",")[:-1] for x in ss_of_details_url]
-    
+
     for index, students in enumerate(username_urls):
         username, url = students
         # TODO note down timings of the commits
         try:
-            git.Repo.clone_from(url,  # supply the github url here
-                                os.path.join(rootdir, username))
-            print("{} new repo for {}".format(index,
-                                              username))
+            git.Repo.clone_from(
+                url, os.path.join(rootdir, username)  # supply the github url here
+            )
+            print("{} new repo for {}".format(index, username))
         except Exception as e:
             if chatty:
-                print("{} we already have {} {}".format(index,
-                                                        username,
-                                                        e))
+                print("{} we already have {} {}".format(index, username, e))
                 return username_urls  # is this right?
+
 
 def try_to_kill(file_path, chatty=False):
     """Attempt to delete the file specified by file_path."""
@@ -92,11 +90,8 @@ def pull_all_repos(dirList, chatty=False):
             repo.execute(["git", "fetch", "--all"])
             repo.execute(["git", "reset", "--hard", "origin/master"])
             repo.pull()  # probably not needed, but belt and braces
-            t = datetime.now().strftime('%H:%M:%S')
-            print("{}: {}/{} pulled {}'s repo".format(t,
-                                                      i,
-                                                      of_total,
-                                                      student_repo))
+            t = datetime.now().strftime("%H:%M:%S")
+            print("{}: {}/{} pulled {}'s repo".format(t, i, of_total, student_repo))
         except Exception as e:
             print(student_repo, e)
 
@@ -124,7 +119,7 @@ def csvOfDetails(dirList):
                 print(student_repo, "hasn't updated")
         except Exception as e:
             print(details)
-            results.append({'error': e, "repoName": student_repo})
+            results.append({"error": e, "repoName": student_repo})
 
     print("\n\nResults:")
     resultsDF = pd.DataFrame(results)
@@ -144,7 +139,7 @@ def fix_up_csv(path="csv/studentDetails.csv"):
             line = line.replace("^AT^", "@")
             line = line.replace(",,", ",-,")
             lines.append(line)
-    with open(path, 'w') as outfile:
+    with open(path, "w") as outfile:
         for line in lines:
             print(line)
             outfile.write(line)
@@ -157,13 +152,15 @@ def log_progress(message, logfile_name):
     completed_students_list.close()
 
 
-def test_in_clean_environment(student_repo,
-                              root_dir,
-                              week_number,
-                              logfile_name,
-                              timeout=5,
-                              temp_file_path='temp_results.json',
-                              test_file_path='./test_shim.py'):
+def test_in_clean_environment(
+    student_repo,
+    root_dir,
+    week_number,
+    logfile_name,
+    timeout=5,
+    temp_file_path="temp_results.json",
+    test_file_path="./test_shim.py",
+):
     """Test a single student's work in a clean environment.
 
     This calls a subprocess that opens a fresh python environment, runs the
@@ -179,11 +176,12 @@ def test_in_clean_environment(student_repo,
     log_progress(student_repo, logfile_name)
     start_time = time.time()
     try:
-        test_args = [sys.executable,
-                     test_file_path,
-                     "week{}.tests".format(week_number),
-                     "{}/{}".format(root_dir, student_repo)
-                     ]
+        test_args = [
+            sys.executable,
+            test_file_path,
+            "week{}.tests".format(week_number),
+            "{}/{}".format(root_dir, student_repo),
+        ]
         # print("\ntest_args", test_args,
         #       "\nstudent_repo", student_repo,
         #       "\nroot_dir", root_dir,
@@ -195,21 +193,21 @@ def test_in_clean_environment(student_repo,
         #       "\nLOCAL", LOCAL)
         RunCmd(test_args, timeout).Run()  # this is unessarily complicated
 
-        full_path = os.path.join(LOCAL,  temp_file_path)
-        temp_results = open(full_path, 'r')
+        full_path = os.path.join(LOCAL, temp_file_path)
+        temp_results = open(full_path, "r")
         contents = temp_results.read()
         results_dict = json.loads(contents)
         results_dict["bigerror"] = ":)"
         temp_results.close()
 
-        log_progress(" good for w{}\n".format(week_number),
-                     logfile_name)
+        log_progress(" good for w{}\n".format(week_number), logfile_name)
     except Exception as e:
-        results_dict = {"bigerror": str(e).replace(",", "~"),
-                        "name": student_repo}  # the comma messes with the csv
+        results_dict = {
+            "bigerror": str(e).replace(",", "~"),
+            "name": student_repo,
+        }  # the comma messes with the csv
 
-        log_progress(" bad {} w{}\n".format(e, week_number),
-                     logfile_name)
+        log_progress(" bad {} w{}\n".format(e, week_number), logfile_name)
     elapsed_time = time.time() - start_time
     results_dict["time"] = elapsed_time
     return results_dict
@@ -228,13 +226,16 @@ def mark_work(dirList, week_number, root_dir, dfPlease=True, timeout=5):
     prepare_log(logfile_name)
     r = len(dirList)  # for repeat count
 
-    results = list(map(test_in_clean_environment,  # Function name
-                  dirList,  # student_repo
-                  repeat(root_dir, r),  # root_dir
-                  repeat(week_number, r),  # week_number
-                  repeat(logfile_name, r),  # logfile_name
-                  repeat(timeout, r)  # timeout
-                  ))
+    results = list(
+        map(
+            test_in_clean_environment,  # Function name
+            dirList,  # student_repo
+            repeat(root_dir, r),  # root_dir
+            repeat(week_number, r),  # week_number
+            repeat(logfile_name, r),  # logfile_name
+            repeat(timeout, r),  # timeout
+        )
+    )
 
     resultsDF = pd.DataFrame(results)
     csv_path = "csv/week{}marks.csv".format(week_number)
@@ -248,14 +249,15 @@ def mark_work(dirList, week_number, root_dir, dfPlease=True, timeout=5):
     if dfPlease:
         return resultsDF
 
-rootdir = '../code1161StudentRepos'
+
+rootdir = "../code1161StudentRepos"
 print(os.listdir(rootdir))
 user_input = input("Select which repo to mark (leave empty if fresh pull): ")
 
 if not user_input:
-    rootdir = '../code1161StudentRepos/' + datetime.now().strftime('%Y%m%d_%H%M')
+    rootdir = "../code1161StudentRepos/" + datetime.now().strftime("%Y%m%d_%H%M")
 else:
-    rootdir = '../code1161StudentRepos/' + user_input
+    rootdir = "../code1161StudentRepos/" + user_input
     if not os.path.exists(rootdir):
         print("user specificed folder does not exist")
         os._exit()
@@ -264,7 +266,7 @@ if not os.path.exists(rootdir):
 print("\nCheck to see if there are any new students in the spreadsheet")
 update_for_new_students(chatty=True)
 
-dirList = os.listdir(rootdir) # do we know if everyone's work got in?
+dirList = os.listdir(rootdir)  # do we know if everyone's work got in?
 print("dir list", dirList)
 
 print("\nPull all the repos so we have the latest copy.")
