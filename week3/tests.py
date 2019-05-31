@@ -19,7 +19,6 @@ import sys
 
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 from codeHelpers import (
-    Timeout,
     completion_message,
     ex_runs,
     lab_book_entry_completed,
@@ -36,7 +35,7 @@ TIMEOUT_IN_SECONDS = 3
 WEEK_NUMBER = 3
 
 
-def test_stubborn_asker(path, low, high):
+def test_stubborn_asker(low, high):
     """Test the stubborn asker function."""
     try:
         exercise1 = loadExerciseFile(weekNumber=WEEK_NUMBER, exerciseNumber=1)
@@ -45,7 +44,6 @@ def test_stubborn_asker(path, low, high):
 
     mockInputs = list(range(low - 25, high + 20, 5))
     try:
-        # with Timeout(3):
         with mock.patch("builtins.input", side_effect=mockInputs):
             try:
                 x = exercise1.stubborn_asker(low, high)
@@ -64,7 +62,7 @@ def test_stubborn_asker(path, low, high):
         print("exception:", e)
 
 
-def test_not_number_rejector(path):
+def test_not_number_rejector():
     """Test the not number rejector function."""
     try:
         exercise1 = loadExerciseFile(weekNumber=WEEK_NUMBER, exerciseNumber=1)
@@ -72,15 +70,24 @@ def test_not_number_rejector(path):
         return syntax_error_message(1, e)
 
     mockInputs = ["aword", [1, 2, 3], {"an": "object"}, 40]
-    try:
-        with Timeout(3):
-            with mock.patch("builtins.input", side_effect=mockInputs):
-                return exercise1.not_number_rejector("Testing some values:")
-    except Exception as e:
-        print("exception:", e)
+    with mock.patch("builtins.input", side_effect=mockInputs):
+        try:
+            my_args = "Testing some values:"
+            r = func_timeout(
+                TIMEOUT_IN_SECONDS, exercise1.not_number_rejector, args=my_args
+            )
+            return r
+        except FunctionTimedOut:
+            print(
+                "{f}({args}) could not complete within {t} seconds and was killed.".format(
+                    f=sys._getframe().f_code.co_name, args=my_args, t=TIMEOUT_IN_SECONDS
+                )
+            )
+        except Exception as e:
+            print("exception:", e)
 
 
-def test_super_asker(path, low, high):
+def test_super_asker(low, high):
     """Test the super asker function."""
     try:
         exercise1 = loadExerciseFile(weekNumber=WEEK_NUMBER, exerciseNumber=1)
@@ -90,15 +97,24 @@ def test_super_asker(path, low, high):
     dirty_things = ["aword", [1, 2, 3], {"an": "object"}]
     neat_range = list(range(low - 25, high + 20, 5))
     mockInputs = dirty_things + neat_range
-    try:
-        with Timeout(3):
-            with mock.patch("builtins.input", side_effect=mockInputs):
-                return exercise1.super_asker(low, high)
-    except Exception as e:
-        print("exception:", e)
+    with mock.patch("builtins.input", side_effect=mockInputs):
+        try:
+            my_args = (low, high)
+            message = func_timeout(
+                TIMEOUT_IN_SECONDS, exercise1.super_asker, args=my_args
+            )
+            return message
+        except FunctionTimedOut:
+            print(
+                "{f}({args}) could not complete within {t} seconds and was killed.".format(
+                    f=sys._getframe().f_code.co_name, args=my_args, t=TIMEOUT_IN_SECONDS
+                )
+            )
+        except Exception as e:
+            print(e)
 
 
-def test_example_guessingGame(path):
+def test_example_guessingGame():
     """Test the example_guessingGame function.
 
     This should always pass becasue it's provided code
@@ -116,7 +132,7 @@ def test_example_guessingGame(path):
             message = func_timeout(
                 TIMEOUT_IN_SECONDS, exercise2.exampleGuessingGame, args=my_args
             )
-            print("message was", message)
+
             return message == "You got it!"
         except FunctionTimedOut:
             print(
@@ -128,22 +144,33 @@ def test_example_guessingGame(path):
             print(e)
 
 
-def test_advanced_guessingGame(path, mockInputs):
+def test_advanced_guessingGame(mockInputs):
     """Test the advanced_guessingGame function."""
     try:
         exercise3 = loadExerciseFile(weekNumber=WEEK_NUMBER, exerciseNumber=3)
     except Exception as e:
         return syntax_error_message(3, e)
 
-    try:
-        with Timeout(3):
-            with mock.patch("builtins.input", side_effect=mockInputs):
-                return exercise3.advancedGuessingGame() == "You got it!"
-    except Exception as e:
-        print("exception:", e)
+    with mock.patch("builtins.input", side_effect=mockInputs):
+        try:
+            my_args = None
+            message = func_timeout(
+                TIMEOUT_IN_SECONDS, exercise3.advancedGuessingGame, args=my_args
+            )
+
+            return message == "You got it!"
+        except FunctionTimedOut:
+            print(
+                "{f}({args}) could not complete within {t} seconds and was killed.".format(
+                    f=sys._getframe().f_code.co_name, args=my_args, t=TIMEOUT_IN_SECONDS
+                )
+            )
+        except Exception as e:
+            print(e)
 
 
-def test_binary_search(path, low, high, actual):
+def test_binary_search( low, high, actual):
+    # TODO: I don't think this test is working
     """Test the binary search function.
 
     checks to see that it's searching better than O(log n)
@@ -152,20 +179,40 @@ def test_binary_search(path, low, high, actual):
         exercise4 = loadExerciseFile(weekNumber=WEEK_NUMBER, exerciseNumber=4)
         BASE2 = 2
         b = None
-        with Timeout(3):
-            b = exercise4.binary_search(low, high, actual)
+        try:
+            my_args = (low, high, actual)
+            b = func_timeout(TIMEOUT_IN_SECONDS, exercise4.binary_search, args=my_args)
             b["WorstCaseO"] = math.log(high - low, BASE2)
             print("b", b)
-        if b is not None:
-            print("snuck it in")
-            return b["tries"] < b["WorstCaseO"]
-        else:
+            if b is not None:
+                if b["tries"] < b["WorstCaseO"]:
+                    print("snuck it in")
+                    return True
+                else:
+                    print(
+                        (
+                            "That took {t} tries, you "
+                            "should get it in under {o} tries"
+                        ).format(t=b["tries"], o=b["WorstCaseO"])
+                    )
+            else:
+                return False
+        except FunctionTimedOut:
+            print(
+                "{f}({args}) could not complete within {t} seconds and was killed.".format(
+                    f=sys._getframe().f_code.co_name, args=my_args, t=TIMEOUT_IN_SECONDS
+                )
+            )
+            return False
+        except Exception as e:
+            syntax_error_message(4, e)
             return False
     except Exception as e:
-        return syntax_error_message(4, e)
+        syntax_error_message(4, e)
+        return False
 
 
-def vis_binary_search_performance(path="."):
+def vis_binary_search_performance():
     """Provide a visualisation of the performance of the binary search."""
     try:
         exercise4 = loadExerciseFile(weekNumber=WEEK_NUMBER, exerciseNumber=4)
@@ -268,35 +315,35 @@ def theTests(path_to_code_to_check="."):
 
         testResults.append(
             test(
-                test_stubborn_asker(path_to_code_to_check, 50, 60),
+                test_stubborn_asker( 50, 60),
                 "Exercise 1: Stubborn asker",
             )
         )
 
         testResults.append(
             test(
-                test_stubborn_asker(path_to_code_to_check, 10, 20),
+                test_stubborn_asker( 10, 20),
                 "Exercise 1: Stubborn asker",
             )
         )
 
         testResults.append(
             test(
-                test_not_number_rejector(path_to_code_to_check),
+                test_not_number_rejector(),
                 "Exercise 1: not_number_rejector",
             )
         )
 
         testResults.append(
             test(
-                test_super_asker(path_to_code_to_check, 50, 60),
+                test_super_asker(50, 60),
                 "Exercise 1: test_super_asker",
             )
         )
 
     testResults.append(
         test(
-            test_example_guessingGame(path_to_code_to_check),
+            test_example_guessingGame(),
             "Exercise 2: example guessing game",
         )
     )
@@ -310,7 +357,7 @@ def theTests(path_to_code_to_check="."):
         mockInputs = [lowerBound] + [upperBound] + guesses
         testResults.append(
             test(
-                test_advanced_guessingGame(path_to_code_to_check, mockInputs),
+                test_advanced_guessingGame(mockInputs),
                 "Exercise 3: guessing game, U&L",
             )
         )
@@ -318,19 +365,17 @@ def theTests(path_to_code_to_check="."):
         mockInputs = ["ten"] + [lowerBound] + [upperBound] + ["cats"] + guesses
         testResults.append(
             test(
-                test_advanced_guessingGame(path_to_code_to_check, mockInputs),
+                test_advanced_guessingGame( mockInputs),
                 "Exercise 3: guessing game, polite failures",
             )
         )
 
-        lowerBound = 15
-        upperBound = 10
         secondGuess = 25
         guesses = list(range(lowerBound, secondGuess + 1))
         mockInputs = [lowerBound] + [upperBound] + [secondGuess] + guesses
         testResults.append(
             test(
-                test_advanced_guessingGame(path_to_code_to_check, mockInputs),
+                test_advanced_guessingGame( mockInputs),
                 "Exercise 3: guessing game, lowerBound " "bigger than upperBound",
             )
         )
@@ -342,7 +387,7 @@ def theTests(path_to_code_to_check="."):
         mockInputs = [lowerBound] + [upperBound] + [secondGuess] + guesses
         testResults.append(
             test(
-                test_advanced_guessingGame(path_to_code_to_check, mockInputs),
+                test_advanced_guessingGame( mockInputs),
                 "Exercise 3: guessing game, no " + "range to guess in (delta 1)",
             )
         )
@@ -354,7 +399,7 @@ def theTests(path_to_code_to_check="."):
         mockInputs = [lowerBound] + [upperBound] + [secondGuess] + guesses
         testResults.append(
             test(
-                test_advanced_guessingGame(path_to_code_to_check, mockInputs),
+                test_advanced_guessingGame( mockInputs),
                 "Exercise 3: guessing game, no " + "range to guess in (equal)",
             )
         )
@@ -367,11 +412,10 @@ def theTests(path_to_code_to_check="."):
             try_these.append((0, 100, random.randint(1, 99)))
 
         for tv in try_these:
-            print(tv)
             try:
-                testResults.append(  # *tv unpacks this tuple ------v
+                testResults.append(  # *tv unpacks this tuple -------------- vv
                     test(
-                        test_binary_search(path_to_code_to_check, *tv),
+                        test_binary_search( *tv),
                         "Exercise 4: binary_search" + "({}, {}, {})".format(*tv),
                     )
                 )
@@ -382,7 +426,7 @@ def theTests(path_to_code_to_check="."):
                 testResults.append(0)
 
         # if the binary search is working, show a graph of guess numbers
-        if test(test_binary_search(path_to_code_to_check, 1, 10, 5), ""):
+        if test(test_binary_search( 1, 10, 5), ""):
             # If you aren't Ben, then show the histogram
             # if os.uname()[1] != "um":  # um is ben's computer
             print("binary search works!")
