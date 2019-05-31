@@ -19,9 +19,15 @@ import sys
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 
 
-from codeHelpers import completion_message, ex_runs, nyan_cat, test
+from codeHelpers import (
+    completion_message,
+    ex_runs,
+    nyan_cat,
+    test,
+    lab_book_entry_completed,
+    loadExerciseFile,
+)
 
-sys.path.append("../me/week2")
 WEEK_NUMBER = 2
 EM = Fore.YELLOW
 NORM = Fore.WHITE
