@@ -9,16 +9,16 @@ import os
 import platform
 import requests
 
-LOCAL = os.path.dirname(os.path.realpath(__file__))
+# LOCAL = os.path.dirname(os.path.realpath(__file__))
 REMOTE = "../me/week1"
 
-print(os.getcwd(), LOCAL)
+# print(os.getcwd(), LOCAL)
 
 
 def check_system_details():
     """Look inside yourself.
 
-    Gets a unique value from each VM to check that it's actually set up
+    Gets the system details to check that this machine is actually set up
     """
 
     systemInfo = {
