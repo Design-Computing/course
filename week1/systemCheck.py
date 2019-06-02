@@ -9,10 +9,7 @@ import os
 import platform
 import requests
 
-# LOCAL = os.path.dirname(os.path.realpath(__file__))
 REMOTE = "../me/week1"
-
-# print(os.getcwd(), LOCAL)
 
 
 def check_system_details():
@@ -44,6 +41,7 @@ def check_system_details():
     f = open(os.path.join(REMOTE, "_checkID.json"), "w")
     f.write(json.dumps(systemInfo, indent=4))
     f.close()
+    return True
 
 
 def test_for_python_and_requests():
@@ -87,6 +85,7 @@ def test_for_python_and_requests():
     for line in doesItWork:
         f.write(line + "\n")
     f.close()
+    return True
 
 
 if __name__ == "__main__":
