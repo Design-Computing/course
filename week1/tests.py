@@ -116,6 +116,16 @@ if __name__ == "__main__":
             "or we can't give you any marks",
         )
 
+    f = "requestsWorking.txt"
+    testResults.append(
+        test(os.path.isfile(os.path.join("..", "me", "week1", f)), f + " exists")
+    )
+
+    f = "checkID.json"
+    testResults.append(
+        test(os.path.isfile(os.path.join("..", "me", "week1", f)), f + " exists")
+    )
+
     print(
         {"of_total": len(testResults), "mark": sum(testResults), "results": testResults}
     )

@@ -38,7 +38,7 @@ def check_system_details():
     print(json.dumps(systemInfo, indent=4))
 
     # Write it to a file in this repo
-    f = open(os.path.join(REMOTE, "_checkID.json"), "w")
+    f = open(os.path.join(REMOTE, "checkID.json"), "w")
     f.write(json.dumps(systemInfo, indent=4))
     f.close()
     return True
@@ -81,7 +81,7 @@ def test_for_python_and_requests():
     for line in doesItWork:
         print(line)
 
-    f = open(os.path.join(REMOTE, "_requestsWorking"), "w")
+    f = open(os.path.join(REMOTE, "requestsWorking.txt"), "w")
     for line in doesItWork:
         f.write(line + "\n")
     f.close()
