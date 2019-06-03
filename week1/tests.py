@@ -84,7 +84,7 @@ def test_aboutMe(show=False):
         them["name"] == "Your Name"
         or them["name"] == "Your Name"
         or them["studentNumber"] == "z1234567"
-        or them["unswEmail"] == "noIdea@unsw.edu.au"
+        or them["officialEmail"] == "noIdea@unsw.edu.au"
     ):
         return False
     else:
@@ -139,6 +139,14 @@ There are no partial marks, it either works or it doesn't.
 Each test accounts for 1 mark, so the "mark" is the total of that list.
 "of_total" is the number of tests performed.
 You are, of course, aiming for these two numbers to be the same!
-"""
+
+Don't forget to commit AND push!
+
+The last 2 tests will run on your machine because you've just made those files.
+However, they won't run on the marking computer if they haven't been pushed to your repo. 
+
+Type {em}git status{norm}, or look in your source control tab, to check.
+""".format(
+            em=EM, norm=NORM
+        )
     )
-    print("Don't forget to commit AND push")
