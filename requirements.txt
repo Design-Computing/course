@@ -1,7 +1,7 @@
 colorama
 datetime
 flake8
-importlib
+gitpython
 importlib
 pandas
 pathlib
