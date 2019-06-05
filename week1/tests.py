@@ -3,14 +3,17 @@
 from colorama import Fore
 from colorama import Style
 from pathlib import Path
+import git
 import inspect
 import json
 import os
 import ruamel.yaml as yaml
 import sys
 import systemCheck
+import requests
 
 REMOTE = "../me/week1"
+aboutMeData = ""
 
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 
@@ -22,6 +25,7 @@ from codeHelpers import (
     nyan_cat,
     test,
     test_flake8,
+    deadpool,
 )
 
 
@@ -78,6 +82,7 @@ def test_aboutMe(show=False):
     """Test to see if aboutMe.yml is updated"""
     f = open("../me/aboutMe.yml", "r")
     them = dict(yaml.load(f, yaml.RoundTripLoader))
+    aboutMeData = them
     if show:
         print(json.dumps(them, indent=2, sort_keys=True))
     if (
@@ -89,6 +94,45 @@ def test_aboutMe(show=False):
         return False
     else:
         return True
+
+
+def me_repo_is_clone():
+    try:
+        repo = git.cmd.Git("../me")
+        origin_url = repo.execute("git config --get remote.origin.url")
+        if "Design-Computing" in origin_url:
+            print(
+                (
+                    "You seem to be running on the master copy of the {em}me{norm} repo."
+                    "\nYou need to be working with your clone."
+                    "\nThis is hard to explain in an error message, call a tutor over."
+                ).format(em=EM, norm=NORM)
+            )
+            return False
+        else:
+            return True
+    except Exception as e:
+        print("TODO: write an error message here", e)
+        return False
+
+
+def has_pushed(fileName):
+    try:
+        repo = git.cmd.Git("../me")
+        origin_url = repo.execute("git config --get remote.origin.url")
+        owner = origin_url.split("/")[3]
+        url = "https://api.github.com/repos/" + "{o}/me/contents/week1/{f}".format(
+            o=owner, f=fileName
+        )
+        r = requests.get(url)
+        if r.status_code == 404:
+            print("Have you pushed yet?")
+            return False
+        else:
+            return True
+    except Exception as e:
+        print("TODO: write an error message here", e)
+        return False
 
 
 if __name__ == "__main__":
@@ -126,11 +170,23 @@ if __name__ == "__main__":
         test(os.path.isfile(os.path.join("..", "me", "week1", f)), f + " exists")
     )
 
+    testResults.append(test(me_repo_is_clone(), "You've forked the me repo"))
+
+    f = "requestsWorking.txt"
+    testResults.append(test(has_pushed(f), "You've pushed your work to GitHub: " + f))
+    f = "checkID.json"
+    testResults.append(test(has_pushed(f), "You've pushed your work to GitHub: " + f))
+
     print(
         {"of_total": len(testResults), "mark": sum(testResults), "results": testResults}
     )
-    print(
-        """
+
+    if len(testResults) == sum(testResults):
+        name = aboutMeData["name"].split(" ")[0]
+        deadpool("Good Job", name)
+    else:
+        print(
+            """
 How To Read this
 ----------------
 
@@ -147,6 +203,6 @@ However, they won't run on the marking computer if they haven't been pushed to y
 
 Type {em}git status{norm}, or look in your source control tab, to check.
 """.format(
-            em=EM, norm=NORM
+                em=EM, norm=NORM
+            )
         )
-    )
