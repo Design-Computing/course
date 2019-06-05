@@ -82,6 +82,7 @@ def test_aboutMe(show=False):
     """Test to see if aboutMe.yml is updated"""
     f = open("../me/aboutMe.yml", "r")
     them = dict(yaml.load(f, yaml.RoundTripLoader))
+    global aboutMeData
     aboutMeData = them
     if show:
         print(json.dumps(them, indent=2, sort_keys=True))
