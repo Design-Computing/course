@@ -3,6 +3,7 @@ datetime
 flake8
 gitpython
 importlib
+mock
 pandas
 pathlib
 requests
