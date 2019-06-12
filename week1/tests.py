@@ -97,30 +97,38 @@ def test_aboutMe(show=False):
         return True
 
 
+def get_origin_url(repo):
+    if os.name == 'posix':
+        return os.popen('git config --get remote.origin.url').read()
+    else:
+        return repo.execute("git config --get remote.origin.url")
+
+
 def me_repo_is_clone():
+    origin_url = ""
     try:
         repo = git.cmd.Git("../me")
-        origin_url = repo.execute("git config --get remote.origin.url")
-        if "Design-Computing" in origin_url:
-            print(
-                (
-                    "You seem to be running on the master copy of the {em}me{norm} repo."
-                    "\nYou need to be working with your clone."
-                    "\nThis is hard to explain in an error message, call a tutor over."
-                ).format(em=EM, norm=NORM)
-            )
-            return False
-        else:
-            return True
+        origin_url = get_origin_url(repo)
     except Exception as e:
         print("TODO: write an error message here", e)
         return False
+    if "Design-Computing" in origin_url:
+        print(
+            (
+                "You seem to be running on the master copy of the {em}me{norm} repo."
+                "\nYou need to be working with your clone."
+                "\nThis is hard to explain in an error message, call a tutor over."
+            ).format(em=EM, norm=NORM)
+        )
+        return False
+    else:
+        return True
 
 
 def has_pushed(fileName):
     try:
         repo = git.cmd.Git("../me")
-        origin_url = repo.execute("git config --get remote.origin.url")
+        origin_url = get_origin_url(repo)
         owner = origin_url.split("/")[3]
         url = "https://api.github.com/repos/" + "{o}/me/contents/week1/{f}".format(
             o=owner, f=fileName
