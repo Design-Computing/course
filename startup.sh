@@ -5,9 +5,12 @@ alias python='python3'
 # https://stackoverflow.com/a/44377932/1835727
 alias pip2='pip'
 alias pip='pip3'
+
+echo 'export PATH="/Users/$USER/anaconda3/bin:$PATH"' >>.bash_profile
+
 # This file installs a bunch of things that you'll find useful.
 echo "Let's pip install a load of python libraries"
-pip install -r requirements.txt 
+pip install -r requirements.txt
 echo "And now we'll install a bunch of extensions for vs code"
 code --install-extension Andreabbondanza.ignoregit
 code --install-extension ban.spellright
