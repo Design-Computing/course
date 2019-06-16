@@ -100,8 +100,8 @@ def test_pydocstyle(fileName, flags="-e"):
         return False
 
 
-def lab_book_entry_completed(weekNumber):
-    lab_book = Path("../me/week{}/readme.md".format(weekNumber))
+def lab_book_entry_completed(weekNumber, repo_path):
+    lab_book = Path(os.path.join(repo_path, "week{}/readme.md".format(weekNumber)))
     if lab_book.is_file():
         with open(lab_book, "r") as f:
             lines = f.readlines()
@@ -114,9 +114,9 @@ def lab_book_entry_completed(weekNumber):
     return False
 
 
-def loadExerciseFile(weekNumber=2, exerciseNumber=0):
+def loadExerciseFile(repo_path, weekNumber=2, exerciseNumber=0):
     path = os.path.join(
-        "..", "me", "week{}".format(weekNumber), "exercise{}.py".format(exerciseNumber)
+        repo_path, "week{}".format(weekNumber), "exercise{}.py".format(exerciseNumber)
     )
     spec = importUtils.spec_from_file_location("exercise0", path)
     ex = importUtils.module_from_spec(spec)
@@ -124,13 +124,16 @@ def loadExerciseFile(weekNumber=2, exerciseNumber=0):
     return ex
 
 
-def ex_runs(path, exerciseNumber, weekNumber):
+def ex_runs(repo_path, weekNumber=2, exerciseNumber=1):
     """Check that this exercise runs at all."""
     try:
-        spec = importUtils.spec_from_file_location(
-            "exercise",
-            "../me/week{w}/exercise{e}.py".format(e=exerciseNumber, w=weekNumber),
+        p = os.path.normpath(
+            os.path.join(
+                repo_path,
+                "week{w}/exercise{e}.py".format(e=exerciseNumber, w=weekNumber),
+            )
         )
+        spec = importUtils.spec_from_file_location("exercise", p)
         ex = importUtils.module_from_spec(spec)
         spec.loader.exec_module(ex)
         return True
@@ -532,6 +535,5 @@ def grumpy():
 
 
 if __name__ == "__main__":
-    # deadpool("Message", "name")
     pass
 

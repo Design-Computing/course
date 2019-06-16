@@ -35,10 +35,12 @@ TIMEOUT_IN_SECONDS = 3
 WEEK_NUMBER = 3
 
 
-def test_stubborn_asker(low, high):
+def test_stubborn_asker(repo_path, low, high):
     """Test the stubborn asker function."""
     try:
-        exercise1 = loadExerciseFile(weekNumber=WEEK_NUMBER, exerciseNumber=1)
+        exercise1 = loadExerciseFile(
+            repo_path, weekNumber=WEEK_NUMBER, exerciseNumber=1
+        )
     except Exception as e:
         return syntax_error_message(4, e)
 
@@ -62,10 +64,12 @@ def test_stubborn_asker(low, high):
         print("exception:", e)
 
 
-def test_not_number_rejector():
+def test_not_number_rejector(repo_path):
     """Test the not number rejector function."""
     try:
-        exercise1 = loadExerciseFile(weekNumber=WEEK_NUMBER, exerciseNumber=1)
+        exercise1 = loadExerciseFile(
+            repo_path, weekNumber=WEEK_NUMBER, exerciseNumber=1
+        )
     except Exception as e:
         return syntax_error_message(1, e)
 
@@ -87,10 +91,12 @@ def test_not_number_rejector():
             print("exception:", e)
 
 
-def test_super_asker(low, high):
+def test_super_asker(repo_path, low, high):
     """Test the super asker function."""
     try:
-        exercise1 = loadExerciseFile(weekNumber=WEEK_NUMBER, exerciseNumber=1)
+        exercise1 = loadExerciseFile(
+            repo_path, weekNumber=WEEK_NUMBER, exerciseNumber=1
+        )
     except Exception as e:
         return syntax_error_message(1, e)
 
@@ -114,13 +120,15 @@ def test_super_asker(low, high):
             print(e)
 
 
-def test_example_guessingGame():
+def test_example_guessingGame(repo_path):
     """Test the example_guessingGame function.
 
     This should always pass becasue it's provided code
     """
     try:
-        exercise2 = loadExerciseFile(weekNumber=WEEK_NUMBER, exerciseNumber=2)
+        exercise2 = loadExerciseFile(
+            repo_path, weekNumber=WEEK_NUMBER, exerciseNumber=2
+        )
     except Exception as e:
         return syntax_error_message(2, e)
     upperBound = 5
@@ -144,10 +152,12 @@ def test_example_guessingGame():
             print(e)
 
 
-def test_advanced_guessingGame(mockInputs):
+def test_advanced_guessingGame(repo_path, mockInputs):
     """Test the advanced_guessingGame function."""
     try:
-        exercise3 = loadExerciseFile(weekNumber=WEEK_NUMBER, exerciseNumber=3)
+        exercise3 = loadExerciseFile(
+            repo_path, weekNumber=WEEK_NUMBER, exerciseNumber=3
+        )
     except Exception as e:
         return syntax_error_message(3, e)
 
@@ -169,14 +179,16 @@ def test_advanced_guessingGame(mockInputs):
             print(e)
 
 
-def test_binary_search(low, high, actual):
+def test_binary_search(repo_path, low, high, actual):
     # TODO: I don't think this test is working
     """Test the binary search function.
 
     checks to see that it's searching better than O(log n)
     """
     try:
-        exercise4 = loadExerciseFile(weekNumber=WEEK_NUMBER, exerciseNumber=4)
+        exercise4 = loadExerciseFile(
+            repo_path, weekNumber=WEEK_NUMBER, exerciseNumber=4
+        )
         BASE2 = 2
         b = None
         try:
@@ -216,10 +228,12 @@ def test_binary_search(low, high, actual):
         return False
 
 
-def vis_binary_search_performance():
+def vis_binary_search_performance(repo_path):
     """Provide a visualisation of the performance of the binary search."""
     try:
-        exercise4 = loadExerciseFile(weekNumber=WEEK_NUMBER, exerciseNumber=4)
+        exercise4 = loadExerciseFile(
+            repo_path, weekNumber=WEEK_NUMBER, exerciseNumber=4
+        )
     except Exception as e:
         return syntax_error_message(4, e)
 
@@ -257,7 +271,7 @@ machine but the computer is, so it's always below that worst case limit.
     plt.show()
 
 
-def theTests(path_to_code_to_check="."):
+def theTests(path_to_code_to_check="../me"):
     """Run all the tests."""
     print("\nWelcome to week {}!".format(WEEK_NUMBER))
     print("May the odds be ever in your favour.\n")
@@ -267,7 +281,9 @@ def theTests(path_to_code_to_check="."):
     # Give each person 10 seconds to complete all tests.
 
     if ex_runs(path_to_code_to_check, exerciseNumber=1, weekNumber=WEEK_NUMBER):
-        exercise1 = loadExerciseFile(weekNumber=WEEK_NUMBER, exerciseNumber=1)
+        exercise1 = loadExerciseFile(
+            path_to_code_to_check, weekNumber=WEEK_NUMBER, exerciseNumber=1
+        )
 
         testResults.append(
             test(
@@ -318,27 +334,44 @@ def theTests(path_to_code_to_check="."):
         #          "Exercise 1: gene_krupa_range(0, 100, 30, 7)"))
 
         testResults.append(
-            test(test_stubborn_asker(50, 60), "Exercise 1: Stubborn asker")
+            test(
+                test_stubborn_asker(path_to_code_to_check, 50, 60),
+                "Exercise 1: Stubborn asker",
+            )
         )
 
         testResults.append(
-            test(test_stubborn_asker(10, 20), "Exercise 1: Stubborn asker")
+            test(
+                test_stubborn_asker(path_to_code_to_check, 10, 20),
+                "Exercise 1: Stubborn asker",
+            )
         )
 
         testResults.append(
-            test(test_not_number_rejector(), "Exercise 1: not_number_rejector")
+            test(
+                test_not_number_rejector(path_to_code_to_check),
+                "Exercise 1: not_number_rejector",
+            )
         )
 
         testResults.append(
-            test(test_super_asker(50, 60), "Exercise 1: test_super_asker")
+            test(
+                test_super_asker(path_to_code_to_check, 50, 60),
+                "Exercise 1: test_super_asker",
+            )
         )
 
     testResults.append(
-        test(test_example_guessingGame(), "Exercise 2: example guessing game")
+        test(
+            test_example_guessingGame(path_to_code_to_check),
+            "Exercise 2: example guessing game",
+        )
     )
 
     if ex_runs(path_to_code_to_check, exerciseNumber=3, weekNumber=WEEK_NUMBER):
-        exercise1 = loadExerciseFile(weekNumber=WEEK_NUMBER, exerciseNumber=3)
+        exercise1 = loadExerciseFile(
+            path_to_code_to_check, weekNumber=WEEK_NUMBER, exerciseNumber=3
+        )
 
         lowerBound = 10
         upperBound = 15
@@ -346,14 +379,15 @@ def theTests(path_to_code_to_check="."):
         mockInputs = [lowerBound] + [upperBound] + guesses
         testResults.append(
             test(
-                test_advanced_guessingGame(mockInputs), "Exercise 3: guessing game, U&L"
+                test_advanced_guessingGame(path_to_code_to_check, mockInputs),
+                "Exercise 3: guessing game, U&L",
             )
         )
 
         mockInputs = ["ten"] + [lowerBound] + [upperBound] + ["cats"] + guesses
         testResults.append(
             test(
-                test_advanced_guessingGame(mockInputs),
+                test_advanced_guessingGame(path_to_code_to_check, mockInputs),
                 "Exercise 3: guessing game, polite failures",
             )
         )
@@ -363,7 +397,7 @@ def theTests(path_to_code_to_check="."):
         mockInputs = [lowerBound] + [upperBound] + [secondGuess] + guesses
         testResults.append(
             test(
-                test_advanced_guessingGame(mockInputs),
+                test_advanced_guessingGame(path_to_code_to_check, mockInputs),
                 "Exercise 3: guessing game, lowerBound " "bigger than upperBound",
             )
         )
@@ -375,7 +409,7 @@ def theTests(path_to_code_to_check="."):
         mockInputs = [lowerBound] + [upperBound] + [secondGuess] + guesses
         testResults.append(
             test(
-                test_advanced_guessingGame(mockInputs),
+                test_advanced_guessingGame(path_to_code_to_check, mockInputs),
                 "Exercise 3: guessing game, no " + "range to guess in (delta 1)",
             )
         )
@@ -387,13 +421,15 @@ def theTests(path_to_code_to_check="."):
         mockInputs = [lowerBound] + [upperBound] + [secondGuess] + guesses
         testResults.append(
             test(
-                test_advanced_guessingGame(mockInputs),
+                test_advanced_guessingGame(path_to_code_to_check, mockInputs),
                 "Exercise 3: guessing game, no " + "range to guess in (equal)",
             )
         )
 
     if ex_runs(path_to_code_to_check, exerciseNumber=4, weekNumber=WEEK_NUMBER):
-        exercise1 = loadExerciseFile(weekNumber=WEEK_NUMBER, exerciseNumber=4)
+        exercise1 = loadExerciseFile(
+            path_to_code_to_check, weekNumber=WEEK_NUMBER, exerciseNumber=4
+        )
 
         try_these = [(1, 100, 5), (1, 100, 6), (1, 100, 95), (1, 51, 5), (1, 50, 5)]
         for _ in range(10):
@@ -403,7 +439,7 @@ def theTests(path_to_code_to_check="."):
             try:
                 testResults.append(  # *tv unpacks this tuple -------------- vv
                     test(
-                        test_binary_search(*tv),
+                        test_binary_search(path_to_code_to_check, *tv),
                         "Exercise 4: binary_search" + "({}, {}, {})".format(*tv),
                     )
                 )
@@ -414,7 +450,7 @@ def theTests(path_to_code_to_check="."):
                 testResults.append(0)
 
         # if the binary search is working, show a graph of guess numbers
-        if test(test_binary_search(1, 10, 5), ""):
+        if test(test_binary_search(path_to_code_to_check, 1, 10, 5), ""):
             # If you aren't Ben, then show the histogram
             # if os.uname()[1] != "um":  # um is ben's computer
             print("binary search works!")

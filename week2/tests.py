@@ -46,7 +46,9 @@ def theTests(path_to_code_to_check="../me"):
     # Tests from here:
 
     if ex_runs(path_to_code_to_check, exerciseNumber=0, weekNumber=WEEK_NUMBER):
-        exercise0 = loadExerciseFile(weekNumber=WEEK_NUMBER, exerciseNumber=0)
+        exercise0 = loadExerciseFile(
+            path_to_code_to_check, weekNumber=WEEK_NUMBER, exerciseNumber=0
+        )
 
         testResults.append(
             test(exercise0.add_1(55) == 56, "Exercise 0: add_1 - 55 + 1 = 56")
@@ -131,7 +133,9 @@ def theTests(path_to_code_to_check="../me"):
     testResults.append(test(ex2_runs, "Exercise 2: debug the file"))
 
     if ex_runs(path_to_code_to_check, exerciseNumber=3, weekNumber=WEEK_NUMBER):
-        exercise3 = exercise0 = loadExerciseFile(weekNumber=2, exerciseNumber=3)
+        exercise3 = loadExerciseFile(
+            path_to_code_to_check, weekNumber=2, exerciseNumber=3
+        )
         # is odd
         testResults.append(
             test(exercise3.is_odd(2) is False, "Exercise 3: is_odd - is 2 odd")
@@ -306,7 +310,10 @@ def theTests(path_to_code_to_check="../me"):
             )
         )
     testResults.append(
-        test(lab_book_entry_completed(WEEK_NUMBER), "Lab book entry completed")
+        test(
+            lab_book_entry_completed(WEEK_NUMBER, path_to_code_to_check),
+            "Lab book entry completed",
+        )
     )
     print("{0}/{1} (passed/attempted)".format(sum(testResults), len(testResults)))
 
