@@ -7,12 +7,12 @@ import git
 import inspect
 import json
 import os
+import platform
+import requests
 import ruamel.yaml as yaml
 import sys
-import systemCheck
-import requests
 
-REMOTE = "../me/week1"
+
 aboutMeData = ""
 
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
@@ -30,18 +30,91 @@ from codeHelpers import (
 
 
 WEEK_NUMBER = 1
-ME = "../me"
 EM = Fore.YELLOW
 NORM = Fore.WHITE
-
-# the context of this file
-sys.path.append("../me/week{}".format(WEEK_NUMBER))
 
 testResults = []
 
 
-def test_hello_world():
-    exercise1 = loadExerciseFile(weekNumber=WEEK_NUMBER, exerciseNumber=1)
+def check_system_details(repo_path):
+    """Look inside yourself.
+
+    Gets the system details to check that this machine is actually set up
+    """
+
+    systemInfo = {
+        "architecture": platform.architecture(),
+        "machine": platform.machine(),
+        "os_name": os.name,
+        "platform": platform.platform(),
+        "processor": platform.processor(),
+        "release": platform.release(),
+        "system": platform.system(),
+        "uname": platform.uname(),
+        "version": platform.version(),
+        "python_build": platform.python_build(),
+        "python_compiler": platform.python_compiler(),
+        "python_implementation(": platform.python_implementation(),
+        "python_version(": platform.python_version(),
+        "python_version_tuple": platform.python_version_tuple(),
+        "cpu_count": os.cpu_count(),
+    }
+    print(json.dumps(systemInfo, indent=4))
+
+    # Write it to a file in this repo
+    f = open(os.path.join(repo_path, "week1", "checkID.json"), "w")
+    f.write(json.dumps(systemInfo, indent=4))
+    f.close()
+    return True
+
+
+def test_for_python_and_requests(repo_path):
+    """Inspect own filesystem.
+
+    GETs a small JSON file and displays a message
+    """
+    width = 38
+
+    gh_url = "https://raw.githubusercontent.com/"
+    check_repo = "notionparallax/code1161base/"
+    file_path = "master/week1/pySuccessMessage.json"
+    url = gh_url + check_repo + file_path
+
+    try:
+        r = requests.get(url)
+        message = json.loads(r.text)["message"]
+        subMessage = "All hail his noodly appendage!"
+    except Exception as e:
+        message = "We are in the darkness"
+        subMessage = "Alas, all is lost"
+        print("\nThe error message:", e)
+
+    bar = "*{s:{c}^{n}}*".format(n=width, c="*", s="")
+    blank = "*{s:{c}^{n}}*".format(n=width, c=" ", s="")
+    doesItWork = [
+        bar,
+        blank,
+        "*{s:{c}^{n}}*".format(n=width, c=" ", s=message),
+        blank,
+        "*{s:{c}^{n}}*".format(n=width, c=" ", s=subMessage),
+        blank,
+        bar,
+    ]
+
+    print("Let's test Python and Requests:\n")
+    for line in doesItWork:
+        print(line)
+
+    p = os.path.join(repo_path, "week1", "requestsWorking.txt")
+    f = open(p, "w")
+    for line in doesItWork:
+        f.write(line + "\n")
+    f.close()
+    return True
+
+
+def test_hello_world(repo_path):
+    exercise1 = loadExerciseFile(repo_path, weekNumber=WEEK_NUMBER, exerciseNumber=1)
     source = "".join(inspect.getsourcelines(exercise1)[0])
     if (
         "print('hello world!')" in source.lower()
@@ -53,7 +126,7 @@ def test_hello_world():
         """
 We're looking for:
 
-{em}print(\"hello world!\"){norm}
+{em}print(\"Hello world!\"){norm}
 
 but your code is \n{sep}\n{em}{code}{norm}\n{sep}
 Look carefully at your capitalisation, 
@@ -78,9 +151,9 @@ def test_dev_env():
     return False
 
 
-def test_aboutMe(show=False):
+def test_aboutMe(repo_path, show=False):
     """Test to see if aboutMe.yml is updated"""
-    f = open("../me/aboutMe.yml", "r")
+    f = open(os.path.join(repo_path, "aboutMe.yml"), "r")
     them = dict(yaml.load(f, yaml.RoundTripLoader))
     global aboutMeData
     aboutMeData = them
@@ -98,16 +171,16 @@ def test_aboutMe(show=False):
 
 
 def get_origin_url(repo):
-    if os.name == 'posix':
-        return os.popen('git config --get remote.origin.url').read()
+    if os.name == "posix":
+        return os.popen("git config --get remote.origin.url").read()
     else:
         return repo.execute("git config --get remote.origin.url")
 
 
-def me_repo_is_clone():
+def me_repo_is_clone(repo_path):
     origin_url = ""
     try:
-        repo = git.cmd.Git("../me")
+        repo = git.cmd.Git(repo_path)
         origin_url = get_origin_url(repo)
     except Exception as e:
         print("TODO: write an error message here", e)
@@ -125,12 +198,12 @@ def me_repo_is_clone():
         return True
 
 
-def has_pushed(fileName):
+def has_pushed(fileName, repo_path):
     try:
-        repo = git.cmd.Git("../me")
+        repo = git.cmd.Git(repo_path)
         origin_url = get_origin_url(repo)
         owner = origin_url.split("/")[3]
-        url = "https://api.github.com/repos/" + "{o}/me/contents/week1/{f}".format(
+        url = ("https://api.github.com/repos/{o}/me/contents/week1/{f}").format(
             o=owner, f=fileName
         )
         r = requests.get(url)
@@ -144,25 +217,41 @@ def has_pushed(fileName):
         return False
 
 
-if __name__ == "__main__":
+def theTests(path_to_code_to_check="../me"):
+    """Run the tests."""
+    print("checking:    ", path_to_code_to_check)
+    print("\nWelcome to week {}!".format(WEEK_NUMBER))
+    print("May the odds be ever in your favour.\n")
+
+    testResults = []
     testResults.append(
-        test(systemCheck.check_system_details(), "Run a trace on your system details")
+        test(
+            check_system_details(path_to_code_to_check),
+            "Run a trace on your system details",
+        )
     )
     testResults.append(
         test(
-            systemCheck.test_for_python_and_requests(),
+            test_for_python_and_requests(path_to_code_to_check),
             "check that Python and Requests are installed",
         )
     )
     testResults.append(
         test(test_dev_env(), "Python is installed and configured on this machine")
     )
-    testResults.append(test(test_hello_world(), "Exercise1: Print 'Hello world!'"))
-    testResults.append(test(lab_book_entry_completed(1), "Lab book entry completed"))
-    about_me_filled_in = test_aboutMe()
+    testResults.append(
+        test(test_hello_world(path_to_code_to_check), "Exercise1: Print 'Hello world!'")
+    )
+    testResults.append(
+        test(
+            lab_book_entry_completed(1, path_to_code_to_check),
+            "Lab book entry completed",
+        )
+    )
+    about_me_filled_in = test_aboutMe(path_to_code_to_check)
     testResults.append(test(about_me_filled_in, "Update your aboutMe.yml"))
     if about_me_filled_in is False:
-        test_aboutMe(show=True)
+        test_aboutMe(path_to_code_to_check, show=True)
         print(
             "This is your aboutMe.yml file (but shown as JSON)",
             "You need to update it to have your real information,",
@@ -170,21 +259,31 @@ if __name__ == "__main__":
         )
 
     f = "requestsWorking.txt"
-    testResults.append(
-        test(os.path.isfile(os.path.join("..", "me", "week1", f)), f + " exists")
-    )
+    p = os.path.join(path_to_code_to_check, "week1", f)
+    testResults.append(test(os.path.isfile(p), f + " exists"))
 
     f = "checkID.json"
-    testResults.append(
-        test(os.path.isfile(os.path.join("..", "me", "week1", f)), f + " exists")
-    )
+    p = os.path.join(path_to_code_to_check, "week1", f)
+    testResults.append(test(os.path.isfile(p), f + " exists"))
 
-    testResults.append(test(me_repo_is_clone(), "You've forked the me repo"))
+    testResults.append(
+        test(me_repo_is_clone(path_to_code_to_check), "You've forked the me repo")
+    )
 
     f = "requestsWorking.txt"
-    testResults.append(test(has_pushed(f), "You've pushed your work to GitHub: " + f))
+    testResults.append(
+        test(
+            has_pushed(f, path_to_code_to_check),
+            "You've pushed your work to GitHub: " + f,
+        )
+    )
     f = "checkID.json"
-    testResults.append(test(has_pushed(f), "You've pushed your work to GitHub: " + f))
+    testResults.append(
+        test(
+            has_pushed(f, path_to_code_to_check),
+            "You've pushed your work to GitHub: " + f,
+        )
+    )
 
     print(
         {"of_total": len(testResults), "mark": sum(testResults), "results": testResults}
@@ -215,3 +314,9 @@ Type {em}git status{norm}, or look in your source control tab, to check.
                 em=EM, norm=NORM
             )
         )
+
+    return {
+        "of_total": len(testResults),
+        "mark": sum(testResults),
+        "results": testResults,
+    }
