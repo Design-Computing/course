@@ -78,7 +78,7 @@ def test_not_number_rejector(repo_path):
         try:
             my_args = "Testing some values:"
             r = func_timeout(
-                TIMEOUT_IN_SECONDS, exercise1.not_number_rejector, args=my_args
+                TIMEOUT_IN_SECONDS, exercise1.not_number_rejector, args=[my_args]
             )
             return r
         except FunctionTimedOut:
