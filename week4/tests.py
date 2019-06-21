@@ -104,7 +104,9 @@ def theTests(path_to_code_to_check="."):
     path = "{}/week{}/exercise1.py".format(path_to_code_to_check, WEEK_NUMBER)
     print(path)
 
-    exercise1 = loadExerciseFile(weekNumber=WEEK_NUMBER, exerciseNumber=1)
+    exercise1 = loadExerciseFile(
+        path_to_code_to_check, weekNumber=WEEK_NUMBER, exerciseNumber=1
+    )
 
     testResults = []
 

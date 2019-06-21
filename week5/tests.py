@@ -95,7 +95,9 @@ def theTests(path_to_code_to_check="."):
     path = "{}/week{}/exercise1.py".format(path_to_code_to_check, WEEK_NUMBER)
     print(path)
 
-    exercise1 = loadExerciseFile(weekNumber=WEEK_NUMBER, exerciseNumber=1)
+    exercise1 = loadExerciseFile(
+        path_to_code_to_check, weekNumber=WEEK_NUMBER, exerciseNumber=1
+    )
 
     # Linter test
     # print("Linter test:", path)
@@ -334,7 +336,9 @@ def theTests(path_to_code_to_check="."):
     path = "{}/week{}/exercise2.py".format(path_to_code_to_check, WEEK_NUMBER)
     print(path)
 
-    e2 = loadExerciseFile(weekNumber=WEEK_NUMBER, exerciseNumber=2)
+    e2 = loadExerciseFile(
+        path_to_code_to_check, weekNumber=WEEK_NUMBER, exerciseNumber=2
+    )
 
     # Linter test
     # print("Linter test:", path)

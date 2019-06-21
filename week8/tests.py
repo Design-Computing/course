@@ -87,7 +87,9 @@ def theTests(path_to_code_to_check="."):
     ex1path = "{}/week{}/exercise1.py".format(path_to_code_to_check, WEEK_NUMBER)
 
     if ex_runs(ex1path, exerciseNumber=1, weekNumber=WEEK_NUMBER):
-        exam = loadExerciseFile(weekNumber=WEEK_NUMBER, exerciseNumber=1)
+        exam = loadExerciseFile(
+            path_to_code_to_check, weekNumber=WEEK_NUMBER, exerciseNumber=1
+        )
 
         # testResults.append(test(test_flake8(ex1path), "pass the linter"))
 
@@ -272,7 +274,7 @@ def theTests(path_to_code_to_check="."):
 
     print("{0}/{1} (passed/attempted)".format(sum(testResults), len(testResults)))
 
-    if sum(testResults) == len(testResults):
+    if sum(testResults) > 0 and sum(testResults) == len(testResults):
         print(nyan_cat())
         message = "Cowabunga! You've got all the tests passing!"
         completion_message(message, len(message) + 2)
