@@ -1,6 +1,7 @@
 colorama
 datetime
 flake8
+func-timeout
 gitpython
 importlib
 mock
