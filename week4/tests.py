@@ -8,6 +8,7 @@ of the exercise files does what it's supposed to.
 from colorama import Fore
 from colorama import Style
 from datetime import datetime
+from func_timeout import func_timeout, FunctionTimedOut
 from pathlib import Path
 import importlib.util as importUtils
 import math
@@ -34,17 +35,11 @@ NORM = Fore.WHITE
 
 WEEK_NUMBER = 4
 LOCAL = os.path.dirname(os.path.realpath(__file__))
+TIMEOUT_IN_SECONDS = 10
 
 # if working dir contains week, we are one too deep
 if "week" in os.getcwd():
     os.chdir("..")
-
-
-def process_wunderground(json_object):
-    """Round down wunderground data to make comparison more stable."""
-    json_object["latitude"] = math.floor(float(json_object["latitude"]))
-    json_object["longitude"] = math.floor(float(json_object["longitude"]))
-    return json_object
 
 
 def find_lasers(path):
@@ -120,7 +115,7 @@ def theTests(path_to_code_to_check="."):
     )
 
     lengths = [3, 5, 7, 9, 11, 13, 15, 17, 19, 20, 18, 16, 14, 12, 10, 8, 6, 4]
-    testName = "Exercise 1: request some simple data from the internet"
+    testName = "Exercise 1: request some words from the internet"
     try:
         pyramid = exercise1.wordy_pyramid()
         if pyramid is not None:
@@ -131,26 +126,50 @@ def theTests(path_to_code_to_check="."):
         testResults.append(0)
         print(testName, e)
 
-    weather_results = {
-        "latitude": "-33.924206",
-        "state": "NSW",
-        "longitude": "151.187912",
-        "local_tz_offset": "+{}00".format(int(tzOffset())),
-    }
-    try:
-        ex_name = "Exercise 1: get some data from the weather underground."
-        theirs = exercise1.wunderground()
-        mine = weather_results
-        if theirs["latitude"] and theirs["longitude"]:
-            theirs = process_wunderground(theirs)
-        if mine["latitude"] and mine["longitude"]:
-            mine = process_wunderground(mine)
-        print("you gave:", theirs)
-        print("expected:", mine)
-        testResults.append(test(theirs == mine, ex_name))
-    except Exception as e:
-        testResults.append(0)
-        print(ex_name, e)
+    ex_name = "Exercise 1: Consult the Pokedex."
+    poke_tries = [
+        {
+            "args": (70, 80),
+            "result": {"name": "victreebel", "weight": 155, "height": 17},
+            "gift": pokeball(),
+        },
+        {
+            "args": (9, 15),
+            "result": {"name": "blastoise", "weight": 855, "height": 16},
+            "gift": tiny_pikachu(),
+        },
+        {
+            "args": (55, 57),
+            "result": {"name": "golduck", "weight": 766, "height": 17},
+            "gift": squirtle(),
+        },
+        {
+            "args": (0, 3),
+            "result": {"name": "ivysaur", "weight": 130, "height": 10},
+            "gift": pikachu(),
+        },
+    ]
+    for p in poke_tries:
+        try:
+            r = func_timeout(
+                TIMEOUT_IN_SECONDS, exercise1.pokedex, args=list(p["args"])
+            )
+            if r == p["result"]:
+                print(p["gift"])
+            else:
+                print("expecting", p["result"], "got", r)
+            testResults.append(test(r == p["result"], ex_name))
+        except FunctionTimedOut as ftoe:
+            print(
+                ex_name,
+                ftoe,
+                "check your numbers/ algorithm efficiency,",
+                "or maybe just your internet speed.",
+                "This shouldn't be taking so long",
+            )
+        except Exception as e:
+            testResults.append(0)
+            print(ex_name, e)
 
     testResults.append(
         test(find_lasers(path_to_code_to_check), "Exercise 1: count the lasers.")
@@ -169,6 +188,71 @@ def theTests(path_to_code_to_check="."):
         "mark": sum(testResults),
         "results": testResults,
     }
+
+
+def pokeball():
+    return """
+────────▄███████████▄────────
+─────▄███▓▓▓▓▓▓▓▓▓▓▓███▄─────
+────███▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓███────
+───██▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓██───
+──██▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓██──
+─██▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓██─
+██▓▓▓▓▓▓▓▓▓███████▓▓▓▓▓▓▓▓▓██
+██▓▓▓▓▓▓▓▓██░░░░░██▓▓▓▓▓▓▓▓██
+██▓▓▓▓▓▓▓██░░███░░██▓▓▓▓▓▓▓██
+███████████░░███░░███████████
+██░░░░░░░██░░███░░██░░░░░░░██
+██░░░░░░░░██░░░░░██░░░░░░░░██
+██░░░░░░░░░███████░░░░░░░░░██
+─██░░░░░░░░░░░░░░░░░░░░░░░██─
+──██░░░░░░░░░░░░░░░░░░░░░██──
+───██░░░░░░░░░░░░░░░░░░░██───
+────███░░░░░░░░░░░░░░░███────
+─────▀███░░░░░░░░░░░███▀─────
+────────▀███████████▀────────"""
+
+
+def tiny_pikachu():
+    return r"""
+/\︿╱\
+\0_ 0 /╱\╱ 
+\▁︹_/
+    """
+
+
+def pikachu():
+    return """
+░█▀▀▄░░░░░░░░░░░▄▀▀█
+░█░░░▀▄░▄▄▄▄▄░▄▀░░░█
+░░▀▄░░░▀░░░░░▀░░░▄▀
+░░░░▌░▄▄░░░▄▄░▐▀▀
+░░░▐░░█▄░░░▄█░░▌▄▄▀▀▀▀█
+░░░▌▄▄▀▀░▄░▀▀▄▄▐░░░░░░█
+▄▀▀▐▀▀░▄▄▄▄▄░▀▀▌▄▄▄░░░█
+█░░░▀▄░█░░░█░▄▀░░░░█▀▀▀
+░▀▄░░▀░░▀▀▀░░▀░░░▄█▀
+░░░█░░░░░░░░░░░▄▀▄░▀▄
+░░░█░░░░░░░░░▄▀█░░█░░█
+░░░█░░░░░░░░░░░█▄█░░▄▀
+░░░█░░░░░░░░░░░████▀
+░░░▀▄▄▀▀▄▄▀▀▄▄▄█▀ """
+
+
+def squirtle():
+    return r"""
+;-.               ,
+ \ '.           .'/
+  \  \ .---. .-' /
+   '. '     `\_.'
+     |(),()  |     ,
+     (  __   /   .' \
+    .''.___.'--,/\_,|
+   {  /     \   }   |
+    '.\     /_.'    /
+     |'-.-',  `; _.'
+     |  |  |   |`
+     `""`""`"'"`"""
 
 
 if __name__ == "__main__":
