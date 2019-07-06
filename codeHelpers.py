@@ -38,6 +38,22 @@ class RunCmd(threading.Thread):
             self.join()
 
 
+def finish_up(testResults, message, the_treat):
+    total = sum([r["value"] for r in testResults])
+    out_of = len(testResults)
+
+    package = {"of_total": out_of, "mark": total, "results": testResults}
+    if total == out_of:
+        print(the_treat)
+        completion_message(message, len(message) + 2)
+    else:
+        print("{total}/{out_of} (passed/attempted)".format(total=total, out_of=out_of))
+        "Keep going champ!"
+        # print(json.dumps(package, indent=2))
+
+    return package
+
+
 def test(testResult, name):
     """Report on the test.
 
@@ -45,10 +61,11 @@ def test(testResult, name):
     """
     if testResult:
         print((Fore.GREEN + "✔ " + name + Style.RESET_ALL))
-        return 1
+        value = 1
     else:
         print((Fore.RED + "✘ " + name + Style.RESET_ALL))
-        return 0
+        value = 0
+    return {"value": value, "name": name}
 
 
 def test_flake8(fileName):
@@ -172,8 +189,7 @@ def completion_message(message, width):
 
 
 def deadpool(message="Good Job", name="Dude"):
-    print(
-        """
+    return """
                 ▄▄▄▓▓▓▓▓▄▄▄
              ▄███████████████▄▄
            ▄████████████████████▄
@@ -200,8 +216,7 @@ def deadpool(message="Good Job", name="Dude"):
      ▄████████▄   ▀▀▀▀▀▀▀  ▄▄█
    ▀▓▓▓▓▓▓▓▓▓▓▓█▄      ▄▓▓▓▓▓
 """.format(
-            m=message.center(14, "█"), n=name.center(15, "█")
-        )
+        m=message.center(14, "█"), n=name.center(15, "█")
     )
 
 

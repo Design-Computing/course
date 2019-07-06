@@ -11,6 +11,7 @@ from datetime import datetime
 from func_timeout import func_timeout, FunctionTimedOut
 from pathlib import Path
 import importlib.util as importUtils
+import json
 import math
 import mock
 import os
@@ -23,6 +24,7 @@ sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 from codeHelpers import (
     completion_message,
     ex_runs,
+    finish_up,
     lab_book_entry_completed,
     loadExerciseFile,
     nyan_cat,
@@ -175,19 +177,9 @@ def theTests(path_to_code_to_check="."):
         test(find_lasers(path_to_code_to_check), "Exercise 1: count the lasers.")
     )
 
-    print("{0}/{1} (passed/attempted)".format(sum(testResults), len(testResults)))
-
-    if sum(testResults) == len(testResults):
-        nyan_cat()
         message = "Rad, you've got all the tests passing!"
-        completion_message(message, len(message) + 2)
-        # treat()
 
-    return {
-        "of_total": len(testResults),
-        "mark": sum(testResults),
-        "results": testResults,
-    }
+    return finish_up(testResults, message, nyan_cat())
 
 
 def pokeball():

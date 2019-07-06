@@ -21,11 +21,12 @@ sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 from codeHelpers import (
     completion_message,
     ex_runs,
-    nyan_cat,
-    test,
+    finish_up,
     lab_book_entry_completed,
     loadExerciseFile,
+    nyan_cat,
     syntax_error_message,
+    test,
 )
 
 EM = Fore.YELLOW
@@ -315,18 +316,10 @@ def theTests(path_to_code_to_check="../me"):
             "Lab book entry completed",
         )
     )
-    print("{0}/{1} (passed/attempted)".format(sum(testResults), len(testResults)))
 
-    if sum(testResults) == len(testResults):
-        print(nyan_cat())
-        message = "Rad, you've got all the tests passing!"
-        completion_message(message, len(message) + 2)
+    message = "Rad, you've got all the tests passing!"
 
-    return {
-        "of_total": len(testResults),
-        "mark": sum(testResults),
-        "results": testResults,
-    }
+    return finish_up(testResults, message, nyan_cat())
 
 
 if __name__ == "__main__":

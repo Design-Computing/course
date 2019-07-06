@@ -19,13 +19,14 @@ sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 
 from codeHelpers import (
     completion_message,
+    deadpool,
     ex_runs,
+    finish_up,
     lab_book_entry_completed,
     loadExerciseFile,
     nyan_cat,
     test,
     test_flake8,
-    deadpool,
 )
 
 
@@ -286,15 +287,7 @@ def theTests(path_to_code_to_check="../me"):
     )
 
     print(
-        {"of_total": len(testResults), "mark": sum(testResults), "results": testResults}
-    )
-
-    if len(testResults) == sum(testResults):
-        name = aboutMeData["name"].split(" ")[0]
-        deadpool("Good Job", name)
-    else:
-        print(
-            """
+        """
 How To Read this
 ----------------
 
@@ -311,12 +304,14 @@ However, they won't run on the marking computer if they haven't been pushed to y
 
 Type {em}git status{norm}, or look in your source control tab, to check.
 """.format(
-                em=EM, norm=NORM
-            )
+            em=EM, norm=NORM
         )
+    )
 
-    return {
-        "of_total": len(testResults),
-        "mark": sum(testResults),
-        "results": testResults,
-    }
+    name = aboutMeData["name"].split(" ")[0]
+    message = "Rad, you've got all the tests passing!"
+    return finish_up(testResults, message, deadpool("Good Job", name))
+
+
+if __name__ == "__main__":
+    theTests()

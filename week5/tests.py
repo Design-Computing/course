@@ -22,6 +22,7 @@ sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 from codeHelpers import (
     completion_message,
     ex_runs,
+    finish_up,
     grumpy,
     lab_book_entry_completed,
     loadExerciseFile,
@@ -474,19 +475,9 @@ Let's go!
 
     # CLEANUP AND FINISH
 
-    print("{0}/{1} (passed/attempted)".format(sum(testResults), len(testResults)))
+    message = "Rad, you've got all the tests passing!"
 
-    if sum(testResults) == len(testResults):
-        nyan_cat()
-        message = "Rad, you've got all the tests passing!"
-        completion_message(message, len(message) + 2)
-        # treat()
-
-    return {
-        "of_total": len(testResults),
-        "mark": sum(testResults),
-        "results": testResults,
-    }
+    return finish_up(testResults, message, nyan_cat())
 
 
 if __name__ == "__main__":

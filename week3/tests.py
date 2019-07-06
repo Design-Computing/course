@@ -21,6 +21,7 @@ sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 from codeHelpers import (
     completion_message,
     ex_runs,
+    finish_up,
     lab_book_entry_completed,
     loadExerciseFile,
     nyan_cat,
@@ -455,18 +456,9 @@ def theTests(path_to_code_to_check="../me"):
             # if os.uname()[1] != "um":  # um is ben's computer
             print("binary search works!")
 
-    print("{0}/{1} (passed/attempted)".format(sum(testResults), len(testResults)))
+    message = "Rad, you've got all the tests passing!"
 
-    if sum(testResults) == len(testResults):
-        print(nyan_cat())
-        message = "Cowabunga! You've got all the tests passing!"
-        completion_message(message, len(message) + 2)
-
-    return {
-        "of_total": len(testResults),
-        "mark": sum(testResults),
-        "results": testResults,
-    }
+    return finish_up(testResults, message, nyan_cat())
 
 
 if __name__ == "__main__":
