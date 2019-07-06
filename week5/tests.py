@@ -13,6 +13,8 @@ from colorama import Fore
 from colorama import Style
 from pathlib import Path
 import importlib.util as importUtils
+import inspect
+import io
 import os
 import sys
 
@@ -43,12 +45,14 @@ if "week" in os.getcwd():
 
 def test_diagrams(diagram, expected):
     """Test, crudely, that the correct diagram is being returned."""
-    if expected == "tall" and "\\" in diagram:
-        return True
-    if expected == "wide" and "∕" in diagram:
-        return True
-    if expected == "equal" and "⋱" in diagram:
-        return True
+    # print("testing", diagram, expected)
+    if diagram and expected:
+        if expected == "tall" and ("\\" in diagram):
+            return True
+        if expected == "wide" and "∕" in diagram:
+            return True
+        if expected == "equal" and "⋱" in diagram:
+            return True
     print("failure in test_diagrams", "\n", grumpy())
     return False
 
@@ -114,32 +118,95 @@ def theTests(path_to_code_to_check="."):
     # countdown test
     book_of_counts = [
         {
-            "message": "let's get ready to rumble",
-            "start": 8,
-            "stop": 1,
-            "completion_message": "*rumbling sound*",
+            "expect": """let's get ready to rumble 8
+let's get ready to rumble 7
+let's get ready to rumble 6
+let's get ready to rumble 5
+let's get ready to rumble 4
+let's get ready to rumble 3
+let's get ready to rumble 2
+let's get ready to rumble 1
+*rumbling sound*
+""",
+            "input": {
+                "message": "let's get ready to rumble",
+                "start": 8,
+                "stop": 1,
+                "completion_message": "*rumbling sound*",
+            },
         },
         {
-            "message": "prepare to die in this many ways:",
-            "start": 0,
-            "stop": 15,
-            "completion_message": "or not, I guess",
+            "expect": """prepare to die in this many ways: 4
+prepare to die in this many ways: 3
+prepare to die in this many ways: 2
+prepare to die in this many ways: 1
+or not, I guess
+""",
+            "input": {
+                "message": "prepare to die in this many ways:",
+                "start": 5,
+                "stop": 2,
+                "completion_message": "or not, I guess",
+            },
+        },
+        {
+            "expect": """Getting ready to start in 9
+Getting ready to start in 8
+Getting ready to start in 7
+Getting ready to start in 6
+Getting ready to start in 5
+Getting ready to start in 4
+Getting ready to start in 3
+Getting ready to start in 2
+Getting ready to start in 1
+Let's go!
+""",
+            "input": {
+                "message": "Getting ready to start in",
+                "start": 9,
+                "stop": 1,
+                "completion_message": "Let's go!",
+            },
         },
     ]
     for countdown in book_of_counts:
         try:
-            the_countdown = exercise1.countdown(**countdown)
-            if len(the_countdown) > 0:
-                [print(x) for x in the_countdown]
-            else:
-                print("Nothing to see here yet")
-            expected = abs(countdown["start"] - countdown["stop"]) + 1
+            # https://stackoverflow.com/a/34738440/1835727
+            capturedOutput = io.StringIO()  # Create StringIO object
+            sys.stdout = capturedOutput  #  and redirect stdout.
+
+            exercise1.countdown(**countdown["input"])  # Call function.
+
+            sys.stdout = sys.__stdout__  # Reset redirect.
+
+            if capturedOutput.getvalue() != countdown["expect"]:
+                print("Captured:\n" + capturedOutput.getvalue())  # Now works as before.
+                print("Expected:\n" + countdown["expect"])
+
             testResults.append(
-                test(len(the_countdown) == expected, "Exercise 1: countdown!!")
+                test(
+                    capturedOutput.getvalue() == countdown["expect"],
+                    "Exercise 1: countdown!! Output check",
+                )
             )
         except Exception as e:
             print("countdown test failed", e)
             testResults.append(FAIL)
+
+    function_text = inspect.getsource(exercise1.countdown)
+    countdown_function_body = "".join(function_text)
+    testResults.append(
+        test(
+            countdown_function_body.count("print") <= 2,
+            "Exercise 1: countdown!! rewrite content - fewer print calls",
+        )
+    )
+    if countdown_function_body.count("print") > 2:
+        print(function_text)
+        print(
+            "do you really need all those calls to print?",
+            "Could you get by with only 2?",
+        )
 
     triangles = [
         {
@@ -200,6 +267,12 @@ def theTests(path_to_code_to_check="."):
                 ),
             )
         )
+        if hyp != t["hypotenuse"]:
+            print(
+                "You said that a b{b}×h{h} right triangle has a hyp of ⇨ {hyp}".format(
+                    b=t["base"], h=t["height"], hyp=hyp
+                )
+            )
 
         area = exercise1.calculate_area(t["base"], t["height"])
         testResults.append(
@@ -208,6 +281,12 @@ def theTests(path_to_code_to_check="."):
                 pattern.format(1, "calculate_area", t["base"], t["height"], t["area"]),
             )
         )
+        if area != t["area"]:
+            print(
+                "You said that a b{b}×h{h} right triangle has n area of ⇨ {a}".format(
+                    b=t["base"], h=t["height"], a=area
+                )
+            )
 
         aspect = exercise1.calculate_aspect(t["base"], t["height"])
         testResults.append(
@@ -247,26 +326,42 @@ def theTests(path_to_code_to_check="."):
     ff = exercise1.triangle_master(
         base=5, height=5, return_diagram=False, return_dictionary=False
     )
+    testResults.append(
+        test(
+            ff is None, "exercise 1: triangle_master diagram: False, dictionary: False"
+        )
+    )
+
     tf = exercise1.triangle_master(
         base=5, height=5, return_diagram=True, return_dictionary=False
     )
+    testResults.append(
+        test(
+            type(tf) is str,
+            "exercise 1: triangle_master diagram: True, dictionary: False",
+        )
+    )
+
     ft = exercise1.triangle_master(
         base=5, height=5, return_diagram=False, return_dictionary=True
     )
-    tt = exercise1.triangle_master(
-        base=5, height=5, return_diagram=True, return_dictionary=True
-    )
     testResults.append(
-        test(ff is None, "exercise 1: triangle_master diagram: F, dictionary: F")
-    )
-    testResults.append(
-        test(type(tf) is str, "exercise 1: triangle_master diagram: T, dictionary: F")
+        test(
+            type(ft) is dict,
+            "exercise 1: triangle_master diagram: False, dictionary: True"
+            " -- type(ft) is dict",
+        )
     )
     testResults.append(
         test(
-            type(ft) is dict and "units" in ft["facts"] and type(ft["facts"]) is dict,
-            "exercise 1: triangle_master diagram: F, dictionary: T",
+            "units" in ft,
+            "exercise 1: triangle_master diagram: False, dictionary: True"
+            ' -- "units" in ft["facts"]',
         )
+    )
+
+    tt = exercise1.triangle_master(
+        base=5, height=5, return_diagram=True, return_dictionary=True
     )
     testResults.append(
         test(
