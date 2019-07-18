@@ -119,13 +119,18 @@ def theTests(path_to_code_to_check="."):
     lengths = [3, 5, 7, 9, 11, 13, 15, 17, 19, 20, 18, 16, 14, 12, 10, 8, 6, 4]
     testName = "Exercise 1: request some words from the internet"
     try:
+
+        class ApiTimeoutError(Exception):
+            pass
+
+        raise ApiTimeoutError
         pyramid = exercise1.wordy_pyramid()
         if pyramid is not None:
             testResults.append(test([len(w) for w in pyramid] == lengths, testName))
         else:
             testResults.append(test(False, testName))
     except Exception as e:
-        testResults.append(0)
+        testResults.append(test(False, testName))
         print(testName, e)
 
     ex_name = "Exercise 1: Consult the Pokedex."
@@ -177,7 +182,7 @@ def theTests(path_to_code_to_check="."):
         test(find_lasers(path_to_code_to_check), "Exercise 1: count the lasers.")
     )
 
-        message = "Rad, you've got all the tests passing!"
+    message = "Rad, you've got all the tests passing!"
 
     return finish_up(testResults, message, nyan_cat())
 
