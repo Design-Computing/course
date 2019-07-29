@@ -119,16 +119,24 @@ def theTests(path_to_code_to_check="."):
     lengths = [3, 5, 7, 9, 11, 13, 15, 17, 19, 20, 18, 16, 14, 12, 10, 8, 6, 4]
     testName = "Exercise 1: request some words from the internet"
     try:
-
-        class ApiTimeoutError(Exception):
-            pass
-
-        raise ApiTimeoutError
         pyramid = exercise1.wordy_pyramid()
+        p_lengths = [len(w) for w in pyramid]
         if pyramid is not None:
-            testResults.append(test([len(w) for w in pyramid] == lengths, testName))
+            testResults.append(test(p_lengths == lengths, testName))
+            if p_lengths != lengths:
+                print(
+                    pyramid,
+                    "Read the next line as (your word length, test word length)",
+                    list(zip(p_lengths, lengths)),
+                    p_lengths == lengths,
+                    sep="\n",
+                )
         else:
             testResults.append(test(False, testName))
+            print(
+                "The tests didn't get anything back from your code, "
+                "are you doing a return?"
+            )
     except Exception as e:
         testResults.append(test(False, testName))
         print(testName, e)
