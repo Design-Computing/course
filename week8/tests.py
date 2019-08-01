@@ -7,6 +7,7 @@ of the exercise files does what it's supposed to.
 
 from colorama import Fore
 from colorama import Style
+from func_timeout import func_timeout, FunctionTimedOut
 from pathlib import Path
 import importlib.util as importUtils
 import os
@@ -25,10 +26,14 @@ from codeHelpers import (
     syntax_error_message,
     test,
     test_flake8,
+    finish_up,
 )
+
 
 EM = Fore.YELLOW
 NORM = Fore.WHITE
+
+TIMEOUT_IN_SECONDS = 3
 
 
 WEEK_NUMBER = 8
@@ -79,14 +84,12 @@ def exam_test(
         testResults.append(test(False, message))
 
 
-def theTests(path_to_code_to_check="."):
+def theTests(path_to_code_to_check="../me"):
     """Run all the tests."""
     print("\nWelcome to the exam!")
     print("May the odds be ever in your favour.\nEspecially today!")
 
-    ex1path = "{}/week{}/exercise1.py".format(path_to_code_to_check, WEEK_NUMBER)
-
-    if ex_runs(ex1path, exerciseNumber=1, weekNumber=WEEK_NUMBER):
+    if ex_runs(path_to_code_to_check, exerciseNumber=1, weekNumber=WEEK_NUMBER):
         exam = loadExerciseFile(
             path_to_code_to_check, weekNumber=WEEK_NUMBER, exerciseNumber=1
         )
@@ -129,7 +132,13 @@ def theTests(path_to_code_to_check="."):
 
         exam_test("e", [], exam.best_letter_for_pets)
 
-        exam_test(160, [], exam.make_filler_text_dictionary, lambda x: len(str(x)))
+        word_lengths = [[3, 3, 3], [4, 4, 4], [5, 5, 5], [6, 6, 6], [7, 7, 7]]
+        exam_test(
+            word_lengths,
+            [],
+            exam.make_filler_text_dictionary,
+            lambda x: [[len(w) for w in x[k]] for k in x.keys()],
+        )
 
         exam_test(
             True,
@@ -150,51 +159,57 @@ def theTests(path_to_code_to_check="."):
             [100],
             exam.fast_filler,
             lambda x: len(x.split(" ")) == 100 and len(x) > 3 * 100,
-            chdir=True,
+            # chdir=True, # NFI what this does :(
         )
 
-        exam_test(True, ["./week8/speedy_dict.words"], os.path.exists)
+        # exam_test(True, ["./week8/dict_racey.json"], os.path.exists)
 
-        # exam_test(True,
-        #           [10],
-        #           exam.fast_filler,
-        #           lambda x: x[0] in string.uppercase and x[1] in string.lowercase,
-        #           "Test if fast_filler is capitalised")
-        # exam_test(True,
-        #           [10],
-        #           exam.fast_filler,
-        #           lambda x: x[-1] == ".",
-        #           "Test if fast_filler finishes with a .")
+        exam_test(
+            True,
+            [10],
+            exam.fast_filler,
+            lambda x: x[0] in string.ascii_uppercase and x[1] in string.ascii_lowercase,
+            "Test if fast_filler is capitalised",
+        )
+        exam_test(
+            True,
+            [10],
+            exam.fast_filler,
+            lambda x: x[-1] == ".",
+            "Test if fast_filler finishes with a .",
+        )
 
-        #
-        # try:
-        #     with Timeout(1):
-        #         for _ in range(10):
-        #             exam.fast_filler(1000)
-        #         testResults.append(
-        #             test(True,
-        #                  "subsiquent fast_filler"))
-        # except Timeout as t:
-        #     testResults.append(
-        #         test(False,
-        #              "subsiquent fast_filler probably wasn't fast enough"))
-        # except Exception as e:
-        #     testResults.append(
-        #         test(False,
-        #              "subsiquent fast_filler failed" + str(e)))
+        print(
+            "The point of saving the dictionary is that it's fast!",
+            "The pattern of saving a value locally so that you don't",
+            "need to go and get it is called caching.",
+            "This test runs fast_filler 10 times, and if it manages it in less",
+            "than a second, then you're good to go!",
+            sep="\n",
+        )
+        try:
+            TIMEOUT_IN_SECONDS = 1
+            func_timeout(
+                TIMEOUT_IN_SECONDS,
+                lambda: [exam.fast_filler(1000) for _ in range(10)],
+                args=[],
+            )
+            testResults.append(test(True, "subsiquent fast_filler"))
+        except FunctionTimedOut as t:
+            testResults.append(
+                test(
+                    False,
+                    str(t) + "\nsubsiquent fast_filler probably wasn't fast enough",
+                )
+            )
+        except Exception as e:
+            testResults.append(test(False, "subsiquent fast_filler failed" + str(e)))
 
-    print("{0}/{1} (passed/attempted)".format(sum(testResults), len(testResults)))
-
-    if sum(testResults) > 0 and sum(testResults) == len(testResults):
-        print(nyan_cat())
-        message = "Cowabunga! You've got all the tests passing!"
-        completion_message(message, len(message) + 2)
-
-    return {
-        "of_total": len(testResults),
-        "mark": sum(testResults),
-        "results": testResults,
-    }
+    message = (
+        "Cowabunga! You've got all the tests passing!\n"
+        "Well done, that's all the exercises for this term out of the way!"
+    )
+    return finish_up(testResults, message, nyan_cat())
 
 
 if __name__ == "__main__":
