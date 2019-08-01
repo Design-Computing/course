@@ -140,7 +140,6 @@ let's get ready to rumble 1
             "expect": """prepare to die in this many ways: 4
 prepare to die in this many ways: 3
 prepare to die in this many ways: 2
-prepare to die in this many ways: 1
 or not, I guess
 """,
             "input": {
