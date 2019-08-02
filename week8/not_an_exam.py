@@ -4,6 +4,9 @@ I'm in UR exam.
 This is the same as the weekly exercises, fill in the functions,
 and test them to see if they work.
 You have 2 hours.
+
+You need to copy this file to your me/week8 folder
+You need to rename it to exercise1.py
 """
 import string
 import time
@@ -59,7 +62,7 @@ def put_behind_bars(input_string="very naughty boy"):
 
 
 def pet_filter(letter="a"):
-    """Return a list of pets whose name contains the character 'letter'"""
+    """Return a list of pets whose name contains the character 'letter'."""
     # fmt: off
     pets = [
             "dog", "goat","pig","sheep","cattle","zebu","cat","chicken",
