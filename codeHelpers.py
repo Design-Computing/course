@@ -59,13 +59,19 @@ def test(testResult, name):
 
     Returns 1 and 0 so that the 1s can be summed to give a mark.
     """
-    if testResult:
-        print((Fore.GREEN + "✔ " + name + Style.RESET_ALL))
-        value = 1
-    else:
+    try:
+        if testResult:
+            print((Fore.GREEN + "✔ " + name + Style.RESET_ALL))
+            value = 1
+        else:
+            print((Fore.RED + "✘ " + name + Style.RESET_ALL))
+            value = 0
+        return {"value": value, "name": name}
+    except Exception as e:
+        print(e)
         print((Fore.RED + "✘ " + name + Style.RESET_ALL))
         value = 0
-    return {"value": value, "name": name}
+        return {"value": value, "name": name}
 
 
 def test_flake8(fileName):
