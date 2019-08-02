@@ -16,7 +16,9 @@ temp_completion_log
 *.prj
 *.shp
 *.shx
-maps/nswlocalitypolygonshp\.zip
+*.zip
 
 venv/
 .vscode/
+
+maps/NSW_LOCALITY_POLYGON_shp
