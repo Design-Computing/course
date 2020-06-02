@@ -109,12 +109,15 @@ def theTests(path_to_code_to_check="."):
 
     # stack the tests below here
     testDict = {"lastName": "hoogmoed", "password": "jokers", "postcodePlusID": 4311240}
-    testResults.append(
-        test(
-            exercise1.get_some_details() == testDict,
-            "Exercise 1: get some data out of a JSON file",
+    try:
+        testResults.append(
+            test(
+                exercise1.get_some_details() == testDict,
+                "Exercise 1: get some data out of a JSON file",
+            )
         )
-    )
+    except Exception as e:
+        testResults.append(test(False, "Exercise 1: get some data out of a JSON file"))
 
     lengths = [3, 5, 7, 9, 11, 13, 15, 17, 19, 20, 18, 16, 14, 12, 10, 8, 6, 4]
     testName = "Exercise 1: request some words from the internet"
@@ -182,13 +185,17 @@ def theTests(path_to_code_to_check="."):
                 "or maybe just your internet speed.",
                 "This shouldn't be taking so long",
             )
+            testResults.append({"value": 0, "name": "Exercise 1: Consult the Pokedex."})
         except Exception as e:
-            testResults.append(0)
+            testResults.append({"value": 0, "name": "Exercise 1: Consult the Pokedex."})
             print(ex_name, e)
 
-    testResults.append(
-        test(find_lasers(path_to_code_to_check), "Exercise 1: count the lasers.")
-    )
+    try:
+        testResults.append(
+            test(find_lasers(path_to_code_to_check), "Exercise 1: count the lasers.")
+        )
+    except Exception as e:
+        testResults.append(test(False, "Exercise 1: count the lasers."))
 
     message = "Rad, you've got all the tests passing!"
 

@@ -190,8 +190,9 @@ Let's go!
                 )
             )
         except Exception as e:
+            sys.stdout = sys.__stdout__  # Reset redirect.
             print("countdown test failed", e)
-            testResults.append(FAIL)
+            testResults.append(test(False, "Exercise 1: countdown!! Output check"))
 
     function_text = inspect.getsource(exercise1.countdown)
     countdown_function_body = "".join(function_text)
@@ -352,23 +353,38 @@ Let's go!
             " -- type(ft) is dict",
         )
     )
-    testResults.append(
-        test(
-            "units" in ft,
-            "exercise 1: triangle_master diagram: False, dictionary: True"
-            ' -- "units" in ft["facts"]',
+    try:
+        testResults.append(
+            test(
+                "units" in ft,
+                "exercise 1: triangle_master diagram: False, dictionary: True"
+                ' -- "units" in ft["facts"]',
+            )
         )
-    )
+    except Exception as e:
+        testResults.append(
+            test(
+                False,
+                "exercise 1: triangle_master diagram: False, dictionary: True"
+                ' -- "units" in ft["facts"]',
+            )
+        )
 
     tt = exercise1.triangle_master(
         base=5, height=5, return_diagram=True, return_dictionary=True
     )
-    testResults.append(
-        test(
-            type(tt) is dict and type(tt["diagram"]) is str,
-            "exercise 1: triangle_master diagram: T, dictionary: T",
+    try:
+        testResults.append(
+            test(
+                type(tt) is dict and type(tt["diagram"]) is str,
+                "exercise 1: triangle_master diagram: T, dictionary: T",
+            )
         )
-    )
+    except Exception as e:
+        print(e)
+        testResults.append(
+            test(False, "exercise 1: triangle_master diagram: T, dictionary: T")
+        )
 
     pattern = "Exercise 1: get_triangle_facts uses {}"
     for function_name in [
@@ -385,34 +401,54 @@ Let's go!
         )
 
     for length in zip([5, 8, 4, 0, "a"], [5, 8, 4, None, None]):
-        word = exercise1.get_a_word_of_length_n(length[0])
-        testResults.append(
-            test(
-                test_word_length(
-                    word=word, requested_length=length[0], expected_length=length[1]
-                ),
-                "exercise 1: get_a_word_of_length_n {}".format(word),
+        try:
+            word = exercise1.get_a_word_of_length_n(length[0])
+            testResults.append(
+                test(
+                    test_word_length(
+                        word=word, requested_length=length[0], expected_length=length[1]
+                    ),
+                    "exercise 1: get_a_word_of_length_n {}".format(word),
+                )
             )
-        )
+        except Exception as e:
+            print(e)
+            testResults.append(
+                test(False, "exercise 1: get_a_word_of_length_n {}".format(length))
+            )
 
     some_lengths = [[4, 5, 6], [4, 18, 4]]
     for lengths in some_lengths:
-        words = exercise1.list_of_words_with_lengths(lengths)
-        if words is not None:
-            checks = [len(x[0]) == x[1] for x in zip(words, lengths)]
-        else:
-            checks = [False]
-        print(words, lengths, checks)
+        try:
+            words = exercise1.list_of_words_with_lengths(lengths)
+            if words is not None:
+                checks = [len(x[0]) == x[1] for x in zip(words, lengths)]
+            else:
+                checks = [False]
+            print(words, lengths, checks)
+            testResults.append(
+                test(
+                    all(checks),
+                    "exercise 1: list_of_words_with_lengths {}".format(word),
+                )
+            )
+        except Exception as e:
+            print(e)
+            testResults.append(
+                test(False, "exercise 1: list_of_words_with_lengths {}".format(lengths))
+            )
+    try:
         testResults.append(
-            test(all(checks), "exercise 1: list_of_words_with_lengths {}".format(word))
+            test(
+                "list_of_words_with_lengths" in exercise1.wordy_pyramid.__code__.co_names,
+                "exercise 1: wordy_pyramid has been refactored",
+                # write a better error message
+            )
         )
-
-    testResults.append(
-        test(
-            "list_of_words_with_lengths" in exercise1.wordy_pyramid.__code__.co_names,
-            "exercise 1: wordy_pyramid has been refactored",
+    except Exception as e:
+        testResults.append(
+            test(False, "exercise 1: wordy_pyramid has been refactored")
         )
-    )
 
     lengths = [3, 5, 7, 9, 11, 13, 15, 17, 19, 20, 18, 16, 14, 12, 10, 8, 6, 4]
     works = None
@@ -455,12 +491,17 @@ Let's go!
         "hell",
     ]
     for source, result in zip(source, result):
-        testResults.append(
-            test(
-                e2.abba(source, 2) == result,
-                "exercise 2: abba {}⇨{}".format(source, result),
+        try:
+            testResults.append(
+                test(
+                    e2.abba(source, 2) == result,
+                    "exercise 2: abba {}⇨{}".format(source, result),
+                )
             )
-        )
+        except Exception as e:
+            testResults.append(
+                test(False, "exercise 2: abba {}⇨{}".format(source, result))
+            )
 
     testResults.append(
         test(
