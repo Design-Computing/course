@@ -39,12 +39,18 @@ class RunCmd(threading.Thread):
 
 
 def finish_up(testResults, message, the_treat):
-    total = sum([r["value"] for r in testResults])
-    out_of = len(testResults)
+    print("\n\nRESULTS:", testResults, "\n\n")
+    try:
+        total = sum([r["value"] for r in testResults])
+        out_of = len(testResults)
+    except Exception as e:
+        print(e)
+        print("Ben is a moron and is trying to append a zero instead of a dictionary")
 
     package = {"of_total": out_of, "mark": total, "results": testResults}
-    if total == out_of:
+    if total == out_of and total > 0:
         print(the_treat)
+        print("{total}/{out_of} (passed/attempted)".format(total=total, out_of=out_of))
         completion_message(message, len(message) + 2)
     else:
         print("{total}/{out_of} (passed/attempted)".format(total=total, out_of=out_of))
