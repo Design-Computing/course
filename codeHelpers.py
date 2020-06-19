@@ -48,15 +48,18 @@ def finish_up(testResults: List[dict], message: str, the_treat: str) -> Dict[str
         package = {"of_total": out_of, "mark": total, "results": testResults}
         if total == out_of and total > 0:
             print(the_treat)
-            print(f"{total}/{out_of} (passed/attempted)")
             completion_message(message, len(message) + 2)
         else:
-            print(f"{total}/{out_of} (passed/attempted)\nKeep going champ!")
-        return package
+            print("Keep going champ!")
+        print(f"{total}/{out_of} (passed/attempted)")
     except Exception as e:
-        print(
-            e, "Ben is a moron and is trying to append a zero instead of a dictionary",
-        )
+        package = {
+            "of_total": 0,
+            "mark": 0,
+            "results": str(e)
+            + "Ben is a moron and is trying to append a zero instead of a dictionary",
+        }
+    return package
 
 
 def test(testResult: bool, name: str) -> Dict:
