@@ -43,21 +43,19 @@ def finish_up(testResults, message, the_treat):
     try:
         total = sum([r["value"] for r in testResults])
         out_of = len(testResults)
+
+        package = {"of_total": out_of, "mark": total, "results": testResults}
+        if total == out_of and total > 0:
+            print(the_treat)
+            print(f"{total}/{out_of} (passed/attempted)")
+            completion_message(message, len(message) + 2)
+        else:
+            print(f"{total}/{out_of} (passed/attempted)\nKeep going champ!")
+        return package
     except Exception as e:
-        print(e)
-        print("Ben is a moron and is trying to append a zero instead of a dictionary")
-
-    package = {"of_total": out_of, "mark": total, "results": testResults}
-    if total == out_of and total > 0:
-        print(the_treat)
-        print("{total}/{out_of} (passed/attempted)".format(total=total, out_of=out_of))
-        completion_message(message, len(message) + 2)
-    else:
-        print("{total}/{out_of} (passed/attempted)".format(total=total, out_of=out_of))
-        "Keep going champ!"
-        # print(json.dumps(package, indent=2))
-
-    return package
+        print(
+            e, "Ben is a moron and is trying to append a zero instead of a dictionary",
+        )
 
 
 def test(testResult, name):
