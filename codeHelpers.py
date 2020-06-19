@@ -169,11 +169,12 @@ def ex_runs(repo_path: str, weekNumber: int = 2, exerciseNumber: int = 1) -> boo
 
 def syntax_error_message(exerciseNumber: int, e) -> None:
     """Give a readable error message."""
+    print("\n{s:{c}^{n}}\n{s:{c}^{n}}".format(n=50, c="*", s=""))
     print(f"There is a syntax error in exercise{exerciseNumber}\n{e}")
     print(traceback.print_exc())
     print("\nWARNING: there might be more tests, but they won't run")
     print(f"until you fix the syntax errors in exercise{exerciseNumber}.py")
-    print(("{s:{c}^{n}}\n{s:{c}^{n}}\n".format(n=50, c="*", s="")))
+    print("{s:{c}^{n}}\n{s:{c}^{n}}\n".format(n=50, c="*", s=""))
 
 
 def completion_message(message, width) -> None:
