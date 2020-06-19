@@ -50,7 +50,8 @@ def find_lasers(path) -> bool:
     """Look for a file that contains only the number 6."""
     path = path + "/week4/lasers.pew"
     if os.path.isfile(path):
-        return int(open(path).read()) == int(6)
+        count_in_file = int(open(path).read())
+        return count_in_file == 6
     else:
         print(
             "can't find lasers.pew, did you make it?"
