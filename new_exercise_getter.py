@@ -29,6 +29,10 @@ def get_the_updates() -> None:
             pass  # do nothing, it's padding
         else:
             print(f"You already have {f}")
+            print(
+                "If you really want to update that file, "
+                "delete it locally and rerun this script."
+            )
 
 
 def get_file_text(url: str) -> str:
