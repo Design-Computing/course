@@ -383,7 +383,7 @@ def theTests(path_to_code_to_check="../me"):
             )
         )
 
-        mockInputs = ["ten"] + [lowerBound] + [upperBound] + ["cats"] + guesses
+        mockInputs = ["ten", lowerBound, upperBound, "cats"] + guesses
         testResults.append(
             test(
                 test_advanced_guessingGame(path_to_code_to_check, mockInputs),
