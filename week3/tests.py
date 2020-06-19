@@ -267,7 +267,7 @@ machine but the computer is, so it's always below that worst case limit.
     plt.show()
 
 
-def theTests(path_to_code_to_check="../me"):
+def theTests(path_to_code_to_check: str = "../me"):
     """Run all the tests."""
     print(f"\nWelcome to week {WEEK_NUMBER}!")
     print("May the odds be ever in your favour.\n")
