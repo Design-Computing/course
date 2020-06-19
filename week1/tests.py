@@ -122,9 +122,9 @@ def test_hello_world(repo_path: str) -> bool:
         or 'print("hello world!")' in source.lower()
     ):
         return True
-
-    print(
-        """
+    else:
+        print(
+            """
 We're looking for:
 
 {em}print(\"Hello world!\"){norm}
@@ -132,11 +132,11 @@ We're looking for:
 but your code is \n{sep}\n{em}{code}{norm}\n{sep}
 Look carefully at your capitalisation, 
 spelling, brackets, spaces etc.""".format(
-            code=source, sep="═" * 80, em=EM, norm=NORM
+                code=source, sep="═" * 80, em=EM, norm=NORM
+            )
         )
-    )
 
-    return False
+        return False
 
 
 def test_dev_env() -> bool:
