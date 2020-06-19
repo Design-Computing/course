@@ -17,8 +17,6 @@ import sys
 from typing import List, Set, Dict, Tuple, Optional
 
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
-
-
 from codeHelpers import (
     completion_message,
     ex_runs,
@@ -136,7 +134,7 @@ def theTests(path_to_code_to_check="../me") -> dict:
 
     if ex_runs(path_to_code_to_check, exerciseNumber=3, weekNumber=WEEK_NUMBER):
         exercise3 = loadExerciseFile(
-            path_to_code_to_check, weekNumber=2, exerciseNumber=3
+            path_to_code_to_check, weekNumber=WEEK_NUMBER, exerciseNumber=3
         )
         # is odd
         testResults.append(
