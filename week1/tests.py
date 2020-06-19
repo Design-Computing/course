@@ -166,6 +166,7 @@ def test_aboutMe(repo_path, show=False) -> bool:
         or them["studentNumber"] == "z1234567"
         or them["officialEmail"] == "noIdea@unsw.edu.au"
     ):
+        print("You haven't updated your aboutMe.yml")
         return False
     else:
         return True
