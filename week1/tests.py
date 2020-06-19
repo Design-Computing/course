@@ -204,9 +204,7 @@ def has_pushed(fileName, repo_path):
         repo = git.cmd.Git(repo_path)
         origin_url = get_origin_url(repo)
         owner = origin_url.split("/")[3]
-        url = ("https://api.github.com/repos/{o}/me/contents/week1/{f}").format(
-            o=owner, f=fileName
-        )
+        url = f"https://api.github.com/repos/{owner}/me/contents/week1/{fileName}"
         r = requests.get(url)
         if r.status_code == 404:
             print("Have you pushed yet?")
@@ -221,7 +219,7 @@ def has_pushed(fileName, repo_path):
 def theTests(path_to_code_to_check="../me"):
     """Run the tests."""
     print("checking:    ", path_to_code_to_check)
-    print("\nWelcome to week {}!".format(WEEK_NUMBER))
+    print(f"\nWelcome to week {WEEK_NUMBER}!")
     print("May the odds be ever in your favour.\n")
 
     testResults = []

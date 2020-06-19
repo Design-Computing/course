@@ -34,12 +34,12 @@ NORM = Fore.WHITE
 
 WEEK_NUMBER = 2
 
-sys.path.append("../me/week{}".format(WEEK_NUMBER))
+sys.path.append(f"../me/week{WEEK_NUMBER}")
 
 
 def theTests(path_to_code_to_check="../me"):
     """Run the tests."""
-    print("\nWelcome to week {}!".format(WEEK_NUMBER))
+    print(f"\nWelcome to week {WEEK_NUMBER}!\n")
     print("May the odds be ever in your favour.\n")
 
     testResults = []
@@ -180,10 +180,9 @@ def theTests(path_to_code_to_check="../me"):
         if not result:
             fail = exercise3.loops_1a()
             print(
-                (
-                    "{norm}You're returning {em}{f}{norm}. "
-                    "We're looking for {em}{p}{norm}"
-                ).format(f=fail, p=tenStars, em=EM, norm=NORM)
+                f"{NORM}"
+                f"You're returning:  {EM}{result}{NORM}. "
+                f"We're looking for: {EM}{tenStars}{NORM}"
             )
             if fail == None:
                 print(

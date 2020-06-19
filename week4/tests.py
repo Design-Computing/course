@@ -95,10 +95,10 @@ def find_lasers(path):
 
 def theTests(path_to_code_to_check="."):
     """Run the tests."""
-    print("\nWelcome to week {}!".format(WEEK_NUMBER))
+    print(f"\nWelcome to week {WEEK_NUMBER}!")
     print("May the odds be ever in your favour.\n")
 
-    path = "{}/week{}/exercise1.py".format(path_to_code_to_check, WEEK_NUMBER)
+    path = f"{path_to_code_to_check}/week{WEEK_NUMBER}/exercise1.py"
     print(path)
 
     exercise1 = loadExerciseFile(

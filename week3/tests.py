@@ -205,10 +205,8 @@ def test_binary_search(repo_path, low, high, actual):
                     )
                 else:
                     print(
-                        (
-                            "That took {t} tries, you "
-                            "should get it in under {o} tries"
-                        ).format(t=b["tries"], o=b["WorstCaseO"])
+                        f"That took {b['tries']} tries, you "
+                        f"should get it in under {b['WorstCaseO']} tries"
                     )
             else:
                 return False
@@ -252,9 +250,7 @@ def vis_binary_search_performance(repo_path):
         ratio = tries / worst
         results.append(ratio)
     plt.hist(results)
-    plt.title(
-        "Proportion of worst case performance " "over {} iterations".format(testRuns)
-    )
+    plt.title(f"Proportion of worst case performance over {testRuns} iterations")
     print(
         """
 This histogram shows the number of guesses that it took the search to
@@ -272,7 +268,7 @@ machine but the computer is, so it's always below that worst case limit.
 
 def theTests(path_to_code_to_check="../me"):
     """Run all the tests."""
-    print("\nWelcome to week {}!".format(WEEK_NUMBER))
+    print(f"\nWelcome to week {WEEK_NUMBER}!")
     print("May the odds be ever in your favour.\n")
 
     testResults = []

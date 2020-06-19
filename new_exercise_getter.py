@@ -30,9 +30,7 @@ def get_the_updates():
         elif f is "":
             pass  # do nothing, it's padding
         else:
-            print(("You already have {f}".format(f=f)))
-            print("If you really want to update that file, "
-                  "delete it locally and rerun this script.")
+            print(f"You already have {f}")
 
 
 def get_file_text(url):

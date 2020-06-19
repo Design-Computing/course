@@ -128,7 +128,7 @@ def test_pydocstyle(fileName, flags="-e"):
 
 
 def lab_book_entry_completed(weekNumber, repo_path):
-    lab_book = Path(os.path.join(repo_path, "week{}/readme.md".format(weekNumber)))
+    lab_book = Path(os.path.join(repo_path, f"week{weekNumber}/readme.md"))
     if lab_book.is_file():
         with open(lab_book, "r") as f:
             lines = f.readlines()
@@ -141,10 +141,7 @@ def lab_book_entry_completed(weekNumber, repo_path):
     return False
 
 
-def loadExerciseFile(repo_path, weekNumber=2, exerciseNumber=0):
-    path = os.path.join(
-        repo_path, "week{}".format(weekNumber), "exercise{}.py".format(exerciseNumber)
-    )
+    path = os.path.join(repo_path, f"week{weekNumber}", "exercise{exerciseNumber}.py")
     spec = importUtils.spec_from_file_location("exercise0", path)
     ex = importUtils.module_from_spec(spec)
     spec.loader.exec_module(ex)
@@ -155,10 +152,7 @@ def ex_runs(repo_path, weekNumber=2, exerciseNumber=1):
     """Check that this exercise runs at all."""
     try:
         p = os.path.normpath(
-            os.path.join(
-                repo_path,
-                "week{w}/exercise{e}.py".format(e=exerciseNumber, w=weekNumber),
-            )
+            os.path.join(repo_path, f"week{weekNumber}/exercise{exerciseNumber}.py")
         )
         spec = importUtils.spec_from_file_location("exercise", p)
         ex = importUtils.module_from_spec(spec)
@@ -171,11 +165,10 @@ def ex_runs(repo_path, weekNumber=2, exerciseNumber=1):
 
 def syntax_error_message(exerciseNumber, e):
     """Give a readable error message."""
-    print(("\n{s:{c}^{n}}\n{s:{c}^{n}}".format(n=50, c="*", s="")))
-    print(("There is a syntax error in exercise{}\n{}".format(exerciseNumber, str(e))))
+    print(f"There is a syntax error in exercise{exerciseNumber}\n{e}")
     print(traceback.print_exc())
     print("\nWARNING: there might be more tests, but they won't run")
-    print(("until you fix the syntax errors in exercise{}.py".format(exerciseNumber)))
+    print(f"until you fix the syntax errors in exercise{exerciseNumber}.py")
     print(("{s:{c}^{n}}\n{s:{c}^{n}}\n".format(n=50, c="*", s="")))
 
 

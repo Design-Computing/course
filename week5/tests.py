@@ -64,9 +64,9 @@ def test_word_length(word, requested_length, expected_length):
     Requesting a word less than 3 chars long should fail.
     """
     print(
-        "testing: word:{w}, requested_length:{r}, expected_length:{e}".format(
-            w=word, r=requested_length, e=expected_length
-        )
+        f"testing: word:{word}, "
+        f"requested_length:{requested_length}, "
+        f"expected_length:{expected_length}"
     )
     if type(requested_length) is str and word is not None:
         print(
@@ -91,13 +91,13 @@ def test_word_length(word, requested_length, expected_length):
 
 def theTests(path_to_code_to_check="."):
     """Run the tests."""
-    print("\nWelcome to week {}!".format(WEEK_NUMBER))
+    print(f"\nWelcome to week {WEEK_NUMBER}!")
     print("May the odds be ever in your favour.\n")
 
     testResults = []
 
     # stack the tests below here
-    path = "{}/week{}/exercise1.py".format(path_to_code_to_check, WEEK_NUMBER)
+    path = f"{path_to_code_to_check}/week{WEEK_NUMBER}/exercise1.py"
     print(path)
 
     exercise1 = loadExerciseFile(
@@ -270,9 +270,8 @@ Let's go!
         )
         if hyp != t["hypotenuse"]:
             print(
-                "You said that a b{b}×h{h} right triangle has a hyp of ⇨ {hyp}".format(
-                    b=t["base"], h=t["height"], hyp=hyp
-                )
+                f"You said that a b{t['base']}×h{t['height']} "
+                f"right triangle has a hyp of ⇨ {hyp}"
             )
 
         area = exercise1.calculate_area(t["base"], t["height"])
@@ -284,9 +283,8 @@ Let's go!
         )
         if area != t["area"]:
             print(
-                "You said that a b{b}×h{h} right triangle has n area of ⇨ {a}".format(
-                    b=t["base"], h=t["height"], a=area
-                )
+                f"You said that a b{t['base']}×h{t['height']} "
+                f"right triangle has n area of ⇨ {area}"
             )
 
         aspect = exercise1.calculate_aspect(t["base"], t["height"])
@@ -408,13 +406,13 @@ Let's go!
                     test_word_length(
                         word=word, requested_length=length[0], expected_length=length[1]
                     ),
-                    "exercise 1: get_a_word_of_length_n {}".format(word),
+                    f"exercise 1: get_a_word_of_length_n {word}",
                 )
             )
         except Exception as e:
             print(e)
             testResults.append(
-                test(False, "exercise 1: get_a_word_of_length_n {}".format(length))
+                test(False, f"exercise 1: get_a_word_of_length_n {length}")
             )
 
     some_lengths = [[4, 5, 6], [4, 18, 4]]
@@ -427,15 +425,12 @@ Let's go!
                 checks = [False]
             print(words, lengths, checks)
             testResults.append(
-                test(
-                    all(checks),
-                    "exercise 1: list_of_words_with_lengths {}".format(word),
-                )
+                test(all(checks), "exercise 1: list_of_words_with_lengths {word}",)
             )
         except Exception as e:
             print(e)
             testResults.append(
-                test(False, "exercise 1: list_of_words_with_lengths {}".format(lengths))
+                test(False, f"exercise 1: list_of_words_with_lengths {lengths}")
             )
     try:
         testResults.append(
@@ -464,7 +459,7 @@ Let's go!
     testResults.append(test(works, "Exercise 1: wordy_pyramid still works"))
 
     # EXERCISE 2 tests
-    path = "{}/week{}/exercise2.py".format(path_to_code_to_check, WEEK_NUMBER)
+    path = f"{path_to_code_to_check}/week{WEEK_NUMBER}/exercise2.py"
     print(path)
 
     e2 = loadExerciseFile(
@@ -494,14 +489,11 @@ Let's go!
         try:
             testResults.append(
                 test(
-                    e2.abba(source, 2) == result,
-                    "exercise 2: abba {}⇨{}".format(source, result),
+                    e2.abba(source, 2) == result, f"exercise 2: abba {source}⇨{result}"
                 )
             )
         except Exception as e:
-            testResults.append(
-                test(False, "exercise 2: abba {}⇨{}".format(source, result))
-            )
+            testResults.append(test(False, f"exercise 2: abba {source}⇨{result}"))
 
     testResults.append(
         test(
