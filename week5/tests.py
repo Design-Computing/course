@@ -436,15 +436,14 @@ Let's go!
     try:
         testResults.append(
             test(
-                "list_of_words_with_lengths" in exercise1.wordy_pyramid.__code__.co_names,
+                "list_of_words_with_lengths"
+                in exercise1.wordy_pyramid.__code__.co_names,
                 "exercise 1: wordy_pyramid has been refactored",
                 # write a better error message
             )
         )
     except Exception as e:
-        testResults.append(
-            test(False, "exercise 1: wordy_pyramid has been refactored")
-        )
+        testResults.append(test(False, "exercise 1: wordy_pyramid has been refactored"))
 
     lengths = [3, 5, 7, 9, 11, 13, 15, 17, 19, 20, 18, 16, 14, 12, 10, 8, 6, 4]
     works = None
