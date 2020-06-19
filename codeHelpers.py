@@ -201,6 +201,12 @@ def timeout_message(
     args=(1, 2, 3),
     timeout_in_seconds: int = 5,
 ) -> None:
+    print(
+        f"{function_name}({args}) could not complete "
+        f"within {timeout_in_seconds} seconds and was killed."
+    )
+
+
 def deadpool(message: str = "Good Job", name: str = "Dude") -> str:
     return """
                 ▄▄▄▓▓▓▓▓▄▄▄

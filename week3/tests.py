@@ -82,10 +82,10 @@ def test_not_number_rejector(repo_path):
             )
             return r
         except FunctionTimedOut:
-            print(
-                "{f}({args}) could not complete within {t} seconds and was killed.".format(
-                    f=sys._getframe().f_code.co_name, args=my_args, t=TIMEOUT_IN_SECONDS
-                )
+            timeout_message(
+                function_name=sys._getframe().f_code.co_name,
+                args=my_args,
+                timeout_in_seconds=TIMEOUT_IN_SECONDS,
             )
         except Exception as e:
             print("exception:", e)
@@ -111,10 +111,10 @@ def test_super_asker(repo_path, low, high):
             )
             return message
         except FunctionTimedOut:
-            print(
-                "{f}({args}) could not complete within {t} seconds and was killed.".format(
-                    f=sys._getframe().f_code.co_name, args=my_args, t=TIMEOUT_IN_SECONDS
-                )
+            timeout_message(
+                function_name=sys._getframe().f_code.co_name,
+                args=my_args,
+                timeout_in_seconds=TIMEOUT_IN_SECONDS,
             )
         except Exception as e:
             print(e)
@@ -143,10 +143,10 @@ def test_example_guessingGame(repo_path):
 
             return message == "You got it!"
         except FunctionTimedOut:
-            print(
-                "{f}({args}) could not complete within {t} seconds and was killed.".format(
-                    f=sys._getframe().f_code.co_name, args=my_args, t=TIMEOUT_IN_SECONDS
-                )
+            timeout_message(
+                function_name=sys._getframe().f_code.co_name,
+                args=my_args,
+                timeout_in_seconds=TIMEOUT_IN_SECONDS,
             )
         except Exception as e:
             print(e)
@@ -170,10 +170,10 @@ def test_advanced_guessingGame(repo_path, mockInputs):
 
             return message == "You got it!"
         except FunctionTimedOut:
-            print(
-                "{f}({args}) could not complete within {t} seconds and was killed.".format(
-                    f=sys._getframe().f_code.co_name, args=my_args, t=TIMEOUT_IN_SECONDS
-                )
+            timeout_message(
+                function_name=sys._getframe().f_code.co_name,
+                args=my_args,
+                timeout_in_seconds=TIMEOUT_IN_SECONDS,
             )
         except Exception as e:
             print(e)
@@ -212,10 +212,10 @@ def test_binary_search(repo_path, low, high, actual):
             else:
                 return False
         except FunctionTimedOut:
-            print(
-                "{f}({args}) could not complete within {t} seconds and was killed.".format(
-                    f=sys._getframe().f_code.co_name, args=my_args, t=TIMEOUT_IN_SECONDS
-                )
+            timeout_message(
+                function_name=sys._getframe().f_code.co_name,
+                args=my_args,
+                timeout_in_seconds=TIMEOUT_IN_SECONDS,
             )
             return False
         except Exception as e:
