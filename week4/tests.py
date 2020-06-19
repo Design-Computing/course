@@ -19,6 +19,7 @@ import random
 import requests
 import sys
 import time
+from typing import List, Set, Dict, Tuple, Optional
 
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 from codeHelpers import (
@@ -44,7 +45,7 @@ if "week" in os.getcwd():
     os.chdir("..")
 
 
-def find_lasers(path):
+def find_lasers(path) -> bool:
     """Look for a file that contains only the number 6."""
     path = path + "/week4/lasers.pew"
     if os.path.isfile(path):
@@ -93,7 +94,7 @@ def find_lasers(path):
 #         print("Error with getting github username", e)
 
 
-def theTests(path_to_code_to_check="."):
+def theTests(path_to_code_to_check=".") -> dict:
     """Run the tests."""
     print(f"\nWelcome to week {WEEK_NUMBER}!")
     print("May the odds be ever in your favour.\n")
@@ -202,7 +203,7 @@ def theTests(path_to_code_to_check="."):
     return finish_up(testResults, message, nyan_cat())
 
 
-def pokeball():
+def pokeball() -> str:
     return """
 ────────▄███████████▄────────
 ─────▄███▓▓▓▓▓▓▓▓▓▓▓███▄─────
@@ -225,7 +226,7 @@ def pokeball():
 ────────▀███████████▀────────"""
 
 
-def tiny_pikachu():
+def tiny_pikachu() -> str:
     return r"""
 /\︿╱\
 \0_ 0 /╱\╱ 
@@ -233,7 +234,7 @@ def tiny_pikachu():
     """
 
 
-def pikachu():
+def pikachu() -> str:
     return """
 ░█▀▀▄░░░░░░░░░░░▄▀▀█
 ░█░░░▀▄░▄▄▄▄▄░▄▀░░░█
@@ -251,7 +252,7 @@ def pikachu():
 ░░░▀▄▄▀▀▄▄▀▀▄▄▄█▀ """
 
 
-def squirtle():
+def squirtle() -> str:
     return r"""
 ;-.               ,
  \ '.           .'/

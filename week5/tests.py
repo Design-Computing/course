@@ -17,6 +17,7 @@ import inspect
 import io
 import os
 import sys
+from typing import List, Set, Dict, Tuple, Optional
 
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 from codeHelpers import (
@@ -44,7 +45,7 @@ if "week" in os.getcwd():
     os.chdir("..")
 
 
-def test_diagrams(diagram, expected):
+def test_diagrams(diagram, expected) -> bool:
     """Test, crudely, that the correct diagram is being returned."""
     # print("testing", diagram, expected)
     if diagram and expected:
@@ -58,7 +59,7 @@ def test_diagrams(diagram, expected):
     return False
 
 
-def test_word_length(word, requested_length, expected_length):
+def test_word_length(word: str, requested_length, expected_length) -> bool:
     """Check that word lenths are as expected.
 
     Requesting a word less than 3 chars long should fail.

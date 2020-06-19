@@ -14,6 +14,7 @@ from pathlib import Path
 import importlib.util as importUtils
 import os
 import sys
+from typing import List, Set, Dict, Tuple, Optional
 
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 
@@ -37,7 +38,7 @@ WEEK_NUMBER = 2
 sys.path.append(f"../me/week{WEEK_NUMBER}")
 
 
-def theTests(path_to_code_to_check="../me"):
+def theTests(path_to_code_to_check="../me") -> dict:
     """Run the tests."""
     print(f"\nWelcome to week {WEEK_NUMBER}!\n")
     print("May the odds be ever in your favour.\n")

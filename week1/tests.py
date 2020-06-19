@@ -37,7 +37,7 @@ NORM = Fore.WHITE
 testResults = []
 
 
-def check_system_details(repo_path):
+def check_system_details(repo_path: str) -> bool:
     """Look inside yourself.
 
     Gets the system details to check that this machine is actually set up
@@ -69,12 +69,12 @@ def check_system_details(repo_path):
     return True
 
 
-def test_for_python_and_requests(repo_path):
+def test_for_python_and_requests(repo_path: str) -> bool:
     """Inspect own filesystem.
 
     GETs a small JSON file and displays a message
     """
-    width = 38
+    width: int = 38
 
     gh_url = "https://raw.githubusercontent.com/"
     check_repo = "notionparallax/code1161base/"
@@ -114,7 +114,7 @@ def test_for_python_and_requests(repo_path):
     return True
 
 
-def test_hello_world(repo_path):
+def test_hello_world(repo_path: str) -> bool:
     exercise1 = loadExerciseFile(repo_path, weekNumber=WEEK_NUMBER, exerciseNumber=1)
     source = "".join(inspect.getsourcelines(exercise1)[0])
     if (
@@ -139,7 +139,7 @@ spelling, brackets, spaces etc.""".format(
     return False
 
 
-def test_dev_env():
+def test_dev_env() -> bool:
     if os.system("""python -c 'print("python installed")'""") == 0:
         return True
     else:
@@ -152,7 +152,7 @@ def test_dev_env():
     return False
 
 
-def test_aboutMe(repo_path, show=False):
+def test_aboutMe(repo_path, show=False) -> bool:
     """Test to see if aboutMe.yml is updated"""
     f = open(os.path.join(repo_path, "aboutMe.yml"), "r")
     them = dict(yaml.load(f, yaml.RoundTripLoader))
@@ -171,14 +171,14 @@ def test_aboutMe(repo_path, show=False):
         return True
 
 
-def get_origin_url(repo):
+def get_origin_url(repo) -> str:
     if os.name == "posix":
         return os.popen("git config --get remote.origin.url").read()
     else:
         return repo.execute("git config --get remote.origin.url")
 
 
-def me_repo_is_clone(repo_path):
+def me_repo_is_clone(repo_path) -> bool:
     origin_url = ""
     try:
         repo = git.cmd.Git(repo_path)
@@ -199,7 +199,7 @@ def me_repo_is_clone(repo_path):
         return True
 
 
-def has_pushed(fileName, repo_path):
+def has_pushed(fileName, repo_path) -> bool:
     try:
         repo = git.cmd.Git(repo_path)
         origin_url = get_origin_url(repo)
@@ -216,7 +216,7 @@ def has_pushed(fileName, repo_path):
         return False
 
 
-def theTests(path_to_code_to_check="../me"):
+def theTests(path_to_code_to_check="../me") -> dict:
     """Run the tests."""
     print("checking:    ", path_to_code_to_check)
     print(f"\nWelcome to week {WEEK_NUMBER}!")

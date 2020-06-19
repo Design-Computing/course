@@ -10,6 +10,7 @@ import os
 import subprocess
 import threading
 import traceback
+from typing import List, Set, Dict, Tuple, Optional
 
 colorama.init()
 
@@ -38,7 +39,7 @@ class RunCmd(threading.Thread):
             self.join()
 
 
-def finish_up(testResults, message, the_treat):
+def finish_up(testResults: List[dict], message: str, the_treat: str) -> Dict[str, int]:
     print("\n\nRESULTS:", testResults, "\n\n")
     try:
         total = sum([r["value"] for r in testResults])
@@ -58,7 +59,7 @@ def finish_up(testResults, message, the_treat):
         )
 
 
-def test(testResult, name):
+def test(testResult: bool, name: str) -> Dict:
     """Report on the test.
 
     Returns 1 and 0 so that the 1s can be summed to give a mark.
@@ -78,7 +79,7 @@ def test(testResult, name):
         return {"value": value, "name": name}
 
 
-def test_flake8(fileName):
+def test_flake8(fileName: str) -> bool:
     """Check to see if the file at file_path is flake8 compliant."""
     test_dir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 
@@ -97,7 +98,7 @@ def test_flake8(fileName):
         return False
 
 
-def test_pydocstyle(fileName, flags="-e"):
+def test_pydocstyle(fileName, flags="-e") -> bool:
     """Check to see if the file at file_path is pydocstyle compliant."""
     getFrame = inspect.getfile(inspect.currentframe())
     absPath = os.path.abspath(getFrame)
@@ -127,7 +128,7 @@ def test_pydocstyle(fileName, flags="-e"):
         return False
 
 
-def lab_book_entry_completed(weekNumber, repo_path):
+def lab_book_entry_completed(weekNumber: int, repo_path: str) -> bool:
     lab_book = Path(os.path.join(repo_path, f"week{weekNumber}/readme.md"))
     if lab_book.is_file():
         with open(lab_book, "r") as f:
@@ -141,6 +142,7 @@ def lab_book_entry_completed(weekNumber, repo_path):
     return False
 
 
+def loadExerciseFile(repo_path: str, weekNumber: int = 2, exerciseNumber: int = 0):
     path = os.path.join(repo_path, f"week{weekNumber}", "exercise{exerciseNumber}.py")
     spec = importUtils.spec_from_file_location("exercise0", path)
     ex = importUtils.module_from_spec(spec)
@@ -148,7 +150,7 @@ def lab_book_entry_completed(weekNumber, repo_path):
     return ex
 
 
-def ex_runs(repo_path, weekNumber=2, exerciseNumber=1):
+def ex_runs(repo_path: str, weekNumber: int = 2, exerciseNumber: int = 1) -> bool:
     """Check that this exercise runs at all."""
     try:
         p = os.path.normpath(
@@ -163,7 +165,7 @@ def ex_runs(repo_path, weekNumber=2, exerciseNumber=1):
         return False
 
 
-def syntax_error_message(exerciseNumber, e):
+def syntax_error_message(exerciseNumber: int, e) -> None:
     """Give a readable error message."""
     print(f"There is a syntax error in exercise{exerciseNumber}\n{e}")
     print(traceback.print_exc())
@@ -172,7 +174,7 @@ def syntax_error_message(exerciseNumber, e):
     print(("{s:{c}^{n}}\n{s:{c}^{n}}\n".format(n=50, c="*", s="")))
 
 
-def completion_message(message, width):
+def completion_message(message, width) -> None:
     """Print an obvious message.
 
     Example:
@@ -191,7 +193,12 @@ def completion_message(message, width):
     print("\n" + cap)
 
 
-def deadpool(message="Good Job", name="Dude"):
+def timeout_message(
+    function_name: str = "unknown function name",
+    args=(1, 2, 3),
+    timeout_in_seconds: int = 5,
+) -> None:
+def deadpool(message: str = "Good Job", name: str = "Dude") -> str:
     return """
                 ▄▄▄▓▓▓▓▓▄▄▄
              ▄███████████████▄▄
@@ -223,7 +230,7 @@ def deadpool(message="Good Job", name="Dude"):
     )
 
 
-def nyan_cat(block="█"):
+def nyan_cat(block: str = "█") -> str:
     """Return a coloured string that shows a nyan cat."""
     c = [
         ["{BRIGHT_BLUE}", "{x}" * 80],
@@ -513,7 +520,7 @@ def nyan_cat(block="█"):
     )
 
 
-def grumpy():
+def grumpy() -> str:
     """Return a grumpy cat.
 
     from: http://textart4u.blogspot.com.au/
