@@ -17,6 +17,7 @@ from colorama import Fore, Style
 from func_timeout import FunctionTimedOut, func_timeout
 import mock
 
+sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 from codeHelpers import (
     completion_message,
     ex_runs,
@@ -26,7 +27,9 @@ from codeHelpers import (
     nyan_cat,
     syntax_error_message,
     test,
+    timeout_message,
 )
+
 
 EM = Fore.YELLOW
 NORM = Fore.WHITE
