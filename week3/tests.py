@@ -74,8 +74,8 @@ def test_not_number_rejector(repo_path):
 
     mockInputs = ["aword", [1, 2, 3], {"an": "object"}, 40]
     with mock.patch("builtins.input", side_effect=mockInputs):
+        my_args = "Testing some values:"
         try:
-            my_args = "Testing some values:"
             r = func_timeout(
                 TIMEOUT_IN_SECONDS, exercise1.not_number_rejector, args=[my_args]
             )
@@ -103,8 +103,8 @@ def test_super_asker(repo_path, low, high):
     neat_range = list(range(low - 25, high + 20, 5))
     mockInputs = dirty_things + neat_range
     with mock.patch("builtins.input", side_effect=mockInputs):
+        my_args = (low, high)
         try:
-            my_args = (low, high)
             message = func_timeout(
                 TIMEOUT_IN_SECONDS, exercise1.super_asker, args=my_args
             )
@@ -134,8 +134,8 @@ def test_example_guessingGame(repo_path):
     guesses = list(range(5 + 1))
     mockInputs = [upperBound] + guesses
     with mock.patch("builtins.input", side_effect=mockInputs):
+        my_args = None
         try:
-            my_args = None
             message = func_timeout(
                 TIMEOUT_IN_SECONDS, exercise2.exampleGuessingGame, args=my_args
             )
@@ -161,8 +161,8 @@ def test_advanced_guessingGame(repo_path, mockInputs):
         return syntax_error_message(3, e)
 
     with mock.patch("builtins.input", side_effect=mockInputs):
+        my_args = None
         try:
-            my_args = None
             message = func_timeout(
                 TIMEOUT_IN_SECONDS, exercise3.advancedGuessingGame, args=my_args
             )
@@ -190,8 +190,8 @@ def test_binary_search(repo_path, low, high, actual):
         )
         BASE2 = 2
         b = None
+        my_args = (low, high, actual)
         try:
-            my_args = (low, high, actual)
             b = func_timeout(TIMEOUT_IN_SECONDS, exercise4.binary_search, args=my_args)
             b["WorstCaseO"] = math.log(high - low, BASE2)
             if b is not None:
