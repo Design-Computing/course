@@ -5,19 +5,17 @@ This file tests your code. It'll check that the work in each
 of the exercise files does what it's supposed to.
 """
 
-from colorama import Fore
-from colorama import Style
-from func_timeout import func_timeout, FunctionTimedOut
-from pathlib import Path
 import importlib.util as importUtils
 import math
-import mock
 import os
+from pathlib import Path
 import random
 import sys
 
+from colorama import Fore, Style
+from func_timeout import FunctionTimedOut, func_timeout
+import mock
 
-sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 from codeHelpers import (
     completion_message,
     ex_runs,
