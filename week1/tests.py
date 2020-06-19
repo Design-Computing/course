@@ -308,7 +308,8 @@ Type {em}git status{norm}, or look in your source control tab, to check.
 
     name = aboutMeData["name"].split(" ")[0]
     message = "Rad, you've got all the tests passing!"
-    return finish_up(testResults, message, deadpool("Good Job", name))
+    treat = deadpool("Good Job", name)
+    return finish_up(testResults, message, treat)
 
 
 if __name__ == "__main__":
