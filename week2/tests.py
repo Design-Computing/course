@@ -80,46 +80,16 @@ def theTests(path_to_code_to_check="../me") -> dict:
             test(exercise0.adder(0.1, 0.9) == 1, "Exercise 0: adder - 0.1 + 0.9 = 1")
         )
 
-        testResults.append(
-            test(
-                exercise0.shout("you've") == "YOU'VE",
-                "Exercise 0: shout - you've => YOU'VE",
+        words = "you've got to fight for your right to party".split(" ")
+        for word in words:
+            word_up = word.upper()
+            testResults.append(
+                test(
+                    exercise0.shout(word) == word_up,
+                    f"Exercise 0: shout - {word} => {word_up}",
+                )
             )
-        )
-        testResults.append(
-            test(exercise0.shout("got") == "GOT", "Exercise 0: shout - got => GOT")
-        )
-        testResults.append(
-            test(exercise0.shout("to") == "TO", "Exercise 0: shout - to => TO")
-        )
 
-        testResults.append(
-            test(
-                exercise0.really_shout("fight") == "FIGHT!",
-                "Exercise 0: really_shout - fight => FIGHT!",
-            )
-        )
-        testResults.append(
-            test(exercise0.shout("for") == "FOR", "Exercise 0: shout - for => FOR")
-        )
-        testResults.append(
-            test(exercise0.shout("your") == "YOUR", "Exercise 0: shout - your => YOUR")
-        )
-        testResults.append(
-            test(
-                exercise0.really_shout("right") == "RIGHT!",
-                "Exercise 0: really_shout - right => RIGHT!",
-            )
-        )
-        testResults.append(
-            test(exercise0.shout("to") == "TO", "Exercise 0: shout - to => TO")
-        )
-        testResults.append(
-            test(
-                exercise0.really_shout("PARTY") == "PARTY!",
-                "Exercise 0: really_shout - PARTY => PARTY!",
-            )
-        )
         testResults.append(
             test(
                 exercise0.shout_with_a_number("hi", 1) == "HI 1",
