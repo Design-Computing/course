@@ -114,33 +114,21 @@ def theTests(path_to_code_to_check="../me") -> dict:
         testResults.append(test(exercise3.is_odd(5), "Exercise 3: is_odd - is 5 odd"))
 
         # fix it
-        testResults.append(
-            test(
-                exercise3.fix_it(True, True) == "No Problem",
-                "Exercise 3: fix_it - it moves, and it should",
+        scenarios = [
+            {"it_moves": True, "it_should_move": True, "answer": "No Problem"},
+            {"it_moves": True, "it_should_move": False, "answer": "WD-40"},
+            {"it_moves": False, "it_should_move": True, "answer": "Duct Tape"},
+            {"it_moves": False, "it_should_move": False, "answer": "No Problem"},
+        ]
+        for s in scenarios:
+            it = "moves" if s["it_moves"] else "does not move"
+            should = "" if s["it_should_move"] else "not"
+            testResults.append(
+                test(
+                    exercise3.fix_it(s["it_moves"], s["it_should_move"]) == s["answer"],
+                    f"Exercise 3: fix_it - it {it}, and it should {should} move",
+                )
             )
-        )
-
-        testResults.append(
-            test(
-                exercise3.fix_it(False, True) == "WD-40",
-                "Exercise 3: fix_it - it doesn't move, and it should",
-            )
-        )
-
-        testResults.append(
-            test(
-                exercise3.fix_it(True, False) == "Duct Tape",
-                "Exercise 3: fix_it - it moves, and it shouldn't",
-            )
-        )
-
-        testResults.append(
-            test(
-                exercise3.fix_it(False, False) == "No Problem",
-                "Exercise 3: fix_it - it doesn't move, and it shouldn't",
-            )
-        )
 
         # loops
         tenStars = ["*", "*", "*", "*", "*", "*", "*", "*", "*", "*"]
