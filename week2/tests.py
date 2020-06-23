@@ -132,27 +132,31 @@ def theTests(path_to_code_to_check="../me") -> dict:
 
         # loops
         tenStars = ["*", "*", "*", "*", "*", "*", "*", "*", "*", "*"]
-        result = exercise3.loops_1a() == tenStars
-        testResults.append(test(result, "Exercise 3: loops_1a - 1d for loop"))
-        if not result:
-            fail = exercise3.loops_1a()
+        result = exercise3.loops_1a()
+        if result == tenStars:
+            testResults.append(test(True, "Exercise 3: loops_1a - 1d for loop"))
+        else:
             print(
                 f"{NORM}"
                 f"You're returning:  {EM}{result}{NORM}. "
                 f"We're looking for: {EM}{tenStars}{NORM}"
             )
-            if fail == None:
+            if result == None:
                 print(
                     (
                         "{norm}Do you have a line that says "
                         "{em}return the_answer{norm}?\n"
                         "Or maybe you have a line that says {em}return None{norm}?"
-                        "Or you are returning a variable that has the value {em}return None{norm}?\n"
+                        "Or you are returning a variable that has the value "
+                        "{em}return None{norm}?\n"
+                        "Remember: {em}return print(something){norm} is the same "
+                        "as {em}return None{norm} because {em}print{norm} returns "
+                        "None\n"
                         "You need to return the computed value, so either assign "
                         "it to a variable and return that, or return it directly."
                     ).format(em=EM, norm=NORM)
                 )
-            if fail == "**********":
+            elif result == "**********":
                 print("remember that we're looking for a list")
             # TODO: write more failure modes as they come up in testing.
 
@@ -213,12 +217,22 @@ def theTests(path_to_code_to_check="../me") -> dict:
             ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"],
             ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"],
         ]
-        testResults.append(
-            test(
-                exercise3.loops_4() == ten_rising_lists,
-                "Exercise 3: loops_4 - ten rising lists",
-            )
-        )
+        res = exercise3.loops_4()
+        if res == ten_rising_lists:
+            testResults.append(test(True, "Exercise 3: loops_4 - ten rising lists"))
+        else:
+            if len(res) == 10 and res[0][0] == 0:
+                print(
+                    "This is looking promising, but the test is looking for "
+                    "strings, not numbers. look into what str() does"
+                )
+                testResults.append(
+                    test(False, "Exercise 3: loops_4 - ten rising lists")
+                )
+            else:
+                testResults.append(
+                    test(False, "Exercise 3: loops_4 - ten rising lists")
+                )
 
         coords = [
             ["(i0, j0)", "(i0, j1)", "(i0, j2)", "(i0, j3)", "(i0, j4)"],
