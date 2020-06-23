@@ -145,7 +145,7 @@ def lab_book_entry_completed(weekNumber: int, repo_path: str) -> bool:
 
 
 def loadExerciseFile(repo_path: str, weekNumber: int = 2, exerciseNumber: int = 0):
-    path = os.path.join(repo_path, f"week{weekNumber}", "exercise{exerciseNumber}.py")
+    path = os.path.join(repo_path, f"week{weekNumber}", f"exercise{exerciseNumber}.py")
     spec = importUtils.spec_from_file_location("exercise0", path)
     ex = importUtils.module_from_spec(spec)
     spec.loader.exec_module(ex)
