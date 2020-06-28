@@ -96,7 +96,7 @@ def find_lasers(path) -> bool:
 #         print("Error with getting github username", e)
 
 
-def theTests(path_to_code_to_check="../me") -> dict:
+def theTests(path_to_code_to_check: str = "../me") -> dict:
     """Run the tests."""
     print(f"\nWelcome to week {WEEK_NUMBER}!")
     print("May the odds be ever in your favour.\n")
