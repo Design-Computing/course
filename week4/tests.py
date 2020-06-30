@@ -165,8 +165,8 @@ def theTests(path_to_code_to_check: str = "../me") -> dict:
             "gift": squirtle(),
         },
         {
-            "args": (0, 3),
-            "result": {"name": "ivysaur", "weight": 130, "height": 10},
+            "args": (1, 5),
+            "result": {"name": "venusaur", "weight": 1000, "height": 20},
             "gift": pikachu(),
         },
     ]
