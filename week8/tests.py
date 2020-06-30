@@ -154,6 +154,8 @@ def theTests(path_to_code_to_check="../me"):
             lambda x: len(x.split(" ")) == 1000 and len(x) > 3 * 1000,
         )
 
+        clean_out_old_env()
+
         exam_test(
             True,
             [100],
@@ -194,23 +196,37 @@ def theTests(path_to_code_to_check="../me"):
                 lambda: [exam.fast_filler(1000) for _ in range(10)],
                 args=[],
             )
-            testResults.append(test(True, "subsiquent fast_filler"))
+            testResults.append(test(True, "subsequent fast_filler"))
         except FunctionTimedOut as t:
-            testResults.append(
-                test(
-                    False,
-                    str(t) + "\nsubsiquent fast_filler probably wasn't fast enough",
-                )
+            m = (
+                "Timed out trying to run fast filler 10 times in 1 second, "
+                "subsequent fast_filler probably wasn't fast enough"
             )
+            print(m, str(t))
+            testResults.append(test(False, m + str(t)))
         except Exception as e:
-            testResults.append(test(False, "subsiquent fast_filler failed" + str(e)))
+            testResults.append(test(False, "subsequent fast_filler failed: " + str(e)))
 
     message = (
         "Cowabunga! You've got all the tests passing!\n"
         "Well done, that's all the exercises for this term out of the way!"
     )
+    print(testResults)
     return finish_up(testResults, message, nyan_cat())
+
+
+def clean_out_old_env():
+    """Remove old JSON before running more tests.
+    
+    Previous tests leave an old json file. The code looks for it, and finds it
+    but it was made by the previous student, not this one.
+    """
+    d = "dict_racey.json"
+    if os.path.exists(d):
+        print("Remove the old cached JSON before continuing.")
+        os.remove(d)
 
 
 if __name__ == "__main__":
     theTests()
+    # "C:\\Users\\ben\\code1161\\StudentRepos\\chriswng"

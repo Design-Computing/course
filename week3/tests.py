@@ -5,17 +5,17 @@ This file tests your code. It'll check that the work in each
 of the exercise files does what it's supposed to.
 """
 
-from colorama import Fore
-from colorama import Style
-from func_timeout import func_timeout, FunctionTimedOut
-from pathlib import Path
 import importlib.util as importUtils
 import math
-import mock
 import os
+from pathlib import Path
 import random
 import sys
+from typing import List, Set, Dict, Tuple, Optional
 
+from colorama import Fore, Style
+from func_timeout import FunctionTimedOut, func_timeout
+import mock
 
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 from codeHelpers import (
@@ -27,7 +27,9 @@ from codeHelpers import (
     nyan_cat,
     syntax_error_message,
     test,
+    timeout_message,
 )
+
 
 EM = Fore.YELLOW
 NORM = Fore.WHITE
@@ -76,17 +78,17 @@ def test_not_number_rejector(repo_path):
 
     mockInputs = ["aword", [1, 2, 3], {"an": "object"}, 40]
     with mock.patch("builtins.input", side_effect=mockInputs):
+        my_args = "Testing some values:"
         try:
-            my_args = "Testing some values:"
             r = func_timeout(
                 TIMEOUT_IN_SECONDS, exercise1.not_number_rejector, args=[my_args]
             )
             return r
         except FunctionTimedOut:
-            print(
-                "{f}({args}) could not complete within {t} seconds and was killed.".format(
-                    f=sys._getframe().f_code.co_name, args=my_args, t=TIMEOUT_IN_SECONDS
-                )
+            timeout_message(
+                function_name=sys._getframe().f_code.co_name,
+                args=my_args,
+                timeout_in_seconds=TIMEOUT_IN_SECONDS,
             )
         except Exception as e:
             print("exception:", e)
@@ -105,17 +107,17 @@ def test_super_asker(repo_path, low, high):
     neat_range = list(range(low - 25, high + 20, 5))
     mockInputs = dirty_things + neat_range
     with mock.patch("builtins.input", side_effect=mockInputs):
+        my_args = (low, high)
         try:
-            my_args = (low, high)
             message = func_timeout(
                 TIMEOUT_IN_SECONDS, exercise1.super_asker, args=my_args
             )
             return message
         except FunctionTimedOut:
-            print(
-                "{f}({args}) could not complete within {t} seconds and was killed.".format(
-                    f=sys._getframe().f_code.co_name, args=my_args, t=TIMEOUT_IN_SECONDS
-                )
+            timeout_message(
+                function_name=sys._getframe().f_code.co_name,
+                args=my_args,
+                timeout_in_seconds=TIMEOUT_IN_SECONDS,
             )
         except Exception as e:
             print(e)
@@ -136,18 +138,18 @@ def test_example_guessingGame(repo_path):
     guesses = list(range(5 + 1))
     mockInputs = [upperBound] + guesses
     with mock.patch("builtins.input", side_effect=mockInputs):
+        my_args = None
         try:
-            my_args = None
             message = func_timeout(
                 TIMEOUT_IN_SECONDS, exercise2.exampleGuessingGame, args=my_args
             )
 
             return message == "You got it!"
         except FunctionTimedOut:
-            print(
-                "{f}({args}) could not complete within {t} seconds and was killed.".format(
-                    f=sys._getframe().f_code.co_name, args=my_args, t=TIMEOUT_IN_SECONDS
-                )
+            timeout_message(
+                function_name=sys._getframe().f_code.co_name,
+                args=my_args,
+                timeout_in_seconds=TIMEOUT_IN_SECONDS,
             )
         except Exception as e:
             print(e)
@@ -163,18 +165,18 @@ def test_advanced_guessingGame(repo_path, mockInputs):
         return syntax_error_message(3, e)
 
     with mock.patch("builtins.input", side_effect=mockInputs):
+        my_args = None
         try:
-            my_args = None
             message = func_timeout(
                 TIMEOUT_IN_SECONDS, exercise3.advancedGuessingGame, args=my_args
             )
 
             return message == "You got it!"
         except FunctionTimedOut:
-            print(
-                "{f}({args}) could not complete within {t} seconds and was killed.".format(
-                    f=sys._getframe().f_code.co_name, args=my_args, t=TIMEOUT_IN_SECONDS
-                )
+            timeout_message(
+                function_name=sys._getframe().f_code.co_name,
+                args=my_args,
+                timeout_in_seconds=TIMEOUT_IN_SECONDS,
             )
         except Exception as e:
             print(e)
@@ -192,8 +194,8 @@ def test_binary_search(repo_path, low, high, actual):
         )
         BASE2 = 2
         b = None
+        my_args = (low, high, actual)
         try:
-            my_args = (low, high, actual)
             b = func_timeout(TIMEOUT_IN_SECONDS, exercise4.binary_search, args=my_args)
             b["WorstCaseO"] = math.log(high - low, BASE2)
             if b is not None:
@@ -207,18 +209,16 @@ def test_binary_search(repo_path, low, high, actual):
                     )
                 else:
                     print(
-                        (
-                            "That took {t} tries, you "
-                            "should get it in under {o} tries"
-                        ).format(t=b["tries"], o=b["WorstCaseO"])
+                        f"That took {b['tries']} tries, you "
+                        f"should get it in under {b['WorstCaseO']} tries"
                     )
             else:
                 return False
         except FunctionTimedOut:
-            print(
-                "{f}({args}) could not complete within {t} seconds and was killed.".format(
-                    f=sys._getframe().f_code.co_name, args=my_args, t=TIMEOUT_IN_SECONDS
-                )
+            timeout_message(
+                function_name=sys._getframe().f_code.co_name,
+                args=my_args,
+                timeout_in_seconds=TIMEOUT_IN_SECONDS,
             )
             return False
         except Exception as e:
@@ -254,9 +254,7 @@ def vis_binary_search_performance(repo_path):
         ratio = tries / worst
         results.append(ratio)
     plt.hist(results)
-    plt.title(
-        "Proportion of worst case performance " "over {} iterations".format(testRuns)
-    )
+    plt.title(f"Proportion of worst case performance over {testRuns} iterations")
     print(
         """
 This histogram shows the number of guesses that it took the search to
@@ -272,9 +270,9 @@ machine but the computer is, so it's always below that worst case limit.
     plt.show()
 
 
-def theTests(path_to_code_to_check="../me"):
+def theTests(path_to_code_to_check: str = "../me"):
     """Run all the tests."""
-    print("\nWelcome to week {}!".format(WEEK_NUMBER))
+    print(f"\nWelcome to week {WEEK_NUMBER}!")
     print("May the odds be ever in your favour.\n")
 
     testResults = []
@@ -385,7 +383,7 @@ def theTests(path_to_code_to_check="../me"):
             )
         )
 
-        mockInputs = ["ten"] + [lowerBound] + [upperBound] + ["cats"] + guesses
+        mockInputs = ["ten", lowerBound, upperBound, "cats"] + guesses
         testResults.append(
             test(
                 test_advanced_guessingGame(path_to_code_to_check, mockInputs),

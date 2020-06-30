@@ -10,6 +10,7 @@ import os
 import subprocess
 import threading
 import traceback
+from typing import List, Set, Dict, Tuple, Optional
 
 colorama.init()
 
@@ -38,37 +39,49 @@ class RunCmd(threading.Thread):
             self.join()
 
 
-def finish_up(testResults, message, the_treat):
-    total = sum([r["value"] for r in testResults])
-    out_of = len(testResults)
+def finish_up(testResults: List[dict], message: str, the_treat: str) -> Dict[str, int]:
+    print("\n\nRESULTS:", testResults, "\n\n")
+    try:
+        total = sum([r["value"] for r in testResults])
+        out_of = len(testResults)
 
-    package = {"of_total": out_of, "mark": total, "results": testResults}
-    if total == out_of:
-        print(the_treat)
-        completion_message(message, len(message) + 2)
-    else:
-        print("{total}/{out_of} (passed/attempted)".format(total=total, out_of=out_of))
-        "Keep going champ!"
-        # print(json.dumps(package, indent=2))
-
+        package = {"of_total": out_of, "mark": total, "results": testResults}
+        if total == out_of and total > 0:
+            print(the_treat)
+            completion_message(message, len(message) + 2)
+        else:
+            print("Keep going champ!")
+        print(f"{total}/{out_of} (passed/attempted)")
+    except Exception as e:
+        package = {
+            "of_total": 0,
+            "mark": 0,
+            "results": str(e)
+            + "Ben is a moron and is trying to append a zero instead of a dictionary",
+        }
     return package
 
 
-def test(testResult, name):
+def test(testResult: bool, name: str) -> Dict:
     """Report on the test.
 
     Returns 1 and 0 so that the 1s can be summed to give a mark.
     """
-    if testResult:
-        print((Fore.GREEN + "✔ " + name + Style.RESET_ALL))
-        value = 1
-    else:
+    value = 0
+    try:
+        if testResult:
+            print((Fore.GREEN + "✔ " + name + Style.RESET_ALL))
+            value = 1
+        else:
+            print((Fore.RED + "✘ " + name + Style.RESET_ALL))
+    except Exception as e:
+        print(e)
         print((Fore.RED + "✘ " + name + Style.RESET_ALL))
-        value = 0
+
     return {"value": value, "name": name}
 
 
-def test_flake8(fileName):
+def test_flake8(fileName: str) -> bool:
     """Check to see if the file at file_path is flake8 compliant."""
     test_dir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
 
@@ -87,7 +100,7 @@ def test_flake8(fileName):
         return False
 
 
-def test_pydocstyle(fileName, flags="-e"):
+def test_pydocstyle(fileName, flags="-e") -> bool:
     """Check to see if the file at file_path is pydocstyle compliant."""
     getFrame = inspect.getfile(inspect.currentframe())
     absPath = os.path.abspath(getFrame)
@@ -117,8 +130,8 @@ def test_pydocstyle(fileName, flags="-e"):
         return False
 
 
-def lab_book_entry_completed(weekNumber, repo_path):
-    lab_book = Path(os.path.join(repo_path, "week{}/readme.md".format(weekNumber)))
+def lab_book_entry_completed(weekNumber: int, repo_path: str) -> bool:
+    lab_book = Path(os.path.join(repo_path, f"week{weekNumber}/readme.md"))
     if lab_book.is_file():
         with open(lab_book, "r") as f:
             lines = f.readlines()
@@ -131,24 +144,19 @@ def lab_book_entry_completed(weekNumber, repo_path):
     return False
 
 
-def loadExerciseFile(repo_path, weekNumber=2, exerciseNumber=0):
-    path = os.path.join(
-        repo_path, "week{}".format(weekNumber), "exercise{}.py".format(exerciseNumber)
-    )
+def loadExerciseFile(repo_path: str, weekNumber: int = 2, exerciseNumber: int = 0):
+    path = os.path.join(repo_path, f"week{weekNumber}", f"exercise{exerciseNumber}.py")
     spec = importUtils.spec_from_file_location("exercise0", path)
     ex = importUtils.module_from_spec(spec)
     spec.loader.exec_module(ex)
     return ex
 
 
-def ex_runs(repo_path, weekNumber=2, exerciseNumber=1):
+def ex_runs(repo_path: str, weekNumber: int = 2, exerciseNumber: int = 1) -> bool:
     """Check that this exercise runs at all."""
     try:
         p = os.path.normpath(
-            os.path.join(
-                repo_path,
-                "week{w}/exercise{e}.py".format(e=exerciseNumber, w=weekNumber),
-            )
+            os.path.join(repo_path, f"week{weekNumber}/exercise{exerciseNumber}.py")
         )
         spec = importUtils.spec_from_file_location("exercise", p)
         ex = importUtils.module_from_spec(spec)
@@ -159,17 +167,17 @@ def ex_runs(repo_path, weekNumber=2, exerciseNumber=1):
         return False
 
 
-def syntax_error_message(exerciseNumber, e):
+def syntax_error_message(exerciseNumber: int, e) -> None:
     """Give a readable error message."""
-    print(("\n{s:{c}^{n}}\n{s:{c}^{n}}".format(n=50, c="*", s="")))
-    print(("There is a syntax error in exercise{}\n{}".format(exerciseNumber, str(e))))
+    print("\n{s:{c}^{n}}\n{s:{c}^{n}}".format(n=50, c="*", s=""))
+    print(f"There is a syntax error in exercise{exerciseNumber}\n{e}")
     print(traceback.print_exc())
     print("\nWARNING: there might be more tests, but they won't run")
-    print(("until you fix the syntax errors in exercise{}.py".format(exerciseNumber)))
-    print(("{s:{c}^{n}}\n{s:{c}^{n}}\n".format(n=50, c="*", s="")))
+    print(f"until you fix the syntax errors in exercise{exerciseNumber}.py")
+    print("{s:{c}^{n}}\n{s:{c}^{n}}\n".format(n=50, c="*", s=""))
 
 
-def completion_message(message, width):
+def completion_message(message, width) -> None:
     """Print an obvious message.
 
     Example:
@@ -188,7 +196,18 @@ def completion_message(message, width):
     print("\n" + cap)
 
 
-def deadpool(message="Good Job", name="Dude"):
+def timeout_message(
+    function_name: str = "unknown function name",
+    args=(1, 2, 3),
+    timeout_in_seconds: int = 5,
+) -> None:
+    print(
+        f"{function_name}({args}) could not complete "
+        f"within {timeout_in_seconds} seconds and was killed."
+    )
+
+
+def deadpool(message: str = "Good Job", name: str = "Dude") -> str:
     return """
                 ▄▄▄▓▓▓▓▓▄▄▄
              ▄███████████████▄▄
@@ -220,7 +239,7 @@ def deadpool(message="Good Job", name="Dude"):
     )
 
 
-def nyan_cat(block="█"):
+def nyan_cat(block: str = "█") -> str:
     """Return a coloured string that shows a nyan cat."""
     c = [
         ["{BRIGHT_BLUE}", "{x}" * 80],
@@ -510,7 +529,7 @@ def nyan_cat(block="█"):
     )
 
 
-def grumpy():
+def grumpy() -> str:
     """Return a grumpy cat.
 
     from: http://textart4u.blogspot.com.au/

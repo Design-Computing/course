@@ -14,10 +14,9 @@ from pathlib import Path
 import importlib.util as importUtils
 import os
 import sys
+from typing import List, Set, Dict, Tuple, Optional
 
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
-
-
 from codeHelpers import (
     completion_message,
     ex_runs,
@@ -34,12 +33,12 @@ NORM = Fore.WHITE
 
 WEEK_NUMBER = 2
 
-sys.path.append("../me/week{}".format(WEEK_NUMBER))
+sys.path.append(f"../me/week{WEEK_NUMBER}")
 
 
-def theTests(path_to_code_to_check="../me"):
+def theTests(path_to_code_to_check="../me") -> dict:
     """Run the tests."""
-    print("\nWelcome to week {}!".format(WEEK_NUMBER))
+    print(f"\nWelcome to week {WEEK_NUMBER}!\n")
     print("May the odds be ever in your favour.\n")
 
     testResults = []
@@ -81,46 +80,16 @@ def theTests(path_to_code_to_check="../me"):
             test(exercise0.adder(0.1, 0.9) == 1, "Exercise 0: adder - 0.1 + 0.9 = 1")
         )
 
-        testResults.append(
-            test(
-                exercise0.shout("you've") == "YOU'VE",
-                "Exercise 0: shout - you've => YOU'VE",
+        words = "you've got to fight for your right to party".split(" ")
+        for word in words:
+            word_up = word.upper()
+            testResults.append(
+                test(
+                    exercise0.shout(word) == word_up,
+                    f"Exercise 0: shout - {word} => {word_up}",
+                )
             )
-        )
-        testResults.append(
-            test(exercise0.shout("got") == "GOT", "Exercise 0: shout - got => GOT")
-        )
-        testResults.append(
-            test(exercise0.shout("to") == "TO", "Exercise 0: shout - to => TO")
-        )
 
-        testResults.append(
-            test(
-                exercise0.really_shout("fight") == "FIGHT!",
-                "Exercise 0: really_shout - fight => FIGHT!",
-            )
-        )
-        testResults.append(
-            test(exercise0.shout("for") == "FOR", "Exercise 0: shout - for => FOR")
-        )
-        testResults.append(
-            test(exercise0.shout("your") == "YOUR", "Exercise 0: shout - your => YOUR")
-        )
-        testResults.append(
-            test(
-                exercise0.really_shout("right") == "RIGHT!",
-                "Exercise 0: really_shout - right => RIGHT!",
-            )
-        )
-        testResults.append(
-            test(exercise0.shout("to") == "TO", "Exercise 0: shout - to => TO")
-        )
-        testResults.append(
-            test(
-                exercise0.really_shout("PARTY") == "PARTY!",
-                "Exercise 0: really_shout - PARTY => PARTY!",
-            )
-        )
         testResults.append(
             test(
                 exercise0.shout_with_a_number("hi", 1) == "HI 1",
@@ -135,7 +104,7 @@ def theTests(path_to_code_to_check="../me"):
 
     if ex_runs(path_to_code_to_check, exerciseNumber=3, weekNumber=WEEK_NUMBER):
         exercise3 = loadExerciseFile(
-            path_to_code_to_check, weekNumber=2, exerciseNumber=3
+            path_to_code_to_check, weekNumber=WEEK_NUMBER, exerciseNumber=3
         )
         # is odd
         testResults.append(
@@ -145,58 +114,49 @@ def theTests(path_to_code_to_check="../me"):
         testResults.append(test(exercise3.is_odd(5), "Exercise 3: is_odd - is 5 odd"))
 
         # fix it
-        testResults.append(
-            test(
-                exercise3.fix_it(True, True) == "No Problem",
-                "Exercise 3: fix_it - it moves, and it should",
+        scenarios = [
+            {"it_moves": True, "it_should_move": True, "answer": "No Problem"},
+            {"it_moves": True, "it_should_move": False, "answer": "WD-40"},
+            {"it_moves": False, "it_should_move": True, "answer": "Duct Tape"},
+            {"it_moves": False, "it_should_move": False, "answer": "No Problem"},
+        ]
+        for s in scenarios:
+            it = "moves" if s["it_moves"] else "does not move"
+            should = "" if s["it_should_move"] else "not"
+            testResults.append(
+                test(
+                    exercise3.fix_it(s["it_moves"], s["it_should_move"]) == s["answer"],
+                    f"Exercise 3: fix_it - it {it}, and it should {should} move",
+                )
             )
-        )
-
-        testResults.append(
-            test(
-                exercise3.fix_it(False, True) == "WD-40",
-                "Exercise 3: fix_it - it doesn't move, and it should",
-            )
-        )
-
-        testResults.append(
-            test(
-                exercise3.fix_it(True, False) == "Duct Tape",
-                "Exercise 3: fix_it - it moves, and it shouldn't",
-            )
-        )
-
-        testResults.append(
-            test(
-                exercise3.fix_it(False, False) == "No Problem",
-                "Exercise 3: fix_it - it doesn't move, and it shouldn't",
-            )
-        )
 
         # loops
         tenStars = ["*", "*", "*", "*", "*", "*", "*", "*", "*", "*"]
-        result = exercise3.loops_1a() == tenStars
-        testResults.append(test(result, "Exercise 3: loops_1a - 1d for loop"))
-        if not result:
-            fail = exercise3.loops_1a()
+        result = exercise3.loops_1a()
+        if result == tenStars:
+            testResults.append(test(True, "Exercise 3: loops_1a - 1d for loop"))
+        else:
             print(
-                (
-                    "{norm}You're returning {em}{f}{norm}. "
-                    "We're looking for {em}{p}{norm}"
-                ).format(f=fail, p=tenStars, em=EM, norm=NORM)
+                f"{NORM}"
+                f"You're returning:  {EM}{result}{NORM}. "
+                f"We're looking for: {EM}{tenStars}{NORM}"
             )
-            if fail == None:
+            if result == None:
                 print(
                     (
                         "{norm}Do you have a line that says "
                         "{em}return the_answer{norm}?\n"
                         "Or maybe you have a line that says {em}return None{norm}?"
-                        "Or you are returning a variable that has the value {em}return None{norm}?\n"
+                        "Or you are returning a variable that has the value "
+                        "{em}return None{norm}?\n"
+                        "Remember: {em}return print(something){norm} is the same "
+                        "as {em}return None{norm} because {em}print{norm} returns "
+                        "None\n"
                         "You need to return the computed value, so either assign "
                         "it to a variable and return that, or return it directly."
                     ).format(em=EM, norm=NORM)
                 )
-            if fail == "**********":
+            elif result == "**********":
                 print("remember that we're looking for a list")
             # TODO: write more failure modes as they come up in testing.
 
@@ -257,12 +217,22 @@ def theTests(path_to_code_to_check="../me"):
             ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"],
             ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"],
         ]
-        testResults.append(
-            test(
-                exercise3.loops_4() == ten_rising_lists,
-                "Exercise 3: loops_4 - ten rising lists",
-            )
-        )
+        res = exercise3.loops_4()
+        if res == ten_rising_lists:
+            testResults.append(test(True, "Exercise 3: loops_4 - ten rising lists"))
+        else:
+            if len(res) == 10 and res[0][0] == 0:
+                print(
+                    "This is looking promising, but the test is looking for "
+                    "strings, not numbers. look into what str() does"
+                )
+                testResults.append(
+                    test(False, "Exercise 3: loops_4 - ten rising lists")
+                )
+            else:
+                testResults.append(
+                    test(False, "Exercise 3: loops_4 - ten rising lists")
+                )
 
         coords = [
             ["(i0, j0)", "(i0, j1)", "(i0, j2)", "(i0, j3)", "(i0, j4)"],

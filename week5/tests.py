@@ -17,6 +17,7 @@ import inspect
 import io
 import os
 import sys
+from typing import List, Set, Dict, Tuple, Optional
 
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 from codeHelpers import (
@@ -44,7 +45,7 @@ if "week" in os.getcwd():
     os.chdir("..")
 
 
-def test_diagrams(diagram, expected):
+def test_diagrams(diagram, expected) -> bool:
     """Test, crudely, that the correct diagram is being returned."""
     # print("testing", diagram, expected)
     if diagram and expected:
@@ -58,15 +59,15 @@ def test_diagrams(diagram, expected):
     return False
 
 
-def test_word_length(word, requested_length, expected_length):
+def test_word_length(word: str, requested_length, expected_length) -> bool:
     """Check that word lenths are as expected.
 
     Requesting a word less than 3 chars long should fail.
     """
     print(
-        "testing: word:{w}, requested_length:{r}, expected_length:{e}".format(
-            w=word, r=requested_length, e=expected_length
-        )
+        f"testing: word:{word}, "
+        f"requested_length:{requested_length}, "
+        f"expected_length:{expected_length}"
     )
     if type(requested_length) is str and word is not None:
         print(
@@ -89,15 +90,15 @@ def test_word_length(word, requested_length, expected_length):
     return False
 
 
-def theTests(path_to_code_to_check="."):
+def theTests(path_to_code_to_check=".") -> dict:
     """Run the tests."""
-    print("\nWelcome to week {}!".format(WEEK_NUMBER))
+    print(f"\nWelcome to week {WEEK_NUMBER}!")
     print("May the odds be ever in your favour.\n")
 
     testResults = []
 
     # stack the tests below here
-    path = "{}/week{}/exercise1.py".format(path_to_code_to_check, WEEK_NUMBER)
+    path = f"{path_to_code_to_check}/week{WEEK_NUMBER}/exercise1.py"
     print(path)
 
     exercise1 = loadExerciseFile(
@@ -190,8 +191,9 @@ Let's go!
                 )
             )
         except Exception as e:
+            sys.stdout = sys.__stdout__  # Reset redirect.
             print("countdown test failed", e)
-            testResults.append(FAIL)
+            testResults.append(test(False, "Exercise 1: countdown!! Output check"))
 
     function_text = inspect.getsource(exercise1.countdown)
     countdown_function_body = "".join(function_text)
@@ -269,9 +271,8 @@ Let's go!
         )
         if hyp != t["hypotenuse"]:
             print(
-                "You said that a b{b}×h{h} right triangle has a hyp of ⇨ {hyp}".format(
-                    b=t["base"], h=t["height"], hyp=hyp
-                )
+                f"You said that a b{t['base']}×h{t['height']} "
+                f"right triangle has a hyp of ⇨ {hyp}"
             )
 
         area = exercise1.calculate_area(t["base"], t["height"])
@@ -283,9 +284,8 @@ Let's go!
         )
         if area != t["area"]:
             print(
-                "You said that a b{b}×h{h} right triangle has n area of ⇨ {a}".format(
-                    b=t["base"], h=t["height"], a=area
-                )
+                f"You said that a b{t['base']}×h{t['height']} "
+                f"right triangle has n area of ⇨ {area}"
             )
 
         aspect = exercise1.calculate_aspect(t["base"], t["height"])
@@ -352,23 +352,38 @@ Let's go!
             " -- type(ft) is dict",
         )
     )
-    testResults.append(
-        test(
-            "units" in ft,
-            "exercise 1: triangle_master diagram: False, dictionary: True"
-            ' -- "units" in ft["facts"]',
+    try:
+        testResults.append(
+            test(
+                "units" in ft,
+                "exercise 1: triangle_master diagram: False, dictionary: True"
+                ' -- "units" in ft["facts"]',
+            )
         )
-    )
+    except Exception as e:
+        testResults.append(
+            test(
+                False,
+                "exercise 1: triangle_master diagram: False, dictionary: True"
+                ' -- "units" in ft["facts"]',
+            )
+        )
 
     tt = exercise1.triangle_master(
         base=5, height=5, return_diagram=True, return_dictionary=True
     )
-    testResults.append(
-        test(
-            type(tt) is dict and type(tt["diagram"]) is str,
-            "exercise 1: triangle_master diagram: T, dictionary: T",
+    try:
+        testResults.append(
+            test(
+                type(tt) is dict and type(tt["diagram"]) is str,
+                "exercise 1: triangle_master diagram: T, dictionary: T",
+            )
         )
-    )
+    except Exception as e:
+        print(e)
+        testResults.append(
+            test(False, "exercise 1: triangle_master diagram: T, dictionary: T")
+        )
 
     pattern = "Exercise 1: get_triangle_facts uses {}"
     for function_name in [
@@ -385,34 +400,50 @@ Let's go!
         )
 
     for length in zip([5, 8, 4, 0, "a"], [5, 8, 4, None, None]):
-        word = exercise1.get_a_word_of_length_n(length[0])
-        testResults.append(
-            test(
-                test_word_length(
-                    word=word, requested_length=length[0], expected_length=length[1]
-                ),
-                "exercise 1: get_a_word_of_length_n {}".format(word),
+        try:
+            word = exercise1.get_a_word_of_length_n(length[0])
+            testResults.append(
+                test(
+                    test_word_length(
+                        word=word, requested_length=length[0], expected_length=length[1]
+                    ),
+                    f"exercise 1: get_a_word_of_length_n {word}",
+                )
             )
-        )
+        except Exception as e:
+            print(e)
+            testResults.append(
+                test(False, f"exercise 1: get_a_word_of_length_n {length}")
+            )
 
     some_lengths = [[4, 5, 6], [4, 18, 4]]
     for lengths in some_lengths:
-        words = exercise1.list_of_words_with_lengths(lengths)
-        if words is not None:
-            checks = [len(x[0]) == x[1] for x in zip(words, lengths)]
-        else:
-            checks = [False]
-        print(words, lengths, checks)
+        try:
+            words = exercise1.list_of_words_with_lengths(lengths)
+            if words is not None:
+                checks = [len(x[0]) == x[1] for x in zip(words, lengths)]
+            else:
+                checks = [False]
+            print(words, lengths, checks)
+            testResults.append(
+                test(all(checks), "exercise 1: list_of_words_with_lengths {word}",)
+            )
+        except Exception as e:
+            print(e)
+            testResults.append(
+                test(False, f"exercise 1: list_of_words_with_lengths {lengths}")
+            )
+    try:
         testResults.append(
-            test(all(checks), "exercise 1: list_of_words_with_lengths {}".format(word))
+            test(
+                "list_of_words_with_lengths"
+                in exercise1.wordy_pyramid.__code__.co_names,
+                "exercise 1: wordy_pyramid has been refactored",
+                # write a better error message
+            )
         )
-
-    testResults.append(
-        test(
-            "list_of_words_with_lengths" in exercise1.wordy_pyramid.__code__.co_names,
-            "exercise 1: wordy_pyramid has been refactored",
-        )
-    )
+    except Exception as e:
+        testResults.append(test(False, "exercise 1: wordy_pyramid has been refactored"))
 
     lengths = [3, 5, 7, 9, 11, 13, 15, 17, 19, 20, 18, 16, 14, 12, 10, 8, 6, 4]
     works = None
@@ -428,7 +459,7 @@ Let's go!
     testResults.append(test(works, "Exercise 1: wordy_pyramid still works"))
 
     # EXERCISE 2 tests
-    path = "{}/week{}/exercise2.py".format(path_to_code_to_check, WEEK_NUMBER)
+    path = f"{path_to_code_to_check}/week{WEEK_NUMBER}/exercise2.py"
     print(path)
 
     e2 = loadExerciseFile(
@@ -455,12 +486,14 @@ Let's go!
         "hell",
     ]
     for source, result in zip(source, result):
-        testResults.append(
-            test(
-                e2.abba(source, 2) == result,
-                "exercise 2: abba {}⇨{}".format(source, result),
+        try:
+            testResults.append(
+                test(
+                    e2.abba(source, 2) == result, f"exercise 2: abba {source}⇨{result}"
+                )
             )
-        )
+        except Exception as e:
+            testResults.append(test(False, f"exercise 2: abba {source}⇨{result}"))
 
     testResults.append(
         test(

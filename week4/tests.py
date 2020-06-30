@@ -19,6 +19,7 @@ import random
 import requests
 import sys
 import time
+from typing import List, Set, Dict, Tuple, Optional
 
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 from codeHelpers import (
@@ -30,6 +31,7 @@ from codeHelpers import (
     nyan_cat,
     syntax_error_message,
     test,
+    timeout_message,
 )
 
 EM = Fore.YELLOW
@@ -44,11 +46,12 @@ if "week" in os.getcwd():
     os.chdir("..")
 
 
-def find_lasers(path):
+def find_lasers(path) -> bool:
     """Look for a file that contains only the number 6."""
     path = path + "/week4/lasers.pew"
     if os.path.isfile(path):
-        return int(open(path).read()) == int(6)
+        count_in_file = int(open(path).read())
+        return count_in_file == 6
     else:
         print(
             "can't find lasers.pew, did you make it?"
@@ -93,12 +96,12 @@ def find_lasers(path):
 #         print("Error with getting github username", e)
 
 
-def theTests(path_to_code_to_check="../me"):
+def theTests(path_to_code_to_check: str = "../me") -> dict:
     """Run the tests."""
-    print("\nWelcome to week {}!".format(WEEK_NUMBER))
+    print(f"\nWelcome to week {WEEK_NUMBER}!")
     print("May the odds be ever in your favour.\n")
 
-    path = "{}/week{}/exercise1.py".format(path_to_code_to_check, WEEK_NUMBER)
+    path = f"{path_to_code_to_check}/week{WEEK_NUMBER}/exercise1.py"
     print(path)
 
     exercise1 = loadExerciseFile(
@@ -109,12 +112,15 @@ def theTests(path_to_code_to_check="../me"):
 
     # stack the tests below here
     testDict = {"lastName": "hoogmoed", "password": "jokers", "postcodePlusID": 4311240}
-    testResults.append(
-        test(
-            exercise1.get_some_details() == testDict,
-            "Exercise 1: get some data out of a JSON file",
+    try:
+        testResults.append(
+            test(
+                exercise1.get_some_details() == testDict,
+                "Exercise 1: get some data out of a JSON file",
+            )
         )
-    )
+    except Exception as e:
+        testResults.append(test(False, "Exercise 1: get some data out of a JSON file"))
 
     lengths = [3, 5, 7, 9, 11, 13, 15, 17, 19, 20, 18, 16, 14, 12, 10, 8, 6, 4]
     testName = "Exercise 1: request some words from the internet"
@@ -159,8 +165,8 @@ def theTests(path_to_code_to_check="../me"):
             "gift": squirtle(),
         },
         {
-            "args": (0, 3),
-            "result": {"name": "ivysaur", "weight": 130, "height": 10},
+            "args": (1, 5),
+            "result": {"name": "venusaur", "weight": 1000, "height": 20},
             "gift": pikachu(),
         },
     ]
@@ -182,20 +188,24 @@ def theTests(path_to_code_to_check="../me"):
                 "or maybe just your internet speed.",
                 "This shouldn't be taking so long",
             )
+            testResults.append({"value": 0, "name": "Exercise 1: Consult the Pokedex."})
         except Exception as e:
-            testResults.append(0)
+            testResults.append({"value": 0, "name": "Exercise 1: Consult the Pokedex."})
             print(ex_name, e)
 
-    testResults.append(
-        test(find_lasers(path_to_code_to_check), "Exercise 1: count the lasers.")
-    )
+    try:
+        testResults.append(
+            test(find_lasers(path_to_code_to_check), "Exercise 1: count the lasers.")
+        )
+    except Exception as e:
+        testResults.append(test(False, "Exercise 1: count the lasers."))
 
     message = "Rad, you've got all the tests passing!"
 
     return finish_up(testResults, message, nyan_cat())
 
 
-def pokeball():
+def pokeball() -> str:
     return """
 ────────▄███████████▄────────
 ─────▄███▓▓▓▓▓▓▓▓▓▓▓███▄─────
@@ -218,7 +228,7 @@ def pokeball():
 ────────▀███████████▀────────"""
 
 
-def tiny_pikachu():
+def tiny_pikachu() -> str:
     return r"""
 /\︿╱\
 \0_ 0 /╱\╱ 
@@ -226,7 +236,7 @@ def tiny_pikachu():
     """
 
 
-def pikachu():
+def pikachu() -> str:
     return """
 ░█▀▀▄░░░░░░░░░░░▄▀▀█
 ░█░░░▀▄░▄▄▄▄▄░▄▀░░░█
@@ -244,7 +254,7 @@ def pikachu():
 ░░░▀▄▄▀▀▄▄▀▀▄▄▄█▀ """
 
 
-def squirtle():
+def squirtle() -> str:
     return r"""
 ;-.               ,
  \ '.           .'/
