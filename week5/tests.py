@@ -90,7 +90,7 @@ def test_word_length(word: str, requested_length, expected_length) -> bool:
     return False
 
 
-def theTests(path_to_code_to_check=".") -> dict:
+def theTests(path_to_code_to_check="..\me") -> dict:
     """Run the tests."""
     print(f"\nWelcome to week {WEEK_NUMBER}!")
     print("May the odds be ever in your favour.\n")
