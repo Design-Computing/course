@@ -429,26 +429,33 @@ def theTests(path_to_code_to_check: str = "../me"):
             path_to_code_to_check, weekNumber=WEEK_NUMBER, exerciseNumber=4
         )
 
-        try_these = [(1, 100, 5), (1, 100, 6), (1, 100, 95), (1, 51, 5), (1, 50, 5)]
+        try_these = [
+            (1, 100, 5, "Look low"),
+            (1, 100, 6, "Look low"),
+            (1, 100, 95, "Look high"),
+            (1, 51, 5, "Look low"),
+            (1, 50, 5, "Look low"),
+        ]
         for _ in range(10):
-            try_these.append((0, 100, random.randint(1, 99)))
+            try_these.append(
+                (0, 100, random.randint(1, 99), "randomly generated test value")
+            )
 
-        for tv in try_these:
+        for test_vals in try_these:
+            test_name = "Exercise 4: binary_search"
+            test_desc = "(low: {}, high: {}, target: {}) {}".format(*test_vals)
             try:
-                testResults.append(  # *tv unpacks this tuple -------------- vv
-                    test(
-                        test_binary_search(path_to_code_to_check, *tv),
-                        "Exercise 4: binary_search" + "({}, {}, {})".format(*tv),
-                    )
-                )
+                # *test_vals unpacks this tuple ----------------------- vvvvvvvvvv
+                test_result = test_binary_search(path_to_code_to_check, *test_vals)
+                message = f"{test_name} {test_desc}"
+                testResults.append(test(test_result, message,))
             except Exception:
-                print("********\n\nfailed:", tv)
+                print("********\n\nfailed:", test_desc)
                 print("tv failure", Exception)
-                # raise ValueError("********\n\nfailed: {}".format(tv))
                 testResults.append(0)
 
         # if the binary search is working, show a graph of guess numbers
-        if test(test_binary_search(path_to_code_to_check, 1, 10, 5), ""):
+        if test(test_binary_search(path_to_code_to_check, 1, 10, 5, ""), ""):
             # If you aren't Ben, then show the histogram
             # if os.uname()[1] != "um":  # um is ben's computer
             print("binary search works!")
