@@ -182,8 +182,7 @@ def test_advanced_guessingGame(repo_path, mockInputs):
             print(e)
 
 
-def test_binary_search(repo_path, low, high, actual):
-    # TODO: I don't think this test is working
+def test_binary_search(repo_path, low, high, actual, label):
     """Test the binary search function.
 
     checks to see that it's searching better than O(log n)
