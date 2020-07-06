@@ -252,7 +252,7 @@ def vis_binary_search_performance(repo_path):
         worst = math.log(high - low, BASE2)
         ratio = tries / worst
         results.append(ratio)
-    plt.hist(results)
+    plt.hist(results, bins=20)
     plt.title(f"Proportion of worst case performance over {testRuns} iterations")
     print(
         """
