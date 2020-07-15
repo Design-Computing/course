@@ -13,7 +13,7 @@ def get_the_updates() -> None:
     """Decide if the other functions should download each file."""
     base = "https://raw.githubusercontent.com/Design-Computing/me/master"
     new_files = [
-        "/week1/exercise2.py",
+        "/week5/exercise1.py",
     ]
 
     force_d = [
