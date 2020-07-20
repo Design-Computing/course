@@ -138,7 +138,8 @@ let's get ready to rumble 1
             },
         },
         {
-            "expect": """prepare to die in this many ways: 4
+            "expect": """prepare to die in this many ways: 5
+prepare to die in this many ways: 4
 prepare to die in this many ways: 3
 prepare to die in this many ways: 2
 or not, I guess
