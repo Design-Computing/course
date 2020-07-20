@@ -48,7 +48,8 @@ def get_file_text(url: str) -> str:
 
 def download_and_save(url: str, save_path: str) -> None:
     """Save a string as a file."""
-    f = open(os.path.join(LOCAL, save_path), "w")
+    print(f"saving {url} to {save_path}")
+    f = open(save_path, "w", encoding="utf8")
     f.write(get_file_text(url))
     f.close()
 
