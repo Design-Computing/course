@@ -11,13 +11,18 @@ LOCAL = os.path.dirname(os.path.realpath(__file__))
 
 def get_the_updates() -> None:
     """Decide if the other functions should download each file."""
-    base = "https://raw.githubusercontent.com/notionparallax/code1161base/master"
+    base = "https://raw.githubusercontent.com/Design-Computing/me/master"
     new_files = [
-        "/week2/exercise0.py",
-        "/week4/IOexamples.py",
         "/week5/exercise1.py",
-        "/week5/exercise2.py",
     ]
+
+    force_d = [
+        "/week8/exercise1.py",
+    ]
+    for f in force_d:
+        p = "./" + f
+        if os.path.isfile(p):
+            os.remove(p)
 
     for f in new_files:
         save_path = "./" + f
@@ -38,12 +43,13 @@ def get_the_updates() -> None:
 def get_file_text(url: str) -> str:
     """Pull the raw file and return it as a string."""
     r = requests.get(url)
-    return r.text.encode("utf-8")
+    return r.text
 
 
 def download_and_save(url: str, save_path: str) -> None:
     """Save a string as a file."""
-    f = open(os.path.join(LOCAL, save_path), "w")
+    print(f"saving {url} to {save_path}")
+    f = open(save_path, "w", encoding="utf8")
     f.write(get_file_text(url))
     f.close()
 

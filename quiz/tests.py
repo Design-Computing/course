@@ -60,8 +60,8 @@ def exam_test(
     )
     try:
         if chdir:
-            if "week" not in os.getcwd():
-                os.chdir("./week8")
+            if "quiz" not in os.getcwd():
+                os.chdir("./quiz")
         got = function_to_test(*args)
         if chdir:
             if "week" in os.getcwd():
@@ -95,12 +95,42 @@ def theTests(path_to_code_to_check="../me"):
         )
 
         # testResults.append(test(test_flake8(ex1path), "pass the linter"))
+        exam_test(
+            True,
+            [],
+            exam.string_please,
+            finishing_function=lambda x: type(x) is str,
+            extra_message="Don't over think this! just return a string!",
+        )
+        exam_test(
+            True,
+            [],
+            exam.list_please,
+            finishing_function=lambda x: type(x) is list,
+            extra_message="Don't over think this! just return a list!",
+        )
+        exam_test(
+            True,
+            [],
+            exam.dictionary_please,
+            finishing_function=lambda x: type(x) is dict,
+            extra_message="Don't over think this! just return a dictionary!",
+        )
+        exam_test(True, [5], exam.is_it_5)
+        exam_test(False, [4], exam.is_it_5)
+        exam_test(False, ["cats"], exam.is_it_5)
+        exam_test(0, [5], exam.take_five)
+        exam_test(5, [10], exam.take_five)
+        exam_test(-5, [0], exam.take_five)
 
         exam_test("Hello the Queen", ["the Queen"], exam.greet)
         exam_test("Hello Pr♂nc♀♂", ["Pr♂nc♀♂"], exam.greet)
 
         exam_test(4, [[3, 3, 3, 3, 1]], exam.three_counter)
         exam_test(0, [[0, 1, 2, 5, -9]], exam.three_counter)
+
+        exam_test(2, [7], exam.n_counter)
+        exam_test(5, [0, [0, 0, 0, 0, 0, [0]]], exam.n_counter)
 
         # fmt: off
         fizza = [
