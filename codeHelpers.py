@@ -135,9 +135,10 @@ def lab_book_entry_completed(weekNumber: int, repo_path: str) -> bool:
     if lab_book.is_file():
         with open(lab_book, "r") as f:
             lines = f.readlines()
-            if lines == [
-                "TODO: Reflect on what you learned this week and what is still unclear.\n"
-            ]:
+            basic_lab_book_content = [
+                "TODO: Reflect on what you learned this set and what is still unclear."
+            ]
+            if [l.strip() for l in lines] == basic_lab_book_content:
                 return False
             elif lines:
                 return True
