@@ -1,5 +1,5 @@
 # -*- coding: UTF-8 -*-
-"""Test week 5's code.
+"""Test set 5's code.
 
 This file tests your code. It'll check that the work in each
 of the exercise files does what it's supposed to.
@@ -36,12 +36,12 @@ from codeHelpers import (
 EM = Fore.YELLOW
 NORM = Fore.WHITE
 
-WEEK_NUMBER = 5
+SET_NUMBER = 5
 PASS = 1
 FAIL = 0
 LOCAL = os.path.dirname(os.path.realpath(__file__))
 
-if "week" in os.getcwd():
+if "set" in os.getcwd():
     os.chdir("..")
 
 
@@ -92,17 +92,17 @@ def test_word_length(word: str, requested_length, expected_length) -> bool:
 
 def theTests(path_to_code_to_check=".") -> dict:
     """Run the tests."""
-    print(f"\nWelcome to week {WEEK_NUMBER}!")
+    print(f"\nWelcome to set {SET_NUMBER}!")
     print("May the odds be ever in your favour.\n")
 
     testResults = []
 
     # stack the tests below here
-    path = f"{path_to_code_to_check}/week{WEEK_NUMBER}/exercise1.py"
+    path = f"{path_to_code_to_check}/set{SET_NUMBER}/exercise1.py"
     print(path)
 
     exercise1 = loadExerciseFile(
-        path_to_code_to_check, weekNumber=WEEK_NUMBER, exerciseNumber=1
+        path_to_code_to_check, setNumber=SET_NUMBER, exerciseNumber=1
     )
 
     # Linter test
@@ -460,12 +460,10 @@ Let's go!
     testResults.append(test(works, "Exercise 1: wordy_pyramid still works"))
 
     # EXERCISE 2 tests
-    path = f"{path_to_code_to_check}/week{WEEK_NUMBER}/exercise2.py"
+    path = f"{path_to_code_to_check}/set{SET_NUMBER}/exercise2.py"
     print(path)
 
-    e2 = loadExerciseFile(
-        path_to_code_to_check, weekNumber=WEEK_NUMBER, exerciseNumber=2
-    )
+    e2 = loadExerciseFile(path_to_code_to_check, setNumber=SET_NUMBER, exerciseNumber=2)
 
     # Linter test
     # print("Linter test:", path)

@@ -37,18 +37,18 @@ from codeHelpers import (
 EM = Fore.YELLOW
 NORM = Fore.WHITE
 
-WEEK_NUMBER = 4
+SET_NUMBER = 4
 LOCAL = os.path.dirname(os.path.realpath(__file__))
 TIMEOUT_IN_SECONDS = 10
 
-# if working dir contains week, we are one too deep
-if "week" in os.getcwd():
+# if working dir contains set, we are one too deep
+if "set" in os.getcwd():
     os.chdir("..")
 
 
 def find_lasers(path) -> bool:
     """Look for a file that contains only the number 6."""
-    path = path + "/week4/lasers.pew"
+    path = path + "/set4/lasers.pew"
     if os.path.isfile(path):
         count_in_file = int(open(path).read())
         return count_in_file == 6
@@ -98,14 +98,14 @@ def find_lasers(path) -> bool:
 
 def theTests(path_to_code_to_check: str = "../me") -> dict:
     """Run the tests."""
-    print(f"\nWelcome to week {WEEK_NUMBER}!")
+    print(f"\nWelcome to set {SET_NUMBER}!")
     print("May the odds be ever in your favour.\n")
 
-    path = f"{path_to_code_to_check}/week{WEEK_NUMBER}/exercise1.py"
+    path = f"{path_to_code_to_check}/set{SET_NUMBER}/exercise1.py"
     print(path)
 
     exercise1 = loadExerciseFile(
-        path_to_code_to_check, weekNumber=WEEK_NUMBER, exerciseNumber=1
+        path_to_code_to_check, setNumber=SET_NUMBER, exerciseNumber=1
     )
 
     testResults = []

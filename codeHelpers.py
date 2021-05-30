@@ -1,5 +1,5 @@
 # -*- coding: UTF-8 -*-
-"""Collect up the functons used in all the weeks."""
+"""Collect up the functons used in all the sets."""
 from colorama import Fore
 from colorama import Style
 from pathlib import Path
@@ -130,8 +130,8 @@ def test_pydocstyle(fileName, flags="-e") -> bool:
         return False
 
 
-def lab_book_entry_completed(weekNumber: int, repo_path: str) -> bool:
-    lab_book = Path(os.path.join(repo_path, f"week{weekNumber}/readme.md"))
+def lab_book_entry_completed(setNumber: int, repo_path: str) -> bool:
+    lab_book = Path(os.path.join(repo_path, f"set{setNumber}/readme.md"))
     if lab_book.is_file():
         with open(lab_book, "r") as f:
             lines = f.readlines()
@@ -145,19 +145,19 @@ def lab_book_entry_completed(weekNumber: int, repo_path: str) -> bool:
     return False
 
 
-def loadExerciseFile(repo_path: str, weekNumber: int = 2, exerciseNumber: int = 0):
-    path = os.path.join(repo_path, f"week{weekNumber}", f"exercise{exerciseNumber}.py")
+def loadExerciseFile(repo_path: str, setNumber: int = 2, exerciseNumber: int = 0):
+    path = os.path.join(repo_path, f"set{setNumber}", f"exercise{exerciseNumber}.py")
     spec = importUtils.spec_from_file_location("exercise0", path)
     ex = importUtils.module_from_spec(spec)
     spec.loader.exec_module(ex)
     return ex
 
 
-def ex_runs(repo_path: str, weekNumber: int = 2, exerciseNumber: int = 1) -> bool:
+def ex_runs(repo_path: str, setNumber: int = 2, exerciseNumber: int = 1) -> bool:
     """Check that this exercise runs at all."""
     try:
         p = os.path.normpath(
-            os.path.join(repo_path, f"week{weekNumber}/exercise{exerciseNumber}.py")
+            os.path.join(repo_path, f"set{setNumber}/exercise{exerciseNumber}.py")
         )
         spec = importUtils.spec_from_file_location("exercise", p)
         ex = importUtils.module_from_spec(spec)

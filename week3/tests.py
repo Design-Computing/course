@@ -35,15 +35,13 @@ EM = Fore.YELLOW
 NORM = Fore.WHITE
 TIMEOUT_IN_SECONDS = 3
 
-WEEK_NUMBER = 3
+SET_NUMBER = 3
 
 
 def test_stubborn_asker(repo_path, low, high):
     """Test the stubborn asker function."""
     try:
-        exercise1 = loadExerciseFile(
-            repo_path, weekNumber=WEEK_NUMBER, exerciseNumber=1
-        )
+        exercise1 = loadExerciseFile(repo_path, setNumber=SET_NUMBER, exerciseNumber=1)
     except Exception as e:
         return syntax_error_message(4, e)
 
@@ -70,9 +68,7 @@ def test_stubborn_asker(repo_path, low, high):
 def test_not_number_rejector(repo_path):
     """Test the not number rejector function."""
     try:
-        exercise1 = loadExerciseFile(
-            repo_path, weekNumber=WEEK_NUMBER, exerciseNumber=1
-        )
+        exercise1 = loadExerciseFile(repo_path, setNumber=SET_NUMBER, exerciseNumber=1)
     except Exception as e:
         return syntax_error_message(1, e)
 
@@ -97,9 +93,7 @@ def test_not_number_rejector(repo_path):
 def test_super_asker(repo_path, low, high):
     """Test the super asker function."""
     try:
-        exercise1 = loadExerciseFile(
-            repo_path, weekNumber=WEEK_NUMBER, exerciseNumber=1
-        )
+        exercise1 = loadExerciseFile(repo_path, setNumber=SET_NUMBER, exerciseNumber=1)
     except Exception as e:
         return syntax_error_message(1, e)
 
@@ -129,9 +123,7 @@ def test_example_guessingGame(repo_path):
     This should always pass becasue it's provided code
     """
     try:
-        exercise2 = loadExerciseFile(
-            repo_path, weekNumber=WEEK_NUMBER, exerciseNumber=2
-        )
+        exercise2 = loadExerciseFile(repo_path, setNumber=SET_NUMBER, exerciseNumber=2)
     except Exception as e:
         return syntax_error_message(2, e)
     upperBound = 5
@@ -158,9 +150,7 @@ def test_example_guessingGame(repo_path):
 def test_advanced_guessingGame(repo_path, mockInputs):
     """Test the advanced_guessingGame function."""
     try:
-        exercise3 = loadExerciseFile(
-            repo_path, weekNumber=WEEK_NUMBER, exerciseNumber=3
-        )
+        exercise3 = loadExerciseFile(repo_path, setNumber=SET_NUMBER, exerciseNumber=3)
     except Exception as e:
         return syntax_error_message(3, e)
 
@@ -188,9 +178,7 @@ def test_binary_search(repo_path, low, high, actual, label):
     checks to see that it's searching better than O(log n)
     """
     try:
-        exercise4 = loadExerciseFile(
-            repo_path, weekNumber=WEEK_NUMBER, exerciseNumber=4
-        )
+        exercise4 = loadExerciseFile(repo_path, setNumber=SET_NUMBER, exerciseNumber=4)
         BASE2 = 2
         b = None
         my_args = (low, high, actual)
@@ -231,9 +219,7 @@ def test_binary_search(repo_path, low, high, actual, label):
 def vis_binary_search_performance(repo_path):
     """Provide a visualisation of the performance of the binary search."""
     try:
-        exercise4 = loadExerciseFile(
-            repo_path, weekNumber=WEEK_NUMBER, exerciseNumber=4
-        )
+        exercise4 = loadExerciseFile(repo_path, setNumber=SET_NUMBER, exerciseNumber=4)
     except Exception as e:
         return syntax_error_message(4, e)
 
@@ -271,16 +257,16 @@ machine but the computer is, so it's always below that worst case limit.
 
 def theTests(path_to_code_to_check: str = "../me"):
     """Run all the tests."""
-    print(f"\nWelcome to week {WEEK_NUMBER}!")
+    print(f"\nWelcome to set {SET_NUMBER}!")
     print("May the odds be ever in your favour.\n")
 
     testResults = []
 
     # Give each person 10 seconds to complete all tests.
 
-    if ex_runs(path_to_code_to_check, exerciseNumber=1, weekNumber=WEEK_NUMBER):
+    if ex_runs(path_to_code_to_check, exerciseNumber=1, setNumber=SET_NUMBER):
         exercise1 = loadExerciseFile(
-            path_to_code_to_check, weekNumber=WEEK_NUMBER, exerciseNumber=1
+            path_to_code_to_check, setNumber=SET_NUMBER, exerciseNumber=1
         )
 
         testResults.append(
@@ -366,9 +352,9 @@ def theTests(path_to_code_to_check: str = "../me"):
         )
     )
 
-    if ex_runs(path_to_code_to_check, exerciseNumber=3, weekNumber=WEEK_NUMBER):
+    if ex_runs(path_to_code_to_check, exerciseNumber=3, setNumber=SET_NUMBER):
         exercise1 = loadExerciseFile(
-            path_to_code_to_check, weekNumber=WEEK_NUMBER, exerciseNumber=3
+            path_to_code_to_check, setNumber=SET_NUMBER, exerciseNumber=3
         )
 
         lowerBound = 10
@@ -424,9 +410,9 @@ def theTests(path_to_code_to_check: str = "../me"):
             )
         )
 
-    if ex_runs(path_to_code_to_check, exerciseNumber=4, weekNumber=WEEK_NUMBER):
+    if ex_runs(path_to_code_to_check, exerciseNumber=4, setNumber=SET_NUMBER):
         exercise1 = loadExerciseFile(
-            path_to_code_to_check, weekNumber=WEEK_NUMBER, exerciseNumber=4
+            path_to_code_to_check, setNumber=SET_NUMBER, exerciseNumber=4
         )
 
         try_these = [

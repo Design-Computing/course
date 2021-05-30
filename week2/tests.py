@@ -31,23 +31,23 @@ from codeHelpers import (
 EM = Fore.YELLOW
 NORM = Fore.WHITE
 
-WEEK_NUMBER = 2
+SET_NUMBER = 2
 
-sys.path.append(f"../me/week{WEEK_NUMBER}")
+sys.path.append(f"../me/set{SET_NUMBER}")
 
 
 def theTests(path_to_code_to_check="../me") -> dict:
     """Run the tests."""
-    print(f"\nWelcome to week {WEEK_NUMBER}!\n")
+    print(f"\nWelcome to set {SET_NUMBER}!\n")
     print("May the odds be ever in your favour.\n")
 
     testResults = []
 
     # Tests from here:
 
-    if ex_runs(path_to_code_to_check, exerciseNumber=0, weekNumber=WEEK_NUMBER):
+    if ex_runs(path_to_code_to_check, exerciseNumber=0, setNumber=SET_NUMBER):
         exercise0 = loadExerciseFile(
-            path_to_code_to_check, weekNumber=WEEK_NUMBER, exerciseNumber=0
+            path_to_code_to_check, setNumber=SET_NUMBER, exerciseNumber=0
         )
 
         testResults.append(
@@ -97,14 +97,14 @@ def theTests(path_to_code_to_check="../me") -> dict:
             )
         )
 
-    ex2_runs = ex_runs(path_to_code_to_check, exerciseNumber=2, weekNumber=WEEK_NUMBER)
+    ex2_runs = ex_runs(path_to_code_to_check, exerciseNumber=2, setNumber=SET_NUMBER)
     if not ex2_runs:
         print("Don't worry, exercise 2 comes with errors. It's your job to fix them!")
     testResults.append(test(ex2_runs, "Exercise 2: debug the file"))
 
-    if ex_runs(path_to_code_to_check, exerciseNumber=3, weekNumber=WEEK_NUMBER):
+    if ex_runs(path_to_code_to_check, exerciseNumber=3, setNumber=SET_NUMBER):
         exercise3 = loadExerciseFile(
-            path_to_code_to_check, weekNumber=WEEK_NUMBER, exerciseNumber=3
+            path_to_code_to_check, setNumber=SET_NUMBER, exerciseNumber=3
         )
         # is odd
         testResults.append(
@@ -282,7 +282,7 @@ def theTests(path_to_code_to_check="../me") -> dict:
         )
     testResults.append(
         test(
-            lab_book_entry_completed(WEEK_NUMBER, path_to_code_to_check),
+            lab_book_entry_completed(SET_NUMBER, path_to_code_to_check),
             "Lab book entry completed",
         )
     )

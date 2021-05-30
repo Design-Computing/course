@@ -1,4 +1,4 @@
-"""Do the work of checking the week's work."""
+"""Do the work of checking the set's work."""
 
 from colorama import Fore
 from colorama import Style
@@ -30,7 +30,7 @@ from codeHelpers import (
 )
 
 
-WEEK_NUMBER = 1
+SET_NUMBER = 1
 EM = Fore.YELLOW
 NORM = Fore.WHITE
 
@@ -63,7 +63,7 @@ def check_system_details(repo_path: str) -> bool:
     print(json.dumps(systemInfo, indent=4))
 
     # Write it to a file in this repo
-    f = open(os.path.join(repo_path, "week1", "checkID.json"), "w")
+    f = open(os.path.join(repo_path, "set1", "checkID.json"), "w")
     f.write(json.dumps(systemInfo, indent=4))
     f.close()
     return True
@@ -78,7 +78,7 @@ def test_for_python_and_requests(repo_path: str) -> bool:
 
     gh_url = "https://raw.githubusercontent.com/"
     check_repo = "notionparallax/code1161base/"
-    file_path = "master/week1/pySuccessMessage.json"
+    file_path = f"master/set{SET_NUMBER}/pySuccessMessage.json"
     url = gh_url + check_repo + file_path
 
     try:
@@ -106,7 +106,7 @@ def test_for_python_and_requests(repo_path: str) -> bool:
     for line in doesItWork:
         print(line)
 
-    p = os.path.join(repo_path, "week1", "requestsWorking.txt")
+    p = os.path.join(repo_path, f"set{SET_NUMBER}", "requestsWorking.txt")
     f = open(p, "w")
     for line in doesItWork:
         f.write(line + "\n")
@@ -115,7 +115,7 @@ def test_for_python_and_requests(repo_path: str) -> bool:
 
 
 def test_hello_world(repo_path: str) -> bool:
-    exercise1 = loadExerciseFile(repo_path, weekNumber=WEEK_NUMBER, exerciseNumber=1)
+    exercise1 = loadExerciseFile(repo_path, setNumber=SET_NUMBER, exerciseNumber=1)
     source = "".join(inspect.getsourcelines(exercise1)[0])
     if (
         "print('hello world!')" in source.lower()
@@ -205,7 +205,7 @@ def has_pushed(fileName, repo_path) -> bool:
         repo = git.cmd.Git(repo_path)
         origin_url = get_origin_url(repo)
         owner = origin_url.split("/")[3]
-        url = f"https://api.github.com/repos/{owner}/me/contents/week1/{fileName}"
+        url = f"https://api.github.com/repos/{owner}/me/contents/set{SET_NUMBER}/{fileName}"
         r = requests.get(url)
         if r.status_code == 404:
             print("Have you pushed yet?")
@@ -220,7 +220,7 @@ def has_pushed(fileName, repo_path) -> bool:
 def theTests(path_to_code_to_check="../me") -> dict:
     """Run the tests."""
     print("checking:    ", path_to_code_to_check)
-    print(f"\nWelcome to week {WEEK_NUMBER}!")
+    print(f"\nWelcome to set {SET_NUMBER}!")
     print("May the odds be ever in your favour.\n")
 
     testResults = []
@@ -259,11 +259,11 @@ def theTests(path_to_code_to_check="../me") -> dict:
         )
 
     f = "requestsWorking.txt"
-    p = os.path.join(path_to_code_to_check, "week1", f)
+    p = os.path.join(path_to_code_to_check, f"set{SET_NUMBER}", f)
     testResults.append(test(os.path.isfile(p), f + " exists"))
 
     f = "checkID.json"
-    p = os.path.join(path_to_code_to_check, "week1", f)
+    p = os.path.join(path_to_code_to_check, f"set{SET_NUMBER}", f)
     testResults.append(test(os.path.isfile(p), f + " exists"))
 
     testResults.append(
