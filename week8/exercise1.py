@@ -1,7 +1,7 @@
 # -*- coding: UTF-8 -*-
 """
 I'm in UR exam.
-This is the same as the weekly exercises, fill in the functions,
+This is the same as the setly exercises, fill in the functions,
 and test them to see if they work.
 You have 2 hours.
 """
@@ -168,7 +168,7 @@ def random_filler_text(number_of_words=200):
     Make the paragraph have number_of_words words in it.
     Return it as a string
     TIP: you'll need the random library, 
-        see line 77 of week4/hangman_leadboard.py for an example.
+        see line 77 of set4/hangman_leadboard.py for an example.
     """
     import random
 

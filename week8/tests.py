@@ -36,7 +36,7 @@ NORM = Fore.WHITE
 TIMEOUT_IN_SECONDS = 3
 
 
-WEEK_NUMBER = 8
+SET_NUMBER = 8
 testResults = []
 
 if "week" in os.getcwd():
@@ -89,9 +89,9 @@ def theTests(path_to_code_to_check="../me"):
     print("\nWelcome to the exam!")
     print("May the odds be ever in your favour.\nEspecially today!")
 
-    if ex_runs(path_to_code_to_check, exerciseNumber=1, weekNumber=WEEK_NUMBER):
+    if ex_runs(path_to_code_to_check, exerciseNumber=1, weekNumber=SET_NUMBER):
         exam = loadExerciseFile(
-            path_to_code_to_check, weekNumber=WEEK_NUMBER, exerciseNumber=1
+            path_to_code_to_check, weekNumber=SET_NUMBER, exerciseNumber=1
         )
 
         # testResults.append(test(test_flake8(ex1path), "pass the linter"))
