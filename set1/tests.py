@@ -88,14 +88,15 @@ def test_for_python_and_requests(repo_path: str) -> bool:
         subMessage = "Alas, all is lost"
         print("\nThe error message:", e)
 
-    bar = "*{s:{c}^{n}}*".format(n=width, c="*", s="")
-    blank = "*{s:{c}^{n}}*".format(n=width, c=" ", s="")
+    boundary_char = "🍝"
+    bar = f"{boundary_char}" * (int(width / 2) + 2)
+    blank = "{b}{s:{c}^{n}}{b}".format(n=width, c=" ", s="", b=boundary_char)
     doesItWork = [
         bar,
         blank,
-        "*{s:{c}^{n}}*".format(n=width, c=" ", s=message),
+        "{b}{s:{c}^{n}}{b}".format(n=width, c=" ", s=message, b=boundary_char),
         blank,
-        "*{s:{c}^{n}}*".format(n=width, c=" ", s=subMessage),
+        "{b}{s:{c}^{n}}{b}".format(n=width, c=" ", s=subMessage, b=boundary_char),
         blank,
         bar,
     ]
@@ -105,10 +106,10 @@ def test_for_python_and_requests(repo_path: str) -> bool:
         print(line)
 
     p = os.path.join(repo_path, f"set{SET_NUMBER}", "requestsWorking.txt")
-    f = open(p, "w")
-    for line in doesItWork:
-        f.write(line + "\n")
-    f.close()
+    with open(p, "w", encoding="utf-8") as f:
+        for line in doesItWork:
+            f.write(line + "\n")
+
     return True
 
 
