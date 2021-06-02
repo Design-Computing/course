@@ -76,7 +76,7 @@ def test_for_python_and_requests(repo_path: str) -> bool:
 
     gh_url = "https://raw.githubusercontent.com/"
     check_repo = "notionparallax/code1161base/"
-    file_path = f"master/set{SET_NUMBER}/pySuccessMessage.json"
+    file_path = f"master/week{SET_NUMBER}/pySuccessMessage.json"
     url = gh_url + check_repo + file_path
 
     try:
