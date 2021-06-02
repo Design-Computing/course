@@ -161,11 +161,12 @@ def test_aboutMe(repo_path, show=False) -> bool:
         print(json.dumps(them, indent=2, sort_keys=True))
     if (
         them["name"] == "Your Name"
-        or them["name"] == "Your Name"
         or them["studentNumber"] == "z1234567"
         or them["officialEmail"] == "noIdea@unsw.edu.au"
+        or them["stackOverflowLink"] == "https://stackoverflow.com/users/1835727/ben"
+        or them["github"] == "notionparallax"
     ):
-        print("You haven't updated your aboutMe.yml")
+        print("You haven't updated your aboutMe.yml yet.")
         return False
     else:
         return True
