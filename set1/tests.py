@@ -1,17 +1,16 @@
 """Do the work of checking the set's work."""
 
-from colorama import Fore
-from colorama import Style
-from pathlib import Path
-import git
 import inspect
 import json
 import os
 import platform
+import sys
+from pathlib import Path
+
+import git
 import requests
 import ruamel.yaml as yaml
-import sys
-
+from colorama import Fore, Style
 
 aboutMeData = ""
 
@@ -28,7 +27,6 @@ from codeHelpers import (
     test,
     test_flake8,
 )
-
 
 SET_NUMBER = 1
 EM = Fore.YELLOW

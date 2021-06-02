@@ -5,19 +5,19 @@ This file tests your code. It'll check that the work in each
 of the exercise files does what it's supposed to.
 """
 
-# from datetime import datetime
-# import math
-# import requests
-# import time
-from colorama import Fore
-from colorama import Style
-from pathlib import Path
 import importlib.util as importUtils
 import inspect
 import io
 import os
 import sys
-from typing import List, Set, Dict, Tuple, Optional
+from pathlib import Path
+from typing import Dict, List, Optional, Set, Tuple
+
+# from datetime import datetime
+# import math
+# import requests
+# import time
+from colorama import Fore, Style
 
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 from codeHelpers import (

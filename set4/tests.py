@@ -5,21 +5,21 @@ This file tests your code. It'll check that the work in each
 of the exercise files does what it's supposed to.
 """
 
-from colorama import Fore
-from colorama import Style
-from datetime import datetime
-from func_timeout import func_timeout, FunctionTimedOut
-from pathlib import Path
 import importlib.util as importUtils
 import json
 import math
-import mock
 import os
 import random
-import requests
 import sys
 import time
-from typing import List, Set, Dict, Tuple, Optional
+from datetime import datetime
+from pathlib import Path
+from typing import Dict, List, Optional, Set, Tuple
+
+import mock
+import requests
+from colorama import Fore, Style
+from func_timeout import FunctionTimedOut, func_timeout
 
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 from codeHelpers import (

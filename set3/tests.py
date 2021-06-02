@@ -8,14 +8,14 @@ of the exercise files does what it's supposed to.
 import importlib.util as importUtils
 import math
 import os
-from pathlib import Path
 import random
 import sys
-from typing import List, Set, Dict, Tuple, Optional
+from pathlib import Path
+from typing import Dict, List, Optional, Set, Tuple
 
+import mock
 from colorama import Fore, Style
 from func_timeout import FunctionTimedOut, func_timeout
-import mock
 
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 from codeHelpers import (
@@ -29,7 +29,6 @@ from codeHelpers import (
     test,
     timeout_message,
 )
-
 
 EM = Fore.YELLOW
 NORM = Fore.WHITE

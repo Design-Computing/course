@@ -5,14 +5,14 @@ This file tests your code. It'll check that the work in each
 of the exercise files does what it's supposed to.
 """
 
-from colorama import Fore
-from colorama import Style
-from func_timeout import func_timeout, FunctionTimedOut
-from pathlib import Path
 import importlib.util as importUtils
 import os
 import string
 import sys
+from pathlib import Path
+
+from colorama import Fore, Style
+from func_timeout import FunctionTimedOut, func_timeout
 
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 
@@ -20,15 +20,14 @@ sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 from codeHelpers import (
     completion_message,
     ex_runs,
+    finish_up,
     lab_book_entry_completed,
     loadExerciseFile,
     nyan_cat,
     syntax_error_message,
     test,
     test_flake8,
-    finish_up,
 )
-
 
 EM = Fore.YELLOW
 NORM = Fore.WHITE

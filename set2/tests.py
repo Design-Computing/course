@@ -7,14 +7,13 @@ of the exercise files does what it's supposed to.
 
 # TODO replace flake8 with yapf or calm flake8 down
 
-from colorama import Fore
-from colorama import Style
-from pathlib import Path
-
 import importlib.util as importUtils
 import os
 import sys
-from typing import List, Set, Dict, Tuple, Optional
+from pathlib import Path
+from typing import Dict, List, Optional, Set, Tuple
+
+from colorama import Fore, Style
 
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 from codeHelpers import (
