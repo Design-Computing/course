@@ -1,16 +1,16 @@
 # -*- coding: UTF-8 -*-
 """Collect up the functons used in all the sets."""
-from colorama import Fore
-from colorama import Style
-from pathlib import Path
-import colorama
 import importlib.util as importUtils
 import inspect
 import os
 import subprocess
 import threading
 import traceback
-from typing import List, Set, Dict, Tuple, Optional
+from pathlib import Path
+from typing import Dict, List, Optional, Set, Tuple
+
+import colorama
+from colorama import Fore, Style
 
 colorama.init()
 
