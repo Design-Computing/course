@@ -116,10 +116,21 @@ def test_for_python_and_requests(repo_path: str) -> bool:
 def test_hello_world(repo_path: str) -> bool:
     exercise1 = loadExerciseFile(repo_path, setNumber=SET_NUMBER, exerciseNumber=1)
     source = "".join(inspect.getsourcelines(exercise1)[0])
+    if "print('Hello world!')" in source or 'print("Hello world!")':
+        print("that's exactly right!, nice one.")
+        return True
     if (
+        # TODO: probably get a regex in here
         "print('hello world!')" in source.lower()
         or 'print("hello world!")' in source.lower()
+        or 'print ("hello world!")' in source.lower()
+        or "print ('hello world!')" in source.lower()
     ):
+        print(
+            "This is close enough, it passes, but it's not "
+            "EXACTLY right, and sometimes it really matters "
+            "what you write. Be pedantic!"
+        )
         return True
     else:
         print(
