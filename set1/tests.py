@@ -153,24 +153,33 @@ def test_dev_env() -> bool:
 
 def test_aboutMe(repo_path, show=False) -> bool:
     """Test to see if aboutMe.yml is updated"""
-    f = open(os.path.join(repo_path, "aboutMe.yml"), "r")
+    file_path = os.path.join(repo_path, "aboutMe.yml")
+    if not os.path.isfile(file_path):
+        print(
+            "this is very strange, have you deleted "
+            "aboutMe.yml or renamed is? Don't do that!"
+        )
+        return False
+    f = open(file_path, "r")
     them = dict(yaml.load(f, yaml.RoundTripLoader))
     global aboutMeData
     aboutMeData = them
     if show:
         print(json.dumps(them, indent=2, sort_keys=True))
-    if (
-        them.get("name", "") == "Your Name"
-        or them.get("studentNumber", "") == "z1234567"
-        or them.get("officialEmail", "") == "noIdea@unsw.edu.au"
-        or them.get("stackOverflowLink", "")
-        == "https://stackoverflow.com/users/1835727/ben"
-        or them.get("github", "") == "notionparallax"
-    ):
-        print("You haven't updated your aboutMe.yml yet.")
+    xx = "a very unexpected string"
+    checks = [
+        them.get("name", xx) == "Your Name",
+        them.get("studentNumber", xx) == "z1234567",
+        them.get("officialEmail", xx) == "noIdea@unsw.edu.au",
+        "1835727/ben" in them.get("stackOverflowLink", xx),
+        them.get("github", xx) == "notionparallax",
+    ]
+    if any(checks):
+        print("You haven't updated all of your aboutMe.yml yet.")
         return False
-    else:
-        return True
+    if all(checks):
+        print("you haven't started on your aboutMe.yml yet.")
+    return True
 
 
 def get_origin_url(repo) -> str:
