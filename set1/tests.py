@@ -11,6 +11,7 @@ import git
 import requests
 import ruamel.yaml as yaml
 from colorama import Fore, Style
+from PIL import Image
 
 aboutMeData = ""
 
@@ -240,6 +241,65 @@ def has_pushed(fileName, repo_path) -> bool:
         return False
 
 
+def has_real_photo(repo_path):
+    repo = git.cmd.Git(repo_path)
+    origin_url = get_origin_url(repo)
+    owner = origin_url.split("/")[3]
+    image_url = f"https://github.com/{owner}.png?size=40"
+    img_data = requests.get(image_url).content
+    with open("avatar.jpg", "wb") as handler:
+        handler.write(img_data)
+
+    image = Image.open("avatar.jpg")
+    colour_count = len(set(image.getdata()))
+
+    print(image.size, "colours:", colour_count)
+
+    if colour_count > 10:
+        block_image = blocky_photo(image)
+        print(block_image)
+        return True
+    else:
+        block_image = blocky_photo(image)
+        print(
+            f"Your GitHub profile picture only has {colour_count} colours.\n"
+            "This makes me think it's the default avatar.\n"
+            "Not like this:\n",
+            block_image,
+            """Like this:
+            ╭───────────╮
+            │  !!!!!!!  │
+            │ /       \ │
+            │ │  O  O │ │
+            │<│    v  │>│
+            │  \  ─── / │
+            │   \____/  │
+            ╰───────────╯\n"""
+            "Go to https://github.com/settings/profile and upload a photo of your face.\n"
+            "This really helps us understand who's who and be more useful in tutorials.",
+        )
+        return False
+
+
+def blocky_photo(image):
+    colour_map_list = list(
+        zip(
+            list(set(image.getdata())),
+            ["█", "░", "▒", "▓", "X", "#", "%", "/", ":", "*"],
+        )
+    )
+    colour_map = {x[0]: x[1] for x in colour_map_list}
+    image = image.resize((20, 10), Image.NEAREST)
+    pixels = list(image.getdata())
+    width, height = image.size
+    block_image = ""
+    for i in range(len(pixels)):
+        block_image += colour_map[pixels[i]]
+        if (i + 1) % (width) == 0:
+            block_image += "\n "
+    return block_image
+
+
 def theTests(path_to_code_to_check="../me") -> dict:
     """Run the tests."""
     print("checking:    ", path_to_code_to_check)
@@ -305,6 +365,13 @@ def theTests(path_to_code_to_check="../me") -> dict:
         test(
             has_pushed(f, path_to_code_to_check),
             "You've pushed your work to GitHub: " + f,
+        )
+    )
+
+    testResults.append(
+        test(
+            has_real_photo(path_to_code_to_check),
+            "You've got a photo for your GitHub account" + f,
         )
     )
 
