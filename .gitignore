@@ -22,3 +22,5 @@ venv/
 .vscode/
 
 maps/NSW_LOCALITY_POLYGON_shp
+temp.py
+course/
