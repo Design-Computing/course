@@ -56,8 +56,7 @@ def finish_up(testResults: List[dict], message: str, the_treat: str) -> Dict[str
         package = {
             "of_total": 0,
             "mark": 0,
-            "results": str(e)
-            + "Ben is a moron and is trying to append a zero instead of a dictionary",
+            "results": f"{e}\nBen is a moron and is trying to append a zero instead of a dictionary",
         }
     return package
 
@@ -70,13 +69,13 @@ def test(testResult: bool, name: str) -> Dict:
     value = 0
     try:
         if testResult:
-            print((Fore.GREEN + "✔ " + name + Style.RESET_ALL))
+            print((f"{Fore.GREEN}✔ {name}{Style.RESET_ALL}"))
             value = 1
         else:
-            print((Fore.RED + "✘ " + name + Style.RESET_ALL))
+            print((f"{Fore.RED}✘ {name}{Style.RESET_ALL}"))
     except Exception as e:
         print(e)
-        print((Fore.RED + "✘ " + name + Style.RESET_ALL))
+        print((f"{Fore.RED}✘ {name}{Style.RESET_ALL}"))
 
     return {"value": value, "name": name}
 
@@ -123,7 +122,7 @@ def test_pydocstyle(fileName, flags="-e") -> bool:
             print("all good, I think")
             return True
         else:
-            print(("U haz docstring errorz" + grumpy()))
+            print((f"U haz docstring errorz {grumpy()}"))
             return False
     except Exception as e:
         print(("failed to doc check", e))
@@ -193,9 +192,9 @@ def completion_message(message, width) -> None:
     cap = "{start}{s:{c}^{n}}{end}".format(
         n=width, c="*", s="", start=Fore.GREEN, end=Style.RESET_ALL
     )
-    print(cap + "\n")
-    print((Fore.GREEN + "✔ " + message + Style.RESET_ALL))
-    print("\n" + cap)
+    print(f"{cap}\n")
+    print((f"{Fore.GREEN}✔ {message}{Style.RESET_ALL}"))
+    print(f"\n{cap}")
 
 
 def timeout_message(
@@ -518,15 +517,15 @@ def nyan_cat(block: str = "█") -> str:
     ]
     c = "\n".join(["".join(x) for x in c])
     return c.format(
-        BLACK=Style.NORMAL + "" + Fore.BLACK,
-        BLUE=Style.NORMAL + "" + Fore.BLUE,
-        BRIGHT_BLUE=Style.BRIGHT + "" + Fore.BLUE,
-        BRIGHT_GREEN=Style.BRIGHT + "" + Fore.GREEN,
-        BRIGHT_RED=Style.BRIGHT + "" + Fore.RED,
-        BRIGHT_YELLOW=Style.BRIGHT + "" + Fore.YELLOW,
-        MAGENTA=Style.NORMAL + "" + Fore.MAGENTA,
-        RED=Style.NORMAL + "" + Fore.RED,
-        WHITE=Style.BRIGHT + "" + Fore.WHITE,
+        BLACK=f"{Style.NORMAL}{Fore.BLACK}",
+        BLUE=f"{Style.NORMAL}{Fore.BLUE}",
+        BRIGHT_BLUE=f"{Style.BRIGHT}{Fore.BLUE}",
+        BRIGHT_GREEN=f"{Style.BRIGHT}{Fore.GREEN}",
+        BRIGHT_RED=f"{Style.BRIGHT}{Fore.RED}",
+        BRIGHT_YELLOW=f"{Style.BRIGHT}{Fore.YELLOW}",
+        MAGENTA=f"{Style.NORMAL}{Fore.MAGENTA}",
+        RED=f"{Style.NORMAL}{Fore.RED}",
+        WHITE=f"{Style.BRIGHT}{Fore.WHITE}",
         x=block,
     )
 
@@ -572,4 +571,3 @@ def grumpy() -> str:
 
 if __name__ == "__main__":
     pass
-

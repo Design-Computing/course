@@ -78,7 +78,7 @@ def test_for_python_and_requests(repo_path: str) -> bool:
     gh_url = "https://raw.githubusercontent.com/"
     check_repo = "notionparallax/code1161base/"
     file_path = f"master/week{SET_NUMBER}/pySuccessMessage.json"
-    url = gh_url + check_repo + file_path
+    url = f"{gh_url}{check_repo}{file_path}"
 
     try:
         r = requests.get(url)
@@ -109,7 +109,7 @@ def test_for_python_and_requests(repo_path: str) -> bool:
     p = os.path.join(repo_path, f"set{SET_NUMBER}", "requestsWorking.txt")
     with open(p, "w", encoding="utf-8") as f:
         for line in doesItWork:
-            f.write(line + "\n")
+            f.write(f"{line}\n")
 
     return True
 
@@ -345,11 +345,11 @@ def theTests(path_to_code_to_check="../me") -> dict:
 
     f = "requestsWorking.txt"
     p = os.path.join(path_to_code_to_check, f"set{SET_NUMBER}", f)
-    testResults.append(test(os.path.isfile(p), f + " exists"))
+    testResults.append(test(os.path.isfile(p), f"{f} exists"))
 
     f = "checkID.json"
     p = os.path.join(path_to_code_to_check, f"set{SET_NUMBER}", f)
-    testResults.append(test(os.path.isfile(p), f + " exists"))
+    testResults.append(test(os.path.isfile(p), f"{f} exists"))
 
     testResults.append(
         test(me_repo_is_clone(path_to_code_to_check), "You've forked the me repo")
@@ -359,14 +359,14 @@ def theTests(path_to_code_to_check="../me") -> dict:
     testResults.append(
         test(
             has_pushed(f, path_to_code_to_check),
-            "You've pushed your work to GitHub: " + f,
+            f"You've pushed your work to GitHub: {f}",
         )
     )
     f = "checkID.json"
     testResults.append(
         test(
             has_pushed(f, path_to_code_to_check),
-            "You've pushed your work to GitHub: " + f,
+            f"You've pushed your work to GitHub: {f}",
         )
     )
 
