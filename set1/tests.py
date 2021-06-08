@@ -247,18 +247,17 @@ def has_real_photo(repo_path):
     owner = origin_url.split("/")[3]
     image_url = f"https://github.com/{owner}.png?size=40"
     img_data = requests.get(image_url).content
-    with open("avatar.jpg", "wb") as handler:
+    file_name = "avatar.jpg"
+    with open(file_name, "wb") as handler:
         handler.write(img_data)
 
-    image = Image.open("avatar.jpg")
+    image = Image.open(file_name)
     colour_count = len(set(image.getdata()))
 
-    print(image.size, "colours:", colour_count)
-
     if colour_count > 10:
-        block_image = blocky_photo(image)
+        block_image = blocky_photo(image.convert("P", palette=Image.ADAPTIVE, colors=5))
         print(block_image)
-        return True
+        ret_val = True
     else:
         block_image = blocky_photo(image)
         print(
@@ -267,18 +266,21 @@ def has_real_photo(repo_path):
             "Not like this:\n",
             block_image,
             """Like this:
-            ╭───────────╮
-            │  !!!!!!!  │
-            │ /       \ │
-            │ │  O  O │ │
-            │<│    v  │>│
-            │  \  ─── / │
-            │   \____/  │
-            ╰───────────╯\n"""
+╭───────────╮
+│  !!!!!!!  │
+│ /       \ │
+│ │  O  O │ │  ⇇ where this is a photo of your face, of course!
+│<│    v  │>│
+│  \  ─── / │
+│   \____/  │
+╰───────────╯\n"""
             "Go to https://github.com/settings/profile and upload a photo of your face.\n"
             "This really helps us understand who's who and be more useful in tutorials.",
         )
-        return False
+        ret_val = False
+
+    os.remove(file_name)
+    return ret_val
 
 
 def blocky_photo(image):
@@ -371,7 +373,7 @@ def theTests(path_to_code_to_check="../me") -> dict:
     testResults.append(
         test(
             has_real_photo(path_to_code_to_check),
-            "You've got a photo for your GitHub account" + f,
+            "You've got a photo for your GitHub account",
         )
     )
 
