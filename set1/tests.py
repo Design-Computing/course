@@ -163,6 +163,18 @@ def test_dev_env() -> bool:
     return False
 
 
+def str_dict_vals(d):
+    if hasattr(d, "keys"):
+        for k in d:
+            if hasattr(d[k], "keys"):
+                str_dict_vals(dict(d[k]))
+            else:
+                d[k] = str(d[k])
+        return dict(d)
+    else:
+        return d
+
+
 def test_aboutMe(repo_path, show=False) -> bool:
     """Test to see if aboutMe.yml is updated"""
     file_path = os.path.join(repo_path, "aboutMe.yml")
@@ -173,7 +185,7 @@ def test_aboutMe(repo_path, show=False) -> bool:
         )
         return False
     f = open(file_path, "r")
-    them = dict(yaml.load(f, yaml.RoundTripLoader))
+    them = str_dict_vals(yaml.load(f, yaml.RoundTripLoader))
     global aboutMeData
     aboutMeData = them
     if show:
