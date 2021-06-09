@@ -24,3 +24,4 @@ call code --install-extension thierrymichel.vscode-gitmoji-snippets
 call code --install-extension travisthetechie.write-good-linter
 call code --install-extension Tyriar.sort-lines
 call code --install-extension Zignd.html-css-class-completion
+call code --install-extension esbenp.prettier-vscode
