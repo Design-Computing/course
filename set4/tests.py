@@ -61,41 +61,6 @@ def find_lasers(path) -> bool:
         return False
 
 
-# def tzOffset():
-#     """Return tz in hours for current locale."""
-#     ts = time.time()
-#     utc_offset = (
-#         datetime.fromtimestamp(ts) - datetime.utcfromtimestamp(ts)
-#     ).total_seconds()
-#     seconds_in_hour = 60 * 60
-#     return utc_offset / seconds_in_hour
-
-
-# def treat():
-#     """Go and get the coloured ascii face particular to this person."""
-#     with open(".git/config", "r") as f:
-#         for line in f:
-#             if ("url = https://github.com/" in line) and not ("notionparallax" in line):
-#                 # ensure it's not Ben's repo
-#                 print(line)
-#                 name = line.split("/")[-2]
-#                 if "git" in name:
-#                     # if ssh url
-#                     name = name.split(":")[-1]
-#             elif "url = https://github.com/notionparallax" in line:
-#                 print("we must be testing the tests")
-#                 name = "notionparallax"
-#     try:
-#         url = (
-#             "https://raw.githubusercontent.com/"
-#             "notionparallax/code1161base/master/faces/"
-#         )
-#         full_url = url + name
-#         print("treat:\n", full_url, requests.get(full_url).text)
-#     except Exception as e:
-#         print("Error with getting github username", e)
-
-
 def theTests(path_to_code_to_check: str = "../me") -> dict:
     """Run the tests."""
     print(f"\nWelcome to set {SET_NUMBER}!")

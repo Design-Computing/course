@@ -163,16 +163,16 @@ def test_dev_env() -> bool:
     return False
 
 
-def str_dict_vals(d):
-    if hasattr(d, "keys"):
-        for k in d:
-            if hasattr(d[k], "keys"):
-                str_dict_vals(dict(d[k]))
-            else:
-                d[k] = str(d[k])
-        return dict(d)
-    else:
-        return d
+# def str_dict_vals(d):
+#     if hasattr(d, "keys"):
+#         for k in d:
+#             if hasattr(d[k], "keys"):
+#                 str_dict_vals(dict(d[k]))
+#             else:
+#                 d[k] = str(d[k])
+#         return dict(d)
+#     else:
+#         return d
 
 
 def test_aboutMe(repo_path, show=False) -> bool:
@@ -184,8 +184,9 @@ def test_aboutMe(repo_path, show=False) -> bool:
             "aboutMe.yml or renamed is? Don't do that!"
         )
         return False
-    f = open(file_path, "r")
-    them = str_dict_vals(yaml.load(f, yaml.RoundTripLoader))
+    f = open(file_path, "r", encoding="utf8", errors="ignore")
+    them = yaml.load(f, yaml.RoundTripLoader)
+    # them = str_dict_vals(yaml.load(f, yaml.RoundTripLoader))
     global aboutMeData
     aboutMeData = them
     if show:
@@ -267,7 +268,8 @@ def has_real_photo(repo_path):
     colour_count = len(set(image.getdata()))
 
     if colour_count > 10:
-        block_image = blocky_photo(image.convert("P", palette=Image.ADAPTIVE, colors=5))
+        im = image.convert("P", palette=Image.ADAPTIVE, colors=9)
+        block_image = blocky_photo(im, width=40)
         print(block_image)
         ret_val = True
     else:
@@ -295,7 +297,7 @@ def has_real_photo(repo_path):
     return ret_val
 
 
-def blocky_photo(image):
+def blocky_photo(image, width=20):
     colour_map_list = list(
         zip(
             list(set(image.getdata())),
@@ -303,7 +305,7 @@ def blocky_photo(image):
         )
     )
     colour_map = {x[0]: x[1] for x in colour_map_list}
-    image = image.resize((20, 10), Image.NEAREST)
+    image = image.resize((width, int(width / 2)), Image.NEAREST)
     pixels = list(image.getdata())
     width, height = image.size
     block_image = ""
