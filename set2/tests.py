@@ -115,8 +115,8 @@ def theTests(path_to_code_to_check="../me") -> dict:
         # fix it
         scenarios = [
             {"it_moves": True, "it_should_move": True, "answer": "No Problem"},
-            {"it_moves": True, "it_should_move": False, "answer": "WD-40"},
-            {"it_moves": False, "it_should_move": True, "answer": "Duct Tape"},
+            {"it_moves": True, "it_should_move": False, "answer": "Duct Tape"},
+            {"it_moves": False, "it_should_move": True, "answer": "WD-40"},
             {"it_moves": False, "it_should_move": False, "answer": "No Problem"},
         ]
         for s in scenarios:
