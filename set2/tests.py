@@ -122,9 +122,16 @@ def theTests(path_to_code_to_check="../me") -> dict:
         for s in scenarios:
             it = "moves" if s["it_moves"] else "does not move"
             should = "" if s["it_should_move"] else "not"
+            result = exercise3.fix_it(s["it_moves"], s["it_should_move"]) == s["answer"]
+            if not result:
+                print(
+                    f"""Trying it {it} and it {should} move """
+                    f"""and we're getting {exercise3.fix_it(s["it_moves"], s["it_should_move"])}.\n"""
+                    f"""We should be getting {s["answer"]}."""
+                )
             testResults.append(
                 test(
-                    exercise3.fix_it(s["it_moves"], s["it_should_move"]) == s["answer"],
+                    result,
                     f"Exercise 3: fix_it - it {it}, and it should {should} move",
                 )
             )
