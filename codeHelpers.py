@@ -132,7 +132,7 @@ def test_pydocstyle(fileName, flags="-e") -> bool:
 def lab_book_entry_completed(setNumber: int, repo_path: str) -> bool:
     lab_book = Path(os.path.join(repo_path, f"set{setNumber}/readme.md"))
     if lab_book.is_file():
-        with open(lab_book, "r") as f:
+        with open(lab_book, "r", encoding="utf-8", errors="ignore") as f:
             lines = f.readlines()
             basic_lab_book_content = [
                 "TODO: Reflect on what you learned this week and what is still unclear."
