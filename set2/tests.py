@@ -226,19 +226,21 @@ def theTests(path_to_code_to_check="../me") -> dict:
         res = exercise3.loops_4()
         if res == ten_rising_lists:
             testResults.append(test(True, "Exercise 3: loops_4 - ten rising lists"))
+        elif res is None:
+            print("Still returning None")
+            testResults.append(test(False, "Exercise 3: loops_4 - ten rising lists"))
+        elif len(res) == 10 and res[0][0] == 0:
+            print(
+                "This is looking promising, but the test is looking for "
+                "strings, not numbers. look into what str() does"
+            )
+            testResults.append(test(False, "Exercise 3: loops_4 - ten rising lists"))
         else:
-            if len(res) == 10 and res[0][0] == 0:
-                print(
-                    "This is looking promising, but the test is looking for "
-                    "strings, not numbers. look into what str() does"
-                )
-                testResults.append(
-                    test(False, "Exercise 3: loops_4 - ten rising lists")
-                )
-            else:
-                testResults.append(
-                    test(False, "Exercise 3: loops_4 - ten rising lists")
-                )
+            print(
+                f"You're giving us:\n{res}\nbut we're looking for\n{ten_rising_lists}\n"
+                "Can you see a difference? What is it?"
+            )
+            testResults.append(test(False, "Exercise 3: loops_4 - ten rising lists"))
 
         coords = [
             ["(i0, j0)", "(i0, j1)", "(i0, j2)", "(i0, j3)", "(i0, j4)"],
