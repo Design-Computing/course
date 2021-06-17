@@ -189,7 +189,7 @@ def test_binary_search(repo_path, low, high, actual, label):
                     print("b", b)
                     print("snuck it in")
                     return True
-                elif b["tries"] is 0:
+                elif b["tries"] == 0:
                     print(
                         "Tries is 0, that probably means that you haven't started yet"
                     )
@@ -433,7 +433,12 @@ def theTests(path_to_code_to_check: str = "../me"):
                 # *test_vals unpacks this tuple ----------------------- vvvvvvvvvv
                 test_result = test_binary_search(path_to_code_to_check, *test_vals)
                 message = f"{test_name} {test_desc}"
-                testResults.append(test(test_result, message,))
+                testResults.append(
+                    test(
+                        test_result,
+                        message,
+                    )
+                )
             except Exception:
                 print("********\n\nfailed:", test_desc)
                 print("tv failure", Exception)
