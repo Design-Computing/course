@@ -71,7 +71,7 @@ def test_not_number_rejector(repo_path):
     except Exception as e:
         return syntax_error_message(1, e)
 
-    mockInputs = ["aword", [1, 2, 3], {"an": "object"}, 40]
+    mockInputs = ["a_word", [1, 2, 3], {"a": "dictionary"}, 40]
     with mock.patch("builtins.input", side_effect=mockInputs):
         my_args = "Testing some values:"
         try:
