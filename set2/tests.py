@@ -97,6 +97,7 @@ def theTests(path_to_code_to_check="../me") -> dict:
         )
 
     ex2_runs = ex_runs(path_to_code_to_check, exerciseNumber=2, setNumber=SET_NUMBER)
+
     if not ex2_runs:
         print("Don't worry, exercise 2 comes with errors. It's your job to fix them!")
     testResults.append(test(ex2_runs, "Exercise 2: debug the file"))
