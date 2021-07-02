@@ -91,9 +91,11 @@ message_for_capsule = {
     "Year": 2021,
     "Location": "Sydney",
     "Greeting": "Yo whatup now and give a brother room",
-    "Fact": "It would take 1,200,000 mosquitoes, each "
-    + "sucking once, to completely drain the "
-    + "average human of blood",
+    "Fact": (
+        "It would take 1,200,000 mosquitoes, each "
+        "sucking once, to completely drain the "
+        "average human of blood"
+    ),
     "Alphabet Inc Class A": "1106.50USD",
     "fruit": ["apple", "apricot", "avocado", "abiu"],
 }
