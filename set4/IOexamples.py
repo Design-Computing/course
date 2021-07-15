@@ -53,6 +53,11 @@ def be_cool_for_ever(name, file_path):
     history_book.close()
 
 
+# look up what '..' means
+be_cool_for_ever("Ben", "../ben_is_cool.txt")
+be_cool_for_ever("Ben", "ben_is_cool.lol_UR_joking")
+
+
 def be_cool_and_safe_for_ever(name, file_path):
     """Save a message about being cool for ever.
 
@@ -62,12 +67,13 @@ def be_cool_and_safe_for_ever(name, file_path):
     """
     mode = "w"  # from the docs
     with open(file_path, mode, encoding="utf-8") as history_book:
-        history_book.write(name + " is cool and safe")
+        history_book.write(name + " is cool and safe 🙃 ✔️ 🐼 ⨀ ½ ∞ ∴")
 
 
 # look up what '..' means
-be_cool_for_ever("Ben", "../ben_is_cool.txt")
-be_cool_for_ever("Ben", "ben_is_cool.lol_UR_joking")
+be_cool_and_safe_for_ever("Ben", "../ben_is_cool.txt")
+be_cool_and_safe_for_ever("Ben", "ben_is_cool.lol_UR_joking")
+
 
 # See where each file was saved
 
