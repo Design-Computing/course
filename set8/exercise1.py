@@ -10,6 +10,7 @@ import os
 import random
 import string
 import time
+import requests
 from typing import Dict, List
 
 
@@ -56,7 +57,7 @@ def take_five(some_number) -> int:
     return None
 
 
-def greet(name="Towering Timmy"):
+def greet(name="Towering Timmy") -> str:
     """Return a greeting.
     return a string of "Well hello, " and the name argument.
     E.g. if given as "Towering Timmy" it should
@@ -70,7 +71,7 @@ def one_counter(input_list=[1, 4, 1, 5, 1, 1]) -> int:
     Return an integer.
     TIP: the test will use a different input_list, so don't just return 2
     """
-    count = 0
+    count = None
 
     return count
 
@@ -79,7 +80,7 @@ def n_counter(search_for_this, input_list=[1, 4, 1, 5, 1, 1]) -> int:
     """Count the number of times search_for_this shows up in the input_list.
     Return an integer.
     """
-    count = 0
+    count = None
 
     return count
 
@@ -102,10 +103,10 @@ def fizz_buzz() -> List:
          'Fizz', 'Buzz',  11, 'Fizz', 13, 14,
          'FizzBuzz', 16, 17, ...]
     """
-    fizzBuzzList = []
+    fizz_buzz_list = []
     # your code here
 
-    return fizzBuzzList
+    return fizz_buzz_list
 
 
 def set_it_on_fire(input_string="very naughty boy") -> str:
@@ -128,7 +129,7 @@ def pet_filter(letter="a") -> List:
     # fmt: off
     pets = [
         "dog", "goat", "pig", "sheep", "cattle", "zebu", "cat", "chicken", 
-        "guinea pig", "donkey", "duck", "water buffalo", "python", "scorpion"
+        "guinea pig", "donkey", "duck", "water buffalo", "python", "scorpion",
         "western honey bee", "dromedary camel", "horse", "silkmoth", 
         "pigeon", "goose", "yak", "bactrian camel", "llama", "alpaca", 
         "guineafowl", "ferret", "muscovy duck", "barbary dove", "cichlid",
@@ -178,12 +179,10 @@ def make_filler_text_dictionary() -> Dict:
     }
     Use the API to get the 4 words.
 
-    The dictionary should have the numbers between 2 and 8 inclusive.
-    (i.e. 2, 3, 4, 5, 6, 7, 8 and 4 words for each)
+    The dictionary should have the numbers between 3 and 7 inclusive.
+    (i.e. 3, 4, 5, 6, 7 and 4 words for each)
     TIP: you'll need the requests library
     """
-
-    import requests
 
     url = "https://us-central1-waldenpondpress.cloudfunctions.net/give_me_a_word?wordlength="
     wd = {}
@@ -195,16 +194,16 @@ def random_filler_text(number_of_words=200) -> str:
     """Make a paragraph of random filler text.
     Using the dictionary returned by make_filler_text_dictionary, make a
     paragraph of text using randomly picked words. Each word should be a random
-    length, and a random one of the 3 words.
+    length, and a random one of the words.
     Make the paragraph have number_of_words words in it.
     Return it as a string
     TIP: you'll need the random library,
-        see line 77 of set4/hangman_leadboard.py for an example.
+        e.g. random.randint(low, high)
     """
 
     my_dict = make_filler_text_dictionary()
 
-    words = ""
+    words = []
 
     return " ".join(words)
 
@@ -255,8 +254,8 @@ if __name__ == "__main__":
     print("make_filler_text_dictionary:", make_filler_text_dictionary())
     print("random_filler_text:", random_filler_text())
     print("fast_filler:", fast_filler())
-    for i in range(10):
-        print(i, fast_filler())
+    for i in range(4):
+        print(i, fast_filler(number_of_words=20), "\n")
     print(
         "These are mini tests, they show you some output.",
         "\nDon't forget to run the real tests.",

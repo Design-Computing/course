@@ -38,7 +38,7 @@ TIMEOUT_IN_SECONDS = 3
 SET_NUMBER = 8
 testResults = []
 
-if "week" in os.getcwd():
+if "set" in os.getcwd():
     os.chdir("..")
 
 
@@ -62,7 +62,7 @@ def exam_test(
                 os.chdir("./quiz")
         got = function_to_test(*args)
         if chdir:
-            if "week" in os.getcwd():
+            if "set" in os.getcwd():
                 os.chdir("..")
         if finishing_function:
             print("raw", got)
@@ -95,9 +95,9 @@ def theTests(path_to_code_to_check="../me"):
     print("\nWelcome to the exam!")
     print("May the odds be ever in your favour.\nEspecially today!")
 
-    if ex_runs(path_to_code_to_check, exerciseNumber=1, weekNumber=SET_NUMBER):
+    if ex_runs(path_to_code_to_check, exerciseNumber=1337, setNumber=SET_NUMBER):
         exam = loadExerciseFile(
-            path_to_code_to_check, weekNumber=SET_NUMBER, exerciseNumber=1
+            path_to_code_to_check, setNumber=SET_NUMBER, exerciseNumber=1337
         )
 
         # testResults.append(test(test_flake8(ex1path), "pass the linter"))
@@ -169,7 +169,7 @@ def theTests(path_to_code_to_check="../me"):
 
         exam_test(0, [7], exam.n_counter)
         exam_test(2, [4, [4, 0, 4]], exam.n_counter)
-        exam_test(5, [0, [0, 0, 0, "0", "zero"]], exam.n_counter)
+        exam_test(3, [0, [0, 0, 0, "0", "zero"]], exam.n_counter)
 
         # fmt: off
         fizza = [
@@ -208,7 +208,16 @@ def theTests(path_to_code_to_check="../me"):
         exam_test(["red fox"], ["x"], exam.pet_filter)
         exam_test([], ["q"], exam.pet_filter)
         exam_test(
-            ["pig", "sheep", "guinea pig", "pigeon", "alpaca", "guppy"],
+            [
+                "pig",
+                "sheep",
+                "guinea pig",
+                "python",
+                "scorpion",
+                "pigeon",
+                "alpaca",
+                "guppy",
+            ],
             ["p"],
             exam.pet_filter,
         )
