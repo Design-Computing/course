@@ -51,12 +51,11 @@ def exam_test(
     chdir=False,
 ):
     print(extra_message)
-    template = (
-        "{n}:\n"  ############################################################
-        "    given:    {a}\n"
-        "    expected: {e}\n"
-        "    got:      {g}\n"
-    )
+    template = """
+{function_name}:
+    given:    {args}
+    expected: {expected}
+    got:      {got}"""
     try:
         if chdir:
             if "quiz" not in os.getcwd():
@@ -75,11 +74,19 @@ def exam_test(
         # else:
         #     args = args
         message = template.format(
-            n=function_to_test.__name__, a=args, e=expected, g=got
+            function_name=function_to_test.__name__,
+            args=args,
+            expected=expected,
+            got=got,
         )
         testResults.append(test(got == expected, message))
     except Exception as e:
-        message = template.format(n=function_to_test.__name__, a=args, e=expected, g=e)
+        message = template.format(
+            function_name=function_to_test.__name__,
+            args=args,
+            expected=expected,
+            got=e,
+        )
         testResults.append(test(False, message))
 
 
@@ -97,17 +104,47 @@ def theTests(path_to_code_to_check="../me"):
         exam_test(
             True,
             [],
-            exam.string_please,
-            finishing_function=lambda x: type(x) is str,
+            exam.give_me_five,
+            finishing_function=lambda x: x == 5,
             extra_message="Don't over think this! just return a string!",
         )
+
+        exam_test(
+            True,
+            [],
+            exam.password_please,
+            finishing_function=lambda x: (type(x) is str)
+            and (x.upper() != x.lower())
+            and (len(x) >= 8),
+            extra_message="Don't over think this! just return a string!",
+        )
+
         exam_test(
             True,
             [],
             exam.list_please,
             finishing_function=lambda x: type(x) is list,
-            extra_message="Don't over think this! just return a list!",
+            extra_message="Don't over think this! just return a list of ints!",
         )
+
+        exam_test(
+            True,
+            [],
+            exam.int_list_please,
+            finishing_function=lambda x: (type(x) is list)
+            and (all([type(i) is int for i in x])),
+            extra_message="Don't over think this! just return a list of ints!",
+        )
+
+        exam_test(
+            True,
+            [],
+            exam.string_list_please,
+            finishing_function=lambda x: (type(x) is list)
+            and (all([type(i) is str for i in x])),
+            extra_message="Don't over think this! just return a list of strings!",
+        )
+
         exam_test(
             True,
             [],
@@ -115,21 +152,24 @@ def theTests(path_to_code_to_check="../me"):
             finishing_function=lambda x: type(x) is dict,
             extra_message="Don't over think this! just return a dictionary!",
         )
+
         exam_test(True, [5], exam.is_it_5)
         exam_test(False, [4], exam.is_it_5)
         exam_test(False, ["cats"], exam.is_it_5)
+
         exam_test(0, [5], exam.take_five)
         exam_test(5, [10], exam.take_five)
         exam_test(-5, [0], exam.take_five)
 
-        exam_test("Hello the Queen", ["the Queen"], exam.greet)
-        exam_test("Hello Pr♂nc♀♂", ["Pr♂nc♀♂"], exam.greet)
+        exam_test("Well hello, the Queen", ["the Queen"], exam.greet)
+        exam_test("Well hello, Pr♂nc♀♂", ["Pr♂nc♀♂"], exam.greet)
 
-        exam_test(4, [[3, 3, 3, 3, 1]], exam.three_counter)
-        exam_test(0, [[0, 1, 2, 5, -9]], exam.three_counter)
+        exam_test(3, [[1, 1, 1, 3, 3]], exam.one_counter)
+        exam_test(1, [[0, 1, 2, 5, -9]], exam.one_counter)
 
-        exam_test(2, [7], exam.n_counter)
-        exam_test(5, [0, [0, 0, 0, 0, 0, [0]]], exam.n_counter)
+        exam_test(0, [7], exam.n_counter)
+        exam_test(2, [4, [4, 0, 4]], exam.n_counter)
+        exam_test(5, [0, [0, 0, 0, "0", "zero"]], exam.n_counter)
 
         # fmt: off
         fizza = [
@@ -147,9 +187,23 @@ def theTests(path_to_code_to_check="../me"):
         exam_test(fizza, [], exam.fizz_buzz)
 
         exam_test(
-            "|a| |s|e|r|i|a|l| |k|i|l|l|e|r|", ["a serial killer"], exam.put_behind_bars
+            "🔥T🔥H🔥I🔥S🔥 🔥D🔥I🔥S🔥C🔥O🔥",
+            ["this disco"],
+            exam.set_it_on_fire,
+            extra_message="🛼🕺🧑‍🎤👨‍🎤👩‍🎤🕺🛼",
         )
-        exam_test("|a| |b|a|r|t|e|n|d|e|r|", ["a bartender"], exam.put_behind_bars)
+        exam_test(
+            "🔥💥🔥💥🔥💥🔥",
+            ["💥💥💥"],
+            exam.set_it_on_fire,
+            extra_message="💣",
+        )
+        exam_test(
+            "🔥💖🔥M🔥Y🔥 🔥H🔥E🔥A🔥R🔥T🔥💖🔥",
+            ["💖my heart💖"],
+            exam.set_it_on_fire,
+            extra_message="💖💘💝💖💗💓💞😻😍🥰❤️🧡💛💚💙💜🤎🖤🤎🤍🫀🫀🫀🫀🫀🫀🫀🫀🫀🫀🫀🫀🫀",
+        )
 
         exam_test(["red fox"], ["x"], exam.pet_filter)
         exam_test([], ["q"], exam.pet_filter)
@@ -161,7 +215,13 @@ def theTests(path_to_code_to_check="../me"):
 
         exam_test("e", [], exam.best_letter_for_pets)
 
-        word_lengths = [[3, 3, 3], [4, 4, 4], [5, 5, 5], [6, 6, 6], [7, 7, 7]]
+        word_lengths = [
+            [3, 3, 3, 3],
+            [4, 4, 4, 4],
+            [5, 5, 5, 5],
+            [6, 6, 6, 6],
+            [7, 7, 7, 7],
+        ]
         exam_test(
             word_lengths,
             [],
@@ -246,7 +306,7 @@ def theTests(path_to_code_to_check="../me"):
 
 def clean_out_old_env():
     """Remove old JSON before running more tests.
-    
+
     Previous tests leave an old json file. The code looks for it, and finds it
     but it was made by the previous student, not this one.
     """
