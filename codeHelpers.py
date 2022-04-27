@@ -1,5 +1,5 @@
 # -*- coding: UTF-8 -*-
-"""Collect up the functons used in all the sets."""
+"""Collect up the functions used in all the sets."""
 import importlib.util as importUtils
 import inspect
 import json
