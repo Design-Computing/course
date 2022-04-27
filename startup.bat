@@ -7,14 +7,12 @@ call code --install-extension ban.spellright
 call code --install-extension CoenraadS.bracket-pair-colorizer
 call code --install-extension dbaeumer.vscode-eslint
 call code --install-extension DotJoshJohnson.xml
-call code --install-extension eamodio.gitlens
 call code --install-extension esbenp.prettier-vscode
 call code --install-extension jithurjacob.nbpreviewer
 call code --install-extension joelday.docthis
 call code --install-extension lmcarreiro.vscode-smart-column-indenter
 call code --install-extension mechatroner.rainbow-csv
 call code --install-extension ms-mssql.mssql
-call code --install-extension ms-python.anaconda-extension-pack
 call code --install-extension ms-python.python
 call code --install-extension ms-vsliveshare.vsliveshare
 call code --install-extension msjsdiag.debugger-for-chrome
@@ -25,3 +23,5 @@ call code --install-extension travisthetechie.write-good-linter
 call code --install-extension Tyriar.sort-lines
 call code --install-extension Zignd.html-css-class-completion
 call code --install-extension esbenp.prettier-vscode
+@REM call code --install-extension eamodio.gitlens
+@REM call code --install-extension ms-python.anaconda-extension-pack
