@@ -62,8 +62,9 @@ def check_system_details(repo_path: str) -> bool:
     print(json.dumps(systemInfo, indent=4))
 
     # Write it to a file in this repo
-    with open(os.path.join(repo_path, "set1", "checkID.json"), "w") as f:
-        f.write(json.dumps(systemInfo, indent=4))
+    json_path = os.path.normpath(os.path.join(repo_path, "set1", "checkID.json"))
+    with open(json_path, "w") as f:
+        json.dump(systemInfo, f, indent=4)
 
     return True
 
