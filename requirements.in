@@ -1,0 +1,10 @@
+GitPython
+black
+colorama
+func_timeout
+mock
+pillow
+pip-tools
+requests
+ruamel.yaml
+wheel
