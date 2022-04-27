@@ -2,6 +2,7 @@
 """Collect up the functons used in all the sets."""
 import importlib.util as importUtils
 import inspect
+import json
 import os
 import subprocess
 import threading
@@ -40,7 +41,7 @@ class RunCmd(threading.Thread):
 
 
 def finish_up(testResults: List[dict], message: str, the_treat: str) -> Dict[str, int]:
-    print("\n\nRESULTS:", testResults, "\n\n")
+    print("\n\nRESULTS:", json.dumps(testResults, indent=2), "\n\n")
     try:
         total = sum([r["value"] for r in testResults])
         out_of = len(testResults)
