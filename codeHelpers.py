@@ -40,8 +40,19 @@ class RunCmd(threading.Thread):
             self.join()
 
 
+def terse_results(results):
+    s = ""
+    for result in results:
+        mark = "👍" if result.get("value") == 1 else "💩"
+        s += f"{mark} {result.get('name','')}\n"
+    return s
+
+
 def finish_up(testResults: List[dict], message: str, the_treat: str) -> Dict[str, int]:
-    print("\n\nRESULTS:", json.dumps(testResults, indent=2), "\n\n")
+    print(
+        "\n\nResult summary:  (👆 scroll up for more details ☝)\n",
+        terse_results(testResults),
+    )
     try:
         total = sum([r["value"] for r in testResults])
         out_of = len(testResults)
@@ -51,7 +62,7 @@ def finish_up(testResults: List[dict], message: str, the_treat: str) -> Dict[str
             print(the_treat)
             completion_message(message, len(message) + 2)
         else:
-            print("Keep going champ!")
+            print("Keep going champ! 🌟✨🌟✨ I believe in you! 🌟✨🌟✨")
         print(f"{total}/{out_of} (passed/attempted)")
     except Exception as e:
         package = {
