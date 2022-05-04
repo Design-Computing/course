@@ -267,8 +267,7 @@ def has_real_photo(repo_path):
     colour_count = len(set(image.getdata()))
 
     if colour_count > 10:
-        im = image.convert("P", palette=Image.ADAPTIVE, colors=9)
-        block_image = blocky_photo(im, width=40)
+        block_image = blocky_photo(im, width=50)
         print(block_image)
         ret_val = True
     else:
