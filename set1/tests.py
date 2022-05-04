@@ -4,6 +4,7 @@ import inspect
 import json
 import os
 import platform
+import re
 import sys
 from pathlib import Path
 
@@ -118,20 +119,17 @@ def test_for_python_and_requests(repo_path: str) -> bool:
 def test_hello_world(repo_path: str) -> bool:
     exercise1 = loadExerciseFile(repo_path, setNumber=SET_NUMBER, exerciseNumber=1)
     source = "".join(inspect.getsourcelines(exercise1)[0])
-    if "print('Hello world!')" in source or 'print("Hello world!")':
-        print("that's exactly right!, nice one.")
+    regex = r"print *\([\"'][Hh]ello +[Ww]orld!*[\"']\)"
+    rough_match = re.search(regex, source)
+    if "print('Hello world!')" in source or 'print("Hello world!")' in source:
+        print("that's exactly right!, nice one. 🕺")
         return True
-    if (
-        # TODO: probably get a regex in here
-        "print('hello world!')" in source.lower()
-        or 'print("hello world!")' in source.lower()
-        or 'print ("hello world!")' in source.lower()
-        or "print ('hello world!')" in source.lower()
-    ):
+    elif rough_match:
         print(
             "This is close enough, it passes, but it's not "
             "EXACTLY right, and sometimes it really matters "
-            "what you write. Be pedantic!"
+            "what you write. \nBe pedantic! It should be:"
+            "\nHello world!"
         )
         return True
     else:
