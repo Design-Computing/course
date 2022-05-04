@@ -267,6 +267,7 @@ def has_real_photo(repo_path):
     colour_count = len(set(image.getdata()))
 
     if colour_count > 10:
+        im = image.convert("P", palette=Image.Palette.ADAPTIVE, colors=9)
         block_image = blocky_photo(im, width=50)
         print(block_image)
         ret_val = True
@@ -303,7 +304,7 @@ def blocky_photo(image, width=20):
         )
     )
     colour_map = {x[0]: x[1] for x in colour_map_list}
-    image = image.resize((width, int(width / 2)), Image.NEAREST)
+    image = image.resize((width, int(width / 2)), Image.Resampling.NEAREST)
     pixels = list(image.getdata())
     width, height = image.size
     block_image = ""
