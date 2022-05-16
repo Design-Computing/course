@@ -4,6 +4,7 @@ import inspect
 import json
 import os
 import platform
+import re
 import sys
 from pathlib import Path
 
@@ -118,20 +119,17 @@ def test_for_python_and_requests(repo_path: str) -> bool:
 def test_hello_world(repo_path: str) -> bool:
     exercise1 = loadExerciseFile(repo_path, setNumber=SET_NUMBER, exerciseNumber=1)
     source = "".join(inspect.getsourcelines(exercise1)[0])
-    if "print('Hello world!')" in source or 'print("Hello world!")':
-        print("that's exactly right!, nice one.")
+    regex = r"print *\([\"'][Hh]ello +[Ww]orld!*[\"']\)"
+    rough_match = re.search(regex, source)
+    if "print('Hello world!')" in source or 'print("Hello world!")' in source:
+        print("that's exactly right!, nice one. 🕺")
         return True
-    if (
-        # TODO: probably get a regex in here
-        "print('hello world!')" in source.lower()
-        or 'print("hello world!")' in source.lower()
-        or 'print ("hello world!")' in source.lower()
-        or "print ('hello world!')" in source.lower()
-    ):
+    elif rough_match:
         print(
             "This is close enough, it passes, but it's not "
             "EXACTLY right, and sometimes it really matters "
-            "what you write. Be pedantic!"
+            "what you write. \nBe pedantic! It should be:"
+            "\nHello world!"
         )
         return True
     else:
@@ -269,8 +267,8 @@ def has_real_photo(repo_path):
     colour_count = len(set(image.getdata()))
 
     if colour_count > 10:
-        im = image.convert("P", palette=Image.ADAPTIVE, colors=9)
-        block_image = blocky_photo(im, width=40)
+        im = image.convert("P", palette=Image.Palette.ADAPTIVE, colors=9)
+        block_image = blocky_photo(im, width=50)
         print(block_image)
         ret_val = True
     else:
@@ -306,7 +304,7 @@ def blocky_photo(image, width=20):
         )
     )
     colour_map = {x[0]: x[1] for x in colour_map_list}
-    image = image.resize((width, int(width / 2)), Image.NEAREST)
+    image = image.resize((width, int(width / 2)), Image.Resampling.NEAREST)
     pixels = list(image.getdata())
     width, height = image.size
     block_image = ""
