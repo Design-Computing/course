@@ -184,22 +184,9 @@ def test_binary_search(repo_path, low, high, actual, label):
         try:
             b = func_timeout(TIMEOUT_IN_SECONDS, exercise4.binary_search, args=my_args)
             b["WorstCaseO"] = math.log(high - low, BASE2)
-            if b is not None:
-                if b["tries"] is not 0 and b["tries"] < b["WorstCaseO"]:
-                    print("b", b)
-                    print("snuck it in")
-                    return True
-                elif b["tries"] == 0:
-                    print(
-                        "Tries is 0, that probably means that you haven't started yet"
-                    )
-                else:
-                    print(
-                        f"That took {b['tries']} tries, you "
-                        f"should get it in under {b['WorstCaseO']} tries"
-                    )
-            else:
+            if b is None:
                 return False
+            return _binary_search_checker(b)
         except FunctionTimedOut:
             timeout_message(
                 function_name=sys._getframe().f_code.co_name,
@@ -212,6 +199,25 @@ def test_binary_search(repo_path, low, high, actual, label):
             return False
     except Exception as e:
         syntax_error_message(4, e)
+        return False
+
+
+def _binary_search_checker(b):
+    print("🐫🔎: ", b)
+    if b["tries"] is not 0 and b["tries"] < b["WorstCaseO"]:
+        print("Snuck it in!")
+        return True
+    elif b["tries"] == b["WorstCaseO"] + 1:
+        print("You're one over, but I'm not a monster, you can have this one.")
+        return True
+    elif b["tries"] == 0:
+        print("Tries is 0, that probably means that you haven't started yet")
+        return False
+    else:
+        print(
+            f"That took {b['tries']} tries, you "
+            f"should get it in under {b['WorstCaseO']} tries"
+        )
         return False
 
 
