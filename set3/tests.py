@@ -207,7 +207,7 @@ def _binary_search_checker(b):
     if b["tries"] is not 0 and b["tries"] < b["WorstCaseO"]:
         print("Snuck it in!")
         return True
-    elif b["tries"] == b["WorstCaseO"] + 1:
+    elif b["tries"] < b["WorstCaseO"] + 1:
         print("You're one over, but I'm not a monster, you can have this one.")
         return True
     elif b["tries"] == 0:
