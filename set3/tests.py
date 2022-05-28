@@ -204,15 +204,21 @@ def test_binary_search(repo_path, low, high, actual, label):
 
 def _binary_search_checker(b):
     print("🐫🔎: ", b)
-    if b["tries"] is not 0 and b["tries"] < b["WorstCaseO"]:
+    if b["tries"] == 0 and b["guess"]:
+        print(
+            "guess and tries are both 0, you probably haven't started yet, "
+            "or you're not updating them as you try different options"
+        )
+        return False
+    elif b["tries"] == 0:
+        print("Tries is 0, that probably means that you haven't started yet")
+        return False
+    elif b["tries"] is not 0 and b["tries"] < b["WorstCaseO"]:
         print("Snuck it in!")
         return True
     elif b["tries"] < b["WorstCaseO"] + 1:
         print("You're one over, but I'm not a monster, you can have this one.")
         return True
-    elif b["tries"] == 0:
-        print("Tries is 0, that probably means that you haven't started yet")
-        return False
     else:
         print(
             f"That took {b['tries']} tries, you "
