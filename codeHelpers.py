@@ -214,6 +214,16 @@ def print_timeout_message(
     args=(1, 2, 3),
     timeout_in_seconds: int = 5,
 ) -> None:
+    """Print a message to explain to the user that their function didn't complete in the available time.
+
+    The message looks like:
+        do_stuff ([2, "tree", {"k", "v"}]) could not complete within 5 seconds and was killed.
+
+    Args:
+        function_name (str, optional): the name of the function. Defaults to "unknown function name".
+        args (tuple, optional): the args passed to the function. Defaults to (1, 2, 3).
+        timeout_in_seconds (int, optional): Time in seconds available to complete. Defaults to 5.
+    """
     print(
         f"{function_name}({args}) could not complete "
         f"within {timeout_in_seconds} seconds and was killed."
