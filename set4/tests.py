@@ -27,7 +27,7 @@ from codeHelpers import (
     ex_runs,
     finish_up,
     lab_book_entry_completed,
-    loadExerciseFile,
+    load_exercise_file,
     nyan_cat,
     syntax_error_message,
     test,
@@ -69,7 +69,7 @@ def theTests(path_to_code_to_check: str = "../me") -> dict:
     path = f"{path_to_code_to_check}/set{SET_NUMBER}/exercise1.py"
     print(path)
 
-    exercise1 = loadExerciseFile(
+    exercise1 = load_exercise_file(
         path_to_code_to_check, setNumber=SET_NUMBER, exerciseNumber=1
     )
 

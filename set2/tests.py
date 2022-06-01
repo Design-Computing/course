@@ -21,7 +21,7 @@ from codeHelpers import (
     ex_runs,
     finish_up,
     lab_book_entry_completed,
-    loadExerciseFile,
+    load_exercise_file,
     nyan_cat,
     syntax_error_message,
     test,
@@ -45,7 +45,7 @@ def theTests(path_to_code_to_check="../me") -> dict:
     # Tests from here:
 
     if ex_runs(path_to_code_to_check, exerciseNumber=0, setNumber=SET_NUMBER):
-        exercise0 = loadExerciseFile(
+        exercise0 = load_exercise_file(
             path_to_code_to_check, setNumber=SET_NUMBER, exerciseNumber=0
         )
 
@@ -103,7 +103,7 @@ def theTests(path_to_code_to_check="../me") -> dict:
     testResults.append(test(ex2_runs, "Exercise 2: debug the file"))
 
     if ex_runs(path_to_code_to_check, exerciseNumber=3, setNumber=SET_NUMBER):
-        exercise3 = loadExerciseFile(
+        exercise3 = load_exercise_file(
             path_to_code_to_check, setNumber=SET_NUMBER, exerciseNumber=3
         )
         # is odd

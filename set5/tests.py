@@ -26,7 +26,7 @@ from codeHelpers import (
     finish_up,
     grumpy,
     lab_book_entry_completed,
-    loadExerciseFile,
+    load_exercise_file,
     nyan_cat,
     test,
     test_flake8,
@@ -101,7 +101,7 @@ def theTests(path_to_code_to_check=".") -> dict:
     path = f"{path_to_code_to_check}/set{SET_NUMBER}/exercise1.py"
     print(path)
 
-    exercise1 = loadExerciseFile(
+    exercise1 = load_exercise_file(
         path_to_code_to_check, setNumber=SET_NUMBER, exerciseNumber=1
     )
 
@@ -463,7 +463,9 @@ Let's go!
     path = f"{path_to_code_to_check}/set{SET_NUMBER}/exercise2.py"
     print(path)
 
-    e2 = loadExerciseFile(path_to_code_to_check, setNumber=SET_NUMBER, exerciseNumber=2)
+    e2 = load_exercise_file(
+        path_to_code_to_check, setNumber=SET_NUMBER, exerciseNumber=2
+    )
 
     # Linter test
     # print("Linter test:", path)

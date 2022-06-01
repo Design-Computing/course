@@ -157,7 +157,7 @@ def lab_book_entry_completed(setNumber: int, repo_path: str) -> bool:
     return False
 
 
-def loadExerciseFile(repo_path: str, setNumber: int = 2, exerciseNumber: int = 0):
+def load_exercise_file(repo_path: str, setNumber: int = 2, exerciseNumber: int = 0):
     path = os.path.join(repo_path, f"set{setNumber}", f"exercise{exerciseNumber}.py")
     spec = importUtils.spec_from_file_location("exercise0", path)
     ex = importUtils.module_from_spec(spec)

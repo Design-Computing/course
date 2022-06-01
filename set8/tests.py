@@ -22,7 +22,7 @@ from codeHelpers import (
     ex_runs,
     finish_up,
     lab_book_entry_completed,
-    loadExerciseFile,
+    load_exercise_file,
     nyan_cat,
     syntax_error_message,
     test,
@@ -96,7 +96,7 @@ def theTests(path_to_code_to_check="../me"):
     print("May the odds be ever in your favour.\nEspecially today!")
 
     if ex_runs(path_to_code_to_check, exerciseNumber=1337, setNumber=SET_NUMBER):
-        exam = loadExerciseFile(
+        exam = load_exercise_file(
             path_to_code_to_check, setNumber=SET_NUMBER, exerciseNumber=1337
         )
 

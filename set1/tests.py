@@ -24,7 +24,7 @@ from codeHelpers import (
     ex_runs,
     finish_up,
     lab_book_entry_completed,
-    loadExerciseFile,
+    load_exercise_file,
     nyan_cat,
     test,
     test_flake8,
@@ -117,7 +117,7 @@ def test_for_python_and_requests(repo_path: str) -> bool:
 
 
 def test_hello_world(repo_path: str) -> bool:
-    exercise1 = loadExerciseFile(repo_path, setNumber=SET_NUMBER, exerciseNumber=1)
+    exercise1 = load_exercise_file(repo_path, setNumber=SET_NUMBER, exerciseNumber=1)
     source = "".join(inspect.getsourcelines(exercise1)[0])
     regex = r"print *\([\"'][Hh]ello +[Ww]orld!*[\"']\)"
     rough_match = re.search(regex, source)
