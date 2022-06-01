@@ -427,7 +427,10 @@ Let's go!
                 checks = [False]
             print(words, lengths, checks)
             testResults.append(
-                test(all(checks), "exercise 1: list_of_words_with_lengths {word}",)
+                test(
+                    all(checks),
+                    "exercise 1: list_of_words_with_lengths {word}",
+                )
             )
         except Exception as e:
             print(e)
