@@ -181,11 +181,30 @@ def test_advanced_guessingGame(repo_path, mockInputs):
             print(e)
 
 
-def test_binary_search(repo_path, low, high, actual, label):
+def test_binary_search(
+    repo_path: str, low: int, high: int, actual: int, label: str
+) -> bool:
     """Test the binary search function.
 
-    checks to see that it's searching better than O(log n)
+    Checks to see that it's searching better than O(log n)
+
+    Args:
+        repo_path (str): the repo that contains the function that we're testing
+        low (int): The lower bound of the search range
+        high (int): The upper bound of the search range
+        actual (int): The number that we're looking for
+        label (str): A name for the test that we're doing so we can find it in the terminal.
+
+    Returns:
+        bool: Did this test pass?
     """
+    if not low < actual < high:
+        print(
+            f"⚠ Can't search for {actual} between {low} and {high}\n"
+            f"⚠ because {actual} is not between {low} and {high}!\n"
+            "⚠ Check the test you're sending in here.\n"
+        )
+        return False
     try:
         exercise4 = load_exercise_file(
             repo_path, setNumber=SET_NUMBER, exerciseNumber=4
