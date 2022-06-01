@@ -214,7 +214,6 @@ def test_binary_search(
         my_args = (low, high, actual)
         try:
             b = func_timeout(TIMEOUT_IN_SECONDS, exercise4.binary_search, args=my_args)
-            b["WorstCaseO"] = math.log(high - low, BASE2)
             if b is None:
                 return False
             b["WorstCaseO"] = math.log(high - low, BASE2)
