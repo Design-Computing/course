@@ -2,9 +2,17 @@ GitPython
 black
 colorama
 func_timeout
+ipykernel
+matplotlib
 mock
+mypy
+numpy
+openpyxl
+pandas
 pillow
 pip-tools
+pipwin
+pytest
 requests
 ruamel.yaml
 wheel
