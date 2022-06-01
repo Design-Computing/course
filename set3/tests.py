@@ -13,6 +13,7 @@ import sys
 from pathlib import Path
 from typing import Dict, List, Optional, Set, Tuple
 
+import matplotlib.pyplot as plt
 import mock
 from colorama import Fore, Style
 from func_timeout import FunctionTimedOut, func_timeout
@@ -25,9 +26,9 @@ from codeHelpers import (
     lab_book_entry_completed,
     load_exercise_file,
     nyan_cat,
+    print_timeout_message,
     syntax_error_message,
     test,
-    print_timeout_message,
 )
 
 EM = Fore.YELLOW
@@ -37,7 +38,7 @@ TIMEOUT_IN_SECONDS = 3
 SET_NUMBER = 3
 
 
-def test_stubborn_asker(repo_path, low, high):
+def test_stubborn_asker(repo_path: str, low: int, high: int) -> bool:
     """Test the stubborn asker function."""
     try:
         exercise1 = load_exercise_file(
@@ -64,9 +65,10 @@ def test_stubborn_asker(repo_path, low, high):
             return
     except Exception as e:
         print("exception:", e)
+    return False
 
 
-def test_not_number_rejector(repo_path):
+def test_not_number_rejector(repo_path: str) -> bool:
     """Test the not number rejector function."""
     try:
         exercise1 = load_exercise_file(
@@ -93,7 +95,7 @@ def test_not_number_rejector(repo_path):
             print("exception:", e)
 
 
-def test_super_asker(repo_path, low, high):
+def test_super_asker(repo_path: str, low: int, high: int) -> bool:
     """Test the super asker function."""
     try:
         exercise1 = load_exercise_file(
@@ -122,7 +124,7 @@ def test_super_asker(repo_path, low, high):
             print(e)
 
 
-def test_example_guessingGame(repo_path):
+def test_example_guessingGame(repo_path: str) -> bool:
     """Test the example_guessingGame function.
 
     This should always pass becasue it's provided code
@@ -154,7 +156,7 @@ def test_example_guessingGame(repo_path):
             print(e)
 
 
-def test_advanced_guessingGame(repo_path, mockInputs):
+def test_advanced_guessingGame(repo_path: str, mockInputs) -> bool:
     """Test the advanced_guessingGame function."""
     try:
         exercise3 = load_exercise_file(
@@ -217,6 +219,7 @@ def test_binary_search(
             if b is None:
                 return False
             b["WorstCaseO"] = math.log(high - low, BASE2)
+            vis_binary_search_performance(repo_path)
             return _binary_search_checker(b)
         except FunctionTimedOut:
             print_timeout_message(
@@ -258,7 +261,7 @@ def _binary_search_checker(b: dict) -> bool:
         return False
 
 
-def vis_binary_search_performance(repo_path):
+def vis_binary_search_performance(repo_path: str) -> None:
     """Provide a visualisation of the performance of the binary search."""
     try:
         exercise4 = load_exercise_file(
@@ -266,8 +269,6 @@ def vis_binary_search_performance(repo_path):
         )
     except Exception as e:
         return syntax_error_message(4, e)
-
-    import matplotlib.pyplot as plt
 
     BASE2 = 2
     results = []
