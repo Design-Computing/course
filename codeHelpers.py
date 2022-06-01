@@ -209,7 +209,7 @@ def completion_message(message, width) -> None:
     print(f"\n{cap}")
 
 
-def timeout_message(
+def print_timeout_message(
     function_name: str = "unknown function name",
     args=(1, 2, 3),
     timeout_in_seconds: int = 5,

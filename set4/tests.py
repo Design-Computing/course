@@ -31,7 +31,7 @@ from codeHelpers import (
     nyan_cat,
     syntax_error_message,
     test,
-    timeout_message,
+    print_timeout_message,
 )
 
 EM = Fore.YELLOW

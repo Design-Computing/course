@@ -27,7 +27,7 @@ from codeHelpers import (
     nyan_cat,
     syntax_error_message,
     test,
-    timeout_message,
+    print_timeout_message,
 )
 
 EM = Fore.YELLOW
@@ -84,7 +84,7 @@ def test_not_number_rejector(repo_path):
             )
             return r
         except FunctionTimedOut:
-            timeout_message(
+            print_timeout_message(
                 function_name=sys._getframe().f_code.co_name,
                 args=my_args,
                 timeout_in_seconds=TIMEOUT_IN_SECONDS,
@@ -113,7 +113,7 @@ def test_super_asker(repo_path, low, high):
             )
             return message
         except FunctionTimedOut:
-            timeout_message(
+            print_timeout_message(
                 function_name=sys._getframe().f_code.co_name,
                 args=my_args,
                 timeout_in_seconds=TIMEOUT_IN_SECONDS,
@@ -145,7 +145,7 @@ def test_example_guessingGame(repo_path):
 
             return message == "You got it!"
         except FunctionTimedOut:
-            timeout_message(
+            print_timeout_message(
                 function_name=sys._getframe().f_code.co_name,
                 args=my_args,
                 timeout_in_seconds=TIMEOUT_IN_SECONDS,
@@ -172,7 +172,7 @@ def test_advanced_guessingGame(repo_path, mockInputs):
 
             return message == "You got it!"
         except FunctionTimedOut:
-            timeout_message(
+            print_timeout_message(
                 function_name=sys._getframe().f_code.co_name,
                 args=my_args,
                 timeout_in_seconds=TIMEOUT_IN_SECONDS,
@@ -200,7 +200,7 @@ def test_binary_search(repo_path, low, high, actual, label):
                 return False
             return _binary_search_checker(b)
         except FunctionTimedOut:
-            timeout_message(
+            print_timeout_message(
                 function_name=sys._getframe().f_code.co_name,
                 args=my_args,
                 timeout_in_seconds=TIMEOUT_IN_SECONDS,
