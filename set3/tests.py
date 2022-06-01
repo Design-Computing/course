@@ -217,6 +217,7 @@ def test_binary_search(
             b["WorstCaseO"] = math.log(high - low, BASE2)
             if b is None:
                 return False
+            b["WorstCaseO"] = math.log(high - low, BASE2)
             return _binary_search_checker(b)
         except FunctionTimedOut:
             print_timeout_message(
