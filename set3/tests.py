@@ -247,7 +247,7 @@ def _binary_search_checker(b: dict) -> bool:
     elif b["tries"] == 0:
         print("Tries is 0, that probably means that you haven't started yet")
         return False
-    elif b["tries"] is not 0 and b["tries"] < b["WorstCaseO"]:
+    elif b["tries"] != 0 and b["tries"] < b["WorstCaseO"]:
         print("Snuck it in!")
         return True
     elif b["tries"] < b["WorstCaseO"] + 1:

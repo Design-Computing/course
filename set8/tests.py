@@ -5,6 +5,7 @@ This file tests your code. It'll check that the work in each
 of the exercise files does what it's supposed to.
 """
 
+
 import importlib.util as importUtils
 import os
 import string
@@ -91,7 +92,6 @@ def theTests(path_to_code_to_check="../me"):
             path_to_code_to_check, setNumber=SET_NUMBER, exerciseNumber=1337
         )
 
-        # testResults.append(test(test_flake8(ex1path), "pass the linter"))
         exam_test(
             True,
             [],

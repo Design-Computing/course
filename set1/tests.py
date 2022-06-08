@@ -143,9 +143,10 @@ def test_dev_env() -> bool:
     if os.system("""python -c 'print("python installed")'""") == 0:
         return True
     else:
+        # TODO: can this ever run?
         print(
             "Python doesn't seem to be installed properly on your computer.\n"
-            "Have you installed Anaconda?\n"
+            "Have you installed python?\n"
             "Have you restarted your computer?\n"
             "Talk to a tutor and get them to help you out."
         )

@@ -16,8 +16,6 @@ from datetime import datetime
 from pathlib import Path
 from typing import Dict, List, Optional, Set, Tuple
 
-import mock
-import requests
 from colorama import Fore, Style
 from func_timeout import FunctionTimedOut, func_timeout
 
