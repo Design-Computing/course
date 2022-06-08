@@ -301,7 +301,9 @@ def theTests(path_to_code_to_check="../me"):
         "Well done, that's all the exercises for this term out of the way!"
     )
     print(testResults)
-    return finish_up(testResults, message, nyan_cat())
+
+    f = finish_up(testResults, message, nyan_cat(), week_number=8)
+    return f
 
 
 def clean_out_old_env():

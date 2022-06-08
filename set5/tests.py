@@ -508,7 +508,8 @@ Let's go!
 
     message = "Rad, you've got all the tests passing!"
 
-    return finish_up(testResults, message, nyan_cat())
+    f = finish_up(testResults, message, nyan_cat(), week_number=5)
+    return f
 
 
 if __name__ == "__main__":

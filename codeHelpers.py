@@ -10,6 +10,7 @@ import traceback
 from pathlib import Path
 from typing import Dict, List, Optional, Set, Tuple, Union
 from treats import deadpool, nyan_cat, grumpy
+import pandas as pd
 
 import colorama
 from colorama import Fore, Style
@@ -49,7 +50,13 @@ def terse_results(results):
     return s
 
 
-def finish_up(testResults: List[dict], message: str, the_treat: str) -> Dict[str, int]:
+def finish_up(
+    testResults: List[dict],
+    message: str,
+    the_treat: str,
+    week_number: int = 0,
+    path_to_save_trace_to: str = "../me",
+) -> Dict[str, Union[int, str, List[dict]]]:
     print(
         "\n\nResult summary:  (👆 scroll up for more details ☝)\n",
         terse_results(testResults),
@@ -58,7 +65,12 @@ def finish_up(testResults: List[dict], message: str, the_treat: str) -> Dict[str
         total = sum([r["value"] for r in testResults])
         out_of = len(testResults)
 
-        package = {"of_total": out_of, "mark": total, "results": testResults}
+        package = {
+            "of_total": out_of,
+            "mark": total,
+            "results": testResults,
+            "week_number": week_number,
+        }
         if total == out_of and total > 0:
             print(the_treat)
             completion_message(message, len(message) + 2)
@@ -70,8 +82,30 @@ def finish_up(testResults: List[dict], message: str, the_treat: str) -> Dict[str
             "of_total": 0,
             "mark": 0,
             "results": f"{e}\nBen is a moron and is trying to append a zero instead of a dictionary",
+            "week_number": week_number,
         }
+    write_results(package, week_number, path_to_save_trace_to)
     return package
+
+
+def write_results(
+    package: Dict[str, Union[int, str, List[dict]]],
+    week_number: int = 0,
+    path_to_save_trace_to: str = "../me",
+) -> None:
+    trace: str = ""
+    tracefile = os.path.join(path_to_save_trace_to, "trace.json")
+    if os.path.isfile(tracefile):
+        with open(tracefile, "r", encoding="utf-8") as f:
+            trace = json.load(f)
+            trace[week_number - 1] = package
+        with open(tracefile, "w", encoding="utf-8") as f:
+            json.dump(trace, f, indent=2)
+    else:
+        with open(tracefile, "w", encoding="utf-8") as f:
+            trace = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"]
+            trace[week_number] = package
+            json.dump(trace, f, indent=2)
 
 
 def test(testResult: bool, name: str) -> Dict:

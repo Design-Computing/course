@@ -18,6 +18,7 @@ aboutMeData = ""
 
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 from treats import deadpool
+from codeHelpers import finish_up, lab_book_entry_completed, load_exercise_file, test
 
 SET_NUMBER = 1
 EM = Fore.YELLOW
@@ -304,7 +305,7 @@ def blocky_photo(image, width=20):
     return block_image
 
 
-def theTests(path_to_code_to_check="../me") -> dict:
+def theTests(path_to_code_to_check: str = "../me") -> dict:
     """Run the tests."""
     print("checking:    ", path_to_code_to_check)
     print(f"\nWelcome to set {SET_NUMBER}!")
@@ -404,7 +405,8 @@ Type {em}git status{norm}, or look in your source control tab, to check.
     name = aboutMeData["name"].split(" ")[0]
     message = "Rad, you've got all the tests passing!"
     treat = deadpool("Good Job", name)
-    return finish_up(testResults, message, treat)
+    f = finish_up(testResults, message, treat, week_number=1)
+    return f
 
 
 if __name__ == "__main__":

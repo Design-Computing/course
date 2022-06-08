@@ -158,6 +158,7 @@ def theTests(path_to_code_to_check: str = "../me") -> dict:
 
     message = "Rad, you've got all the tests passing!"
 
+    f = finish_up(testResults, message, nyan_cat(), week_number=4)
     return f
 
 
