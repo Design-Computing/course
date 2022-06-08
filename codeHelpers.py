@@ -93,25 +93,6 @@ def test(testResult: bool, name: str) -> Dict:
     return {"value": value, "name": name}
 
 
-def test_flake8(fileName: str) -> bool:
-    """Check to see if the file at file_path is flake8 compliant."""
-    test_dir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
-
-    files = [os.path.join(test_dir, fileName)]
-    # Import the legacy API as flake8 3.0 currently has no official
-    # public API - this has to be changed at some point.
-    from flake8.api import legacy as flake8
-
-    style_guide = flake8.get_style_guide()
-    report = style_guide.check_files(files)
-
-    if report.total_errors == 0:
-        return True
-    else:
-        print(report.total_errors)
-        return False
-
-
 def test_pydocstyle(fileName, flags="-e") -> bool:
     """Check to see if the file at file_path is pydocstyle compliant."""
     getFrame = inspect.getfile(inspect.currentframe())
