@@ -22,10 +22,10 @@ from codeHelpers import (
     finish_up,
     lab_book_entry_completed,
     load_exercise_file,
-    nyan_cat,
     syntax_error_message,
     test,
 )
+from treats import nyan_cat
 
 EM = Fore.YELLOW
 NORM = Fore.WHITE
@@ -298,7 +298,8 @@ def theTests(path_to_code_to_check="../me") -> dict:
 
     message = "Rad, you've got all the tests passing!"
 
-    return finish_up(testResults, message, nyan_cat())
+    f = finish_up(testResults, message, nyan_cat(), week_number=2)
+    return f
 
 
 if __name__ == "__main__":

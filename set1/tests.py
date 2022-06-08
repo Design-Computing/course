@@ -17,18 +17,7 @@ from PIL import Image
 aboutMeData = ""
 
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
-
-from codeHelpers import (
-    completion_message,
-    deadpool,
-    ex_runs,
-    finish_up,
-    lab_book_entry_completed,
-    load_exercise_file,
-    nyan_cat,
-    test,
-    test_flake8,
-)
+from treats import deadpool
 
 SET_NUMBER = 1
 EM = Fore.YELLOW

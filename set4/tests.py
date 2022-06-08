@@ -22,17 +22,8 @@ from colorama import Fore, Style
 from func_timeout import FunctionTimedOut, func_timeout
 
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
-from codeHelpers import (
-    completion_message,
-    ex_runs,
-    finish_up,
-    lab_book_entry_completed,
-    load_exercise_file,
-    nyan_cat,
-    syntax_error_message,
-    test,
-    print_timeout_message,
-)
+from codeHelpers import finish_up, load_exercise_file, test
+from treats import nyan_cat, pikachu, pokeball, squirtle, tiny_pikachu
 
 EM = Fore.YELLOW
 NORM = Fore.WHITE
@@ -167,72 +158,7 @@ def theTests(path_to_code_to_check: str = "../me") -> dict:
 
     message = "Rad, you've got all the tests passing!"
 
-    return finish_up(testResults, message, nyan_cat())
-
-
-def pokeball() -> str:
-    return """
-────────▄███████████▄────────
-─────▄███▓▓▓▓▓▓▓▓▓▓▓███▄─────
-────███▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓███────
-───██▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓██───
-──██▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓██──
-─██▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓██─
-██▓▓▓▓▓▓▓▓▓███████▓▓▓▓▓▓▓▓▓██
-██▓▓▓▓▓▓▓▓██░░░░░██▓▓▓▓▓▓▓▓██
-██▓▓▓▓▓▓▓██░░███░░██▓▓▓▓▓▓▓██
-███████████░░███░░███████████
-██░░░░░░░██░░███░░██░░░░░░░██
-██░░░░░░░░██░░░░░██░░░░░░░░██
-██░░░░░░░░░███████░░░░░░░░░██
-─██░░░░░░░░░░░░░░░░░░░░░░░██─
-──██░░░░░░░░░░░░░░░░░░░░░██──
-───██░░░░░░░░░░░░░░░░░░░██───
-────███░░░░░░░░░░░░░░░███────
-─────▀███░░░░░░░░░░░███▀─────
-────────▀███████████▀────────"""
-
-
-def tiny_pikachu() -> str:
-    return r"""
-/\︿╱\
-\0_ 0 /╱\╱ 
-\▁︹_/
-    """
-
-
-def pikachu() -> str:
-    return """
-░█▀▀▄░░░░░░░░░░░▄▀▀█
-░█░░░▀▄░▄▄▄▄▄░▄▀░░░█
-░░▀▄░░░▀░░░░░▀░░░▄▀
-░░░░▌░▄▄░░░▄▄░▐▀▀
-░░░▐░░█▄░░░▄█░░▌▄▄▀▀▀▀█
-░░░▌▄▄▀▀░▄░▀▀▄▄▐░░░░░░█
-▄▀▀▐▀▀░▄▄▄▄▄░▀▀▌▄▄▄░░░█
-█░░░▀▄░█░░░█░▄▀░░░░█▀▀▀
-░▀▄░░▀░░▀▀▀░░▀░░░▄█▀
-░░░█░░░░░░░░░░░▄▀▄░▀▄
-░░░█░░░░░░░░░▄▀█░░█░░█
-░░░█░░░░░░░░░░░█▄█░░▄▀
-░░░█░░░░░░░░░░░████▀
-░░░▀▄▄▀▀▄▄▀▀▄▄▄█▀ """
-
-
-def squirtle() -> str:
-    return r"""
-;-.               ,
- \ '.           .'/
-  \  \ .---. .-' /
-   '. '     `\_.'
-     |(),()  |     ,
-     (  __   /   .' \
-    .''.___.'--,/\_,|
-   {  /     \   }   |
-    '.\     /_.'    /
-     |'-.-',  `; _.'
-     |  |  |   |`
-     `""`""`"'"`"""
+    return f
 
 
 if __name__ == "__main__":

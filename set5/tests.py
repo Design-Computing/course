@@ -21,17 +21,12 @@ from colorama import Fore, Style
 
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 from codeHelpers import (
-    completion_message,
-    ex_runs,
     finish_up,
-    grumpy,
     lab_book_entry_completed,
     load_exercise_file,
-    nyan_cat,
     test,
-    test_flake8,
-    test_pydocstyle,
 )
+from treats import nyan_cat, grumpy
 
 EM = Fore.YELLOW
 NORM = Fore.WHITE
