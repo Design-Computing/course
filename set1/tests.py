@@ -382,7 +382,7 @@ def theTests(path_to_code_to_check: str = "../me") -> dict:
     )
 
     print(
-        """
+        f"""
 How To Read this
 ----------------
 
@@ -397,10 +397,8 @@ Don't forget to commit AND push!
 The last 2 tests will run on your machine because you've just made those files.
 However, they won't run on the marking computer if they haven't been pushed to your repo. 
 
-Type {em}git status{norm}, or look in your source control tab, to check.
-""".format(
-            em=EM, norm=NORM
-        )
+Type {EM}git status{NORM}, or look in your source control tab, to check.
+"""
     )
 
     name = aboutMeData["name"].split(" ")[0]
