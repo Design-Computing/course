@@ -1,12 +1,12 @@
 #!/bin/sh
 # https://stackoverflow.com/a/18425592/1835727
-alias python2='python'
-alias python='python3'
+# alias python2='python'
+# alias python='python3'
 # https://stackoverflow.com/a/44377932/1835727
-alias pip2='pip'
-alias pip='pip3'
+# alias pip2='pip'
+# alias pip='pip3'
 
-echo 'export PATH="/Users/$USER/anaconda3/bin:$PATH"' >>.bash_profile
+# echo 'export PATH="/Users/$USER/anaconda3/bin:$PATH"' >>.bash_profile
 
 # This file installs a bunch of things that you'll find useful.
 echo "Let's pip install a load of python libraries"
