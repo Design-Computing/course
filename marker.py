@@ -63,7 +63,7 @@ def get_marks(file_name="trace.json"):
         results = json.load(f)
 
     marks = [(i + 1, x["mark"]) for i, x in enumerate(results) if type(x) is dict]
-    targets = [(1, 12), (2, 34), (3, 34), (4, 7)]  # , (5, 15), (8, 29)]
+    targets = [(1, 11), (2, 34), (3, 34), (4, 7)]  # , (5, 15), (8, 29)]
     return marks, targets
 
 
