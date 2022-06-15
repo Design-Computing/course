@@ -219,7 +219,8 @@ def test_binary_search(
             if b is None:
                 return False
             b["WorstCaseO"] = math.log(high - low, BASE2)
-            vis_binary_search_performance(repo_path)
+            if os.environ.get("USERNAME") != "bdoherty":
+                vis_binary_search_performance(repo_path)
             return _binary_search_checker(b)
         except FunctionTimedOut:
             print_timeout_message(
