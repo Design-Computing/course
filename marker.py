@@ -69,7 +69,8 @@ def get_marks(file_name="trace.json"):
 
 def do_tests(set_numbers: List[int]) -> None:
     for set_name in [f"set{i}" for i in set_numbers]:
-        command = f"python ..\\course\\{set_name}\\tests.py"
+        path = os.path.normpath(f"../course/{set_name}/tests.py")
+        command = f"python {path}"
         os.system(command)
 
 
