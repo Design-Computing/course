@@ -140,7 +140,8 @@ spelling, brackets, spaces etc.""".format(
 
 
 def test_dev_env() -> bool:
-    if os.system("""python -c 'print("python installed")'""") == 0:
+    py = "3" if platform.system() == "Darwin" else ""
+    if os.system(f"""python{py} -c 'print("python installed")'""") == 0:
         return True
     else:
         # TODO: can this ever run?
@@ -151,18 +152,6 @@ def test_dev_env() -> bool:
             "Talk to a tutor and get them to help you out."
         )
     return False
-
-
-# def str_dict_vals(d):
-#     if hasattr(d, "keys"):
-#         for k in d:
-#             if hasattr(d[k], "keys"):
-#                 str_dict_vals(dict(d[k]))
-#             else:
-#                 d[k] = str(d[k])
-#         return dict(d)
-#     else:
-#         return d
 
 
 def test_aboutMe(repo_path, show=False) -> bool:
