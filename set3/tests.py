@@ -77,7 +77,7 @@ def test_not_number_rejector(repo_path: str) -> bool:
     except Exception as e:
         return syntax_error_message(1, e)
 
-    mockInputs = ["a_word", [1, 2, 3], {"a": "dictionary"}, 40]
+    mockInputs = ["a_word", 40, 3.5]
     with mock.patch("builtins.input", side_effect=mockInputs):
         my_args = "Testing some values:"
         try:
@@ -104,7 +104,7 @@ def test_super_asker(repo_path: str, low: int, high: int) -> bool:
     except Exception as e:
         return syntax_error_message(1, e)
 
-    dirty_things = ["aword", [1, 2, 3], {"an": "object"}]
+    dirty_things = ["aword", 3.5]
     neat_range = list(range(low - 25, high + 20, 5))
     mockInputs = dirty_things + neat_range
     with mock.patch("builtins.input", side_effect=mockInputs):
