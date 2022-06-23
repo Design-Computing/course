@@ -241,7 +241,7 @@ def test_binary_search(
         return False
 
 
-def _binary_search_checker(b: dict) -> bool:
+def _binary_search_checker(b: dict[str, int]) -> bool:
     print("🐫🔎: ", b)
     if b["tries"] == 0 and b["guess"] == 0:
         print(
