@@ -243,7 +243,7 @@ def test_binary_search(
 
 def _binary_search_checker(b: dict) -> bool:
     print("🐫🔎: ", b)
-    if b["tries"] == 0 and b["guess"]:
+    if b["tries"] == 0 and b["guess"] == 0:
         print(
             "guess and tries are both 0, you probably haven't started yet, "
             "or you're not updating them as you try different options"
