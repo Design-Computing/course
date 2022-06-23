@@ -456,7 +456,7 @@ def theTests(path_to_code_to_check: str = "../me"):
         testResults.append(
             test(
                 test_advanced_guessingGame(path_to_code_to_check, mockInputs),
-                "Exercise 3: guessing game, no " + "range to guess in (equal)",
+                "Exercise 3: guessing game, no range to guess in (equal)",
             )
         )
 
