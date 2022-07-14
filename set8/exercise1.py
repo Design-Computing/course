@@ -16,7 +16,8 @@ from typing import Dict, List
 
 def give_me_five() -> int:
     """Returns the integer five."""
-    return None
+    five = 5
+    return five
 
 
 def password_please() -> str:
