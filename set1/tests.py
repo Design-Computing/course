@@ -139,32 +139,6 @@ spelling, brackets, spaces etc.""".format(
         return False
 
 
-def test_dev_env() -> bool:
-    if os.system("""python -c 'print("python installed")'""") == 0:
-        return True
-    else:
-        # TODO: can this ever run?
-        print(
-            "Python doesn't seem to be installed properly on your computer.\n"
-            "Have you installed python?\n"
-            "Have you restarted your computer?\n"
-            "Talk to a tutor and get them to help you out."
-        )
-    return False
-
-
-# def str_dict_vals(d):
-#     if hasattr(d, "keys"):
-#         for k in d:
-#             if hasattr(d[k], "keys"):
-#                 str_dict_vals(dict(d[k]))
-#             else:
-#                 d[k] = str(d[k])
-#         return dict(d)
-#     else:
-#         return d
-
-
 def test_aboutMe(repo_path, show=False) -> bool:
     """Test to see if aboutMe.yml is updated"""
     file_path = os.path.join(repo_path, "aboutMe.yml")
@@ -324,9 +298,6 @@ def theTests(path_to_code_to_check: str = "../me") -> dict:
             test_for_python_and_requests(path_to_code_to_check),
             "check that Python and Requests are installed",
         )
-    )
-    testResults.append(
-        test(test_dev_env(), "Python is installed and configured on this machine")
     )
     testResults.append(
         test(test_hello_world(path_to_code_to_check), "Exercise1: Print 'Hello world!'")

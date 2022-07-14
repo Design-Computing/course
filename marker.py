@@ -63,13 +63,14 @@ def get_marks(file_name="trace.json"):
         results = json.load(f)
 
     marks = [(i + 1, x["mark"]) for i, x in enumerate(results) if type(x) is dict]
-    targets = [(1, 12), (2, 34), (3, 34), (4, 7)]  # , (5, 15), (8, 29)]
+    targets = [(1, 11), (2, 34), (3, 34), (4, 7)]  # , (5, 15), (8, 29)]
     return marks, targets
 
 
 def do_tests(set_numbers: List[int]) -> None:
     for set_name in [f"set{i}" for i in set_numbers]:
-        command = f"python ..\\course\\{set_name}\\tests.py"
+        path = os.path.normpath(f"../course/{set_name}/tests.py")
+        command = f"python {path}"
         os.system(command)
 
 

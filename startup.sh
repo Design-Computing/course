@@ -10,7 +10,7 @@
 
 # This file installs a bunch of things that you'll find useful.
 echo "Let's pip install a load of python libraries"
-pip install -r requirements.txt
+pip3 install -r requirements.txt
 echo "And now we'll install a bunch of extensions for vs code"
 code --install-extension Andreabbondanza.ignoregit
 code --install-extension ban.spellright
