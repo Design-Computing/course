@@ -420,7 +420,7 @@ def theTests(path_to_code_to_check=".") -> dict:
             testResults.append(
                 test(
                     all(checks),
-                    f"exercise 1: list_of_words_with_lengths {word}",
+                    "exercise 1: list_of_words_with_lengths {word}",
                 )
             )
         except Exception as e:
