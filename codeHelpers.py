@@ -61,30 +61,24 @@ def finish_up(
         "\n\nResult summary:  (👆 scroll up for more details ☝)\n",
         terse_results(testResults),
     )
-    try:
-        total = sum([r["value"] for r in testResults])
-        out_of = len(testResults)
+    total = sum([r["value"] for r in testResults])
+    out_of = len(testResults)
 
-        package = {
-            "of_total": out_of,
-            "mark": total,
-            "results": testResults,
-            "week_number": week_number,
-        }
-        if total == out_of and total > 0:
-            print(the_treat)
-            completion_message(message, len(message) + 2)
-        else:
-            print("Keep going champ! 🌟✨🌟✨ I believe in you! 🌟✨🌟✨")
-        print(f"{total}/{out_of} (passed/attempted)")
-    except Exception as e:
-        package = {
-            "of_total": 0,
-            "mark": 0,
-            "results": f"{e}\nBen is a moron and is trying to append a zero instead of a dictionary",
-            "week_number": week_number,
-        }
+    package = {
+        "of_total": out_of,
+        "mark": total,
+        "results": testResults,
+        "week_number": week_number,
+    }
+
+    if total == out_of and total > 0:
+        print(the_treat)
+        completion_message(message, len(message) + 2)
+    else:
+        print("Keep going champ! 🌟✨🌟✨ I believe in you! 🌟✨🌟✨")
+    print(f"{total}/{out_of} (passed/attempted)")
     write_results(package, week_number, path_to_save_trace_to)
+
     return package
 
 
