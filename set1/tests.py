@@ -355,7 +355,7 @@ def theTests(path_to_code_to_check: str = "../me") -> dict:
     print(
         f"""
 How To Read this
-----------------
+〰〰〰〰〰〰〰〰〰
 
 The results part shows a list of the marks, either 1 or 0. 
 There are no partial marks, it either works or it doesn't.
