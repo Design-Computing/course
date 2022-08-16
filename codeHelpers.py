@@ -77,7 +77,9 @@ def finish_up(
     else:
         print("Keep going champ! 🌟✨🌟✨ I believe in you! 🌟✨🌟✨")
     print(f"{total}/{out_of} (passed/attempted)")
-    write_results(package, week_number, path_to_save_trace_to)
+
+    if os.getlogin() != "bdoherty":
+        write_results(package, week_number, path_to_save_trace_to)
 
     return package
 
