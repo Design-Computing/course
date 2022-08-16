@@ -67,7 +67,7 @@ def be_cool_and_safe_for_ever(name, file_path):
     """
     mode = "w"  # from the docs
     with open(file_path, mode, encoding="utf-8") as history_book:
-        history_book.write(name + " is cool and safe 🙃 ✔️ 🐼 ⨀ ½ ∞ ∴")
+        history_book.write(f"{name} is cool and safe 🙃 ✔️ 🐼 ⨀ ½ ∞ ∴")
 
 
 # look up what '..' means
