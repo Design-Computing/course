@@ -107,7 +107,7 @@ pexpect==4.8.0
     # via ipython
 pickleshare==0.7.5
     # via ipython
-pillow==9.1.1
+pillow==9.3.0
     # via
     #   -r requirements.in
     #   matplotlib
@@ -160,8 +160,6 @@ requests==2.27.1
     #   pipwin
 ruamel-yaml==0.17.21
     # via -r requirements.in
-ruamel-yaml-clib==0.2.6
-    # via ruamel-yaml
 six==1.16.0
     # via
     #   asttokens
@@ -176,8 +174,6 @@ stack-data==0.2.0
     # via ipython
 tomli==2.0.1
     # via
-    #   black
-    #   mypy
     #   pep517
     #   pytest
 tornado==6.1
