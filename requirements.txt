@@ -60,7 +60,7 @@ js2py==0.71
     # via pipwin
 jupyter-client==7.3.1
     # via ipykernel
-jupyter-core==4.10.0
+jupyter-core==4.11.2
     # via jupyter-client
 kiwisolver==1.4.2
     # via matplotlib
