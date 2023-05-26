@@ -14,7 +14,7 @@ beautifulsoup4==4.11.1
     # via pipwin
 black==22.3.0
     # via -r requirements.in
-certifi==2021.10.8
+certifi==2022.12.7
     # via requests
 charset-normalizer==2.0.12
     # via requests
@@ -44,7 +44,7 @@ func-timeout==4.3.5
     # via -r requirements.in
 gitdb==4.0.9
     # via gitpython
-gitpython==3.1.27
+gitpython==3.1.30
     # via -r requirements.in
 idna==3.3
     # via requests
@@ -60,7 +60,7 @@ js2py==0.71
     # via pipwin
 jupyter-client==7.3.1
     # via ipykernel
-jupyter-core==4.10.0
+jupyter-core==4.11.2
     # via jupyter-client
 kiwisolver==1.4.2
     # via matplotlib
@@ -107,7 +107,7 @@ pexpect==4.8.0
     # via ipython
 pickleshare==0.7.5
     # via ipython
-pillow==9.1.1
+pillow==9.3.0
     # via
     #   -r requirements.in
     #   matplotlib
@@ -160,8 +160,6 @@ requests==2.27.1
     #   pipwin
 ruamel-yaml==0.17.21
     # via -r requirements.in
-ruamel-yaml-clib==0.2.6
-    # via ruamel-yaml
 six==1.16.0
     # via
     #   asttokens
@@ -176,8 +174,6 @@ stack-data==0.2.0
     # via ipython
 tomli==2.0.1
     # via
-    #   black
-    #   mypy
     #   pep517
     #   pytest
 tornado==6.1
@@ -201,7 +197,7 @@ urllib3==1.26.9
     # via requests
 wcwidth==0.2.5
     # via prompt-toolkit
-wheel==0.37.1
+wheel==0.38.1
     # via
     #   -r requirements.in
     #   pip-tools
