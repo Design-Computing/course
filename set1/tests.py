@@ -8,11 +8,25 @@ import re
 import sys
 from pathlib import Path
 
-import git
-import requests
-import ruamel.yaml as yaml
-from colorama import Fore, Style
-from PIL import Image
+try:
+    import git
+    import requests
+    import ruamel.yaml as yaml
+    from colorama import Fore, Style
+    from PIL import Image
+except:
+    print(
+        "Something went wrong with your startup.[bat/sh] file. This is going "
+        "to be a pain for you in the long term, but you can keep going, "
+        "hopefully if you run this command:"
+    )
+    if platform.system() == "Darwin":
+        print("pip3 install git-python requests ruamel.yaml colorama pillow pandas")
+    elif platform.system() == "Windows":
+        print("pip install git-python requests ruamel.yaml colorama pillow pandas")
+    else:
+        print("Are you a linux adventurer? What do you need my help for?!")
+    raise ImportError("Missing some imports, pip install them and try this again")
 
 aboutMeData = ""
 
