@@ -164,23 +164,25 @@ def test_aboutMe(repo_path, show=False) -> bool:
         return False
     f = open(file_path, "r", encoding="utf8", errors="ignore")
     them = yaml.load(f, yaml.RoundTripLoader)
-    # them = str_dict_vals(yaml.load(f, yaml.RoundTripLoader))
     global aboutMeData
     aboutMeData = them
     if show:
         print(json.dumps(them, indent=2, sort_keys=True))
     xx = "a very unexpected string"
+    default_name = "Your Name"
+    default_student_number = "z1234567"
+    default_github_username = "notionparallax"
+    default_stack_overflow_link = "1835727/ben"
     checks = [
-        them.get("name", xx) == "Your Name",
-        them.get("studentNumber", xx) == "z1234567",
-        them.get("officialEmail", xx) == "noIdea@unsw.edu.au",
-        "1835727/ben" in them.get("stackOverflowLink", xx),
-        them.get("github", xx) == "notionparallax",
+        them.get("first_name", xx) == default_name,
+        them.get("studentNumber", xx) == default_student_number,
+        default_stack_overflow_link in them.get("stackOverflowLink", xx),
+        them.get("github", xx) == default_github_username,
     ]
     if any(checks):
         print("You haven't updated all of your aboutMe.yml yet.")
         return False
-    if all(checks):
+    elif all(checks):
         print("you haven't started on your aboutMe.yml yet.")
     return True
 
