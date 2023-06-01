@@ -388,7 +388,7 @@ Type {EM}git status{NORM}, or look in your source control tab, to check.
 """
     )
 
-    name = aboutMeData["name"].split(" ")[0]
+    name = aboutMeData["first_name"]
     message = "Rad, you've got all the tests passing!"
     treat = deadpool("Good Job", name)
     f = finish_up(testResults, message, treat, week_number=1)
