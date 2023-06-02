@@ -16,16 +16,23 @@ try:
     from PIL import Image
 except:
     print(
-        "Something went wrong with your startup.[bat/sh] file. This is going "
-        "to be a pain for you in the long term, but you can keep going, "
-        "hopefully if you run this command:"
+        "\n",
+        "🍌" * 30,
+        "\nSomething went wrong with your startup.[bat/sh] file. This is going "
+        "\nto be a pain for you in the long term, but you can keep going, "
+        "\nhopefully if you run this command:\n\n",
     )
+    packages = "git-python requests ruamel.yaml colorama pillow pandas"
     if platform.system() == "Darwin":
-        print("pip3 install git-python requests ruamel.yaml colorama pillow pandas")
+        print(f"\tpip3 install {packages}\n")
     elif platform.system() == "Windows":
-        print("pip install git-python requests ruamel.yaml colorama pillow pandas")
+        print(f"\tpip install install {packages}\n")
     else:
-        print("Are you a linux adventurer? What do you need my help for?!")
+        print(
+            f"\tpip install  install {packages}\n",
+            "Are you a linux adventurer? What do you need my help for?!",
+        )
+    print("🍌" * 30, "\n")
     raise ImportError("Missing some imports, pip install them and try this again")
 
 aboutMeData = ""
