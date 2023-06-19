@@ -11,10 +11,8 @@ import os
 import random
 import sys
 from pathlib import Path
-from typing import Dict, List, Optional, Set, Tuple
 
 import matplotlib.pyplot as plt
-import mock
 from colorama import Fore, Style
 from func_timeout import FunctionTimedOut, func_timeout
 
