@@ -273,23 +273,24 @@ def vis_binary_search_performance(repo_path: str) -> None:
     except Exception as e:
         return syntax_error_message(4, e)
 
-    BASE2 = 2
-    results = []
-    testRuns = 1000
-    for _ in range(testRuns):
-        low = random.randint(-100, 100)
-        high = random.randint(low + 2, 200)
-        guess = random.randint(low + 1, high - 1)
-        bs = exercise4.binary_search(low, high, guess)
-        # print bs, low, high, guess
-        tries = bs["tries"]
-        worst = math.log(high - low, BASE2)
-        ratio = tries / worst
-        results.append(ratio)
-    plt.hist(results, bins=20)
-    plt.title(f"Proportion of worst case performance over {testRuns} iterations")
-    print(
-        """
+    try:
+        BASE2 = 2
+        results = []
+        testRuns = 1000
+        for _ in range(testRuns):
+            low = random.randint(-100, 100)
+            high = random.randint(low + 2, 200)
+            guess = random.randint(low + 1, high - 1)
+            bs = exercise4.binary_search(low, high, guess)
+            # print bs, low, high, guess
+            tries = bs["tries"]
+            worst = math.log(high - low, BASE2)
+            ratio = tries / worst
+            results.append(ratio)
+        plt.hist(results, bins=20)
+        plt.title(f"Proportion of worst case performance over {testRuns} iterations")
+        print(
+            """
 This histogram shows the number of guesses that it took the search to
 find the answer. The big O worst case is the base 2 log of the range that
 you're guessing within. In other words, what power of two fills that space?
@@ -299,8 +300,20 @@ you'd go over the worst case because you aren't a perfect arithmatic
 machine but the computer is, so it's always below that worst case limit.
 
             Close the histogram to finish running the tests."""
-    )
-    plt.show()
+        )
+        plt.show()
+    except Exception as e:
+        print("🍌" * 30)
+        print(e)
+        print(
+            "\nYou're probably seeing this because you don't have matplotlib, "
+            "which is a library that we'll use a lot quite soon. It is for making "
+            "graphs and charts."
+            "\n👇👇👇You can get it by running this in your terminal👇👇👇"
+            "\n\tpip install matplotlib"
+            "\n\n"
+        )
+        print("🍌" * 30)
 
 
 def theTests(path_to_code_to_check: str = "../me"):
