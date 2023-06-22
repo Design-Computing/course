@@ -15,3 +15,6 @@ pytest
 requests
 ruamel.yaml
 wheel
+seaborn
+pyogrio
+geopandas
