@@ -4,7 +4,6 @@ colorama
 func_timeout
 ipykernel
 matplotlib
-mock
 mypy
 numpy
 openpyxl
