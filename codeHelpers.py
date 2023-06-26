@@ -1,5 +1,6 @@
 # -*- coding: UTF-8 -*-
 """Collect up the functions used in all the sets."""
+import getpass
 import importlib.util as importUtils
 import inspect
 import json
@@ -9,11 +10,12 @@ import threading
 import traceback
 from pathlib import Path
 from typing import Dict, List, Optional, Set, Tuple, Union
-from treats import deadpool, nyan_cat, grumpy
-import pandas as pd
 
 import colorama
+import pandas as pd
 from colorama import Fore, Style
+
+from treats import deadpool, grumpy, nyan_cat
 
 colorama.init()
 
@@ -78,7 +80,9 @@ def finish_up(
         print("Keep going champ! 🌟✨🌟✨ I believe in you! 🌟✨🌟✨")
     print(f"{total}/{out_of} (passed/attempted)")
 
-    if os.getlogin() != "bdoherty":
+    if getpass.getuser() != "bdoherty":
+        # TODO: what is this doing, and why do we need it?
+        # os.getlogin() != "bdoherty":
         write_results(package, week_number, path_to_save_trace_to)
 
     return package
