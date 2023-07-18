@@ -211,13 +211,11 @@ def me_repo_is_clone(repo_path) -> bool:
         return False
     if "Design-Computing" in origin_url:
         print(
-            (
-                "You seem to be running on the source copy of the {em}me{norm} repo."
-                "\nIt looks like you've cloned {em}design-computing/me{norm}"
-                "\nyou should have cloned {em}[your_github_name]/me{norm}"
-                "\nYou need to be working with your clone."
-                "\nThis is hard to explain in an error message, call a tutor over."
-            ).format(em=EM, norm=NORM)
+            f"You seem to be running on the source copy of the {EM}me{NORM} repo."
+            f"\nIt looks like you've cloned {EM}design-computing/me{NORM}"
+            f"\nyou should have cloned {EM}[your_github_name]/me{NORM}"
+            "\nYou need to be working with your clone."
+            "\nThis is hard to explain in an error message, call a tutor over."
         )
         return False
     else:
