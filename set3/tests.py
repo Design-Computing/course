@@ -24,11 +24,11 @@ from codeHelpers import (
     finish_up,
     lab_book_entry_completed,
     load_exercise_file,
-    nyan_cat,
     print_timeout_message,
     syntax_error_message,
     test,
 )
+from treats import nyan_cat
 
 EM = Fore.YELLOW
 NORM = Fore.WHITE
