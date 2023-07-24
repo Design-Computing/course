@@ -187,7 +187,7 @@ def ex_runs(repo_path: str, setNumber: int = 2, exerciseNumber: int = 1) -> bool
         p = os.path.normpath(
             os.path.join(repo_path, f"set{setNumber}/exercise{exerciseNumber}.py")
         )
-        spec = importUtils.spec_from_file_location("exercise", p)
+        spec = importUtils.spec_from_file_location("exercise", os.path.abspath(p))
         ex = importUtils.module_from_spec(spec)
         spec.loader.exec_module(ex)
         return True
