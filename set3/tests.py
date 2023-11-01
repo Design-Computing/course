@@ -18,7 +18,7 @@ from colorama import Fore, Style
 from func_timeout import FunctionTimedOut, func_timeout
 
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
-from codeHelpers import (
+from code_helpers import (
     completion_message,
     ex_runs,
     finish_up,

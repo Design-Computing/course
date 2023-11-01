@@ -38,7 +38,7 @@ except:
 aboutMeData = ""
 
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
-from codeHelpers import finish_up, lab_book_entry_completed, load_exercise_file, test
+from code_helpers import finish_up, lab_book_entry_completed, load_exercise_file, test
 from treats import deadpool
 
 SET_NUMBER = 1

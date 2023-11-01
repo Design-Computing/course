@@ -18,7 +18,7 @@ from func_timeout import FunctionTimedOut, func_timeout
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 
 
-from codeHelpers import ex_runs, finish_up, load_exercise_file, test
+from code_helpers import ex_runs, finish_up, load_exercise_file, test
 from treats import nyan_cat
 
 EM = Fore.YELLOW
