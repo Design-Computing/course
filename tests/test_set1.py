@@ -24,4 +24,6 @@ def test_set_1_ex_1(capfd):
     """
     ex.hello()
     out, err = capfd.readouterr()
-    assert out.strip() == "Hello world!"
+    assert (
+        out.strip() == "Hello world!"
+    ), f"You didn't write exactly Hello world!, you wrote {out}"
