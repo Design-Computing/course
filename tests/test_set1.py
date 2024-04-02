@@ -22,6 +22,6 @@ def test_set_1_ex_1(capfd):
     """Test that s1x1 produces exactly "Hello world!"
     and offers suggestions abut how to improve.
     """
-    ex.first()
+    ex.hello()
     out, err = capfd.readouterr()
     assert out.strip() == "Hello world!"
