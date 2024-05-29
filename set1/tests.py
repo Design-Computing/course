@@ -11,7 +11,7 @@ from pathlib import Path
 try:
     import git
     import requests
-    import ruamel.yaml as yaml
+    from ruamel.yaml import YAML
     from colorama import Fore, Style
     from PIL import Image
 except:
@@ -170,7 +170,9 @@ def test_aboutMe(repo_path, show=False) -> bool:
         )
         return False
     f = open(file_path, "r", encoding="utf8", errors="ignore")
-    them = yaml.load(f, yaml.RoundTripLoader)
+    yaml = YAML(typ="rt")
+    them = yaml.load(f)
+    # them = yaml.load(f, yaml.RoundTripLoader)
     global aboutMeData
     aboutMeData = them
     if show:
