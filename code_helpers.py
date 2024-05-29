@@ -60,8 +60,8 @@ def finish_up(
     path_to_save_trace_to: str = "../me",
 ) -> Dict[str, Union[int, str, List[dict]]]:
     print(
-        "\n\nResult summary:  (👆 scroll up for more details ☝)\n",
-        terse_results(testResults),
+        "\n\nResult summary:  (👆 scroll up for more details ☝)\n"
+        + terse_results(testResults),
     )
     total = sum([r["value"] for r in testResults])
     out_of = len(testResults)
