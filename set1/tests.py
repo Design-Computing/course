@@ -267,11 +267,11 @@ def has_real_photo(repo_path):
             """Like this:
 ╭───────────╮
 │  !!!!!!!  │
-│ /       \ │
+│ /       \\ │
 │ │  O  O │ │  ⇇ where this is a photo of your face, of course!
 │<│    v  │>│
-│  \  ─── / │
-│   \____/  │
+│  \\  ─── / │
+│   \\____/  │
 ╰───────────╯\n"""
             "Go to https://github.com/settings/profile and upload a photo of your face.\n"
             "This really helps us understand who's who and be more useful in tutorials.",
