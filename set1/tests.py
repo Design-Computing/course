@@ -172,7 +172,6 @@ def test_aboutMe(repo_path, show=False) -> bool:
     f = open(file_path, "r", encoding="utf8", errors="ignore")
     yaml = YAML(typ="rt")
     them = yaml.load(f)
-    # them = yaml.load(f, yaml.RoundTripLoader)
     global aboutMeData
     aboutMeData = them
     if show:
