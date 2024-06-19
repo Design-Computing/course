@@ -11,9 +11,10 @@ from pathlib import Path
 try:
     import git
     import requests
-    from ruamel.yaml import YAML
     from colorama import Fore, Style
+    from git import Repo
     from PIL import Image
+    from ruamel.yaml import YAML
 except:
     print(
         "\n",
@@ -26,20 +27,21 @@ except:
     if platform.system() == "Darwin":
         print(f"\tpip3 install {packages}\n")
     elif platform.system() == "Windows":
-        print(f"\tpip install install {packages}\n")
+        print(f"\tpip install {packages}\n")
     else:
         print(
-            f"\tpip install  install {packages}\n",
+            f"\tpip install {packages}\n",
             "Are you a linux adventurer? What do you need my help for?!",
         )
     print("🍌" * 30, "\n")
     raise ImportError("Missing some imports, pip install them and try this again")
 
-aboutMeData = ""
 
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 from code_helpers import finish_up, lab_book_entry_completed, load_exercise_file, test
 from treats import deadpool
+
+aboutMeData = ""
 
 SET_NUMBER = 1
 EM = Fore.YELLOW
@@ -197,7 +199,10 @@ def test_aboutMe(repo_path, show=False) -> bool:
 
 def get_origin_url(repo) -> str:
     if os.name == "posix":
-        return os.popen("git config --get remote.origin.url").read()
+        repo_obj = Repo(repo.working_dir)
+        origin_url = repo_obj.remotes.origin.url
+        return origin_url
+        # os.popen("git config --get remote.origin.url").read()
     else:
         return repo.execute("git config --get remote.origin.url")
 
