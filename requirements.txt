@@ -18,3 +18,4 @@ wheel
 seaborn
 pyogrio
 geopandas
+fiona
