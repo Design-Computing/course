@@ -79,7 +79,7 @@ def finish_up(
         print(the_treat)
         completion_message(message, len(message) + 2)
     else:
-        print("Keep going champ! 🌟✨🌟✨ I believe in you! 🌟✨🌟✨")
+        print("\nKeep going champ! 🌟✨🌟✨ I believe in you! 🌟✨🌟✨\n")
     print(f"{total}/{out_of} (passed/attempted)")
 
     if getpass.getuser() != "bdoherty":
@@ -249,4 +249,6 @@ def print_timeout_message(
 
 
 if __name__ == "__main__":
-    pass
+    print(
+        "you probably meant to run something else, not this collection of helper files"
+    )
