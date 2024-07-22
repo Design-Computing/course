@@ -58,11 +58,13 @@ def finish_up(
     the_treat: str,
     week_number: int = 0,
     path_to_save_trace_to: str = "../me",
+    print_results_summary=True,
 ) -> Dict[str, Union[int, str, List[dict]]]:
-    print(
-        "\n\nResult summary:  (👆 scroll up for more details ☝)\n"
-        + terse_results(testResults),
-    )
+    if print_results_summary:
+        print(
+            "\n\nResult summary:  (👆 scroll up for more details ☝)\n"
+            + terse_results(testResults),
+        )
     total = sum([r["value"] for r in testResults])
     out_of = len(testResults)
 
