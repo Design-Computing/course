@@ -124,7 +124,20 @@ def set_it_on_fire(input_string="very naughty boy") -> str:
     return None
 
 
-def pet_filter(letter="a") -> List:
+def the_chain_gang_5(the_value) -> bool:
+    """Take the_value, subtract 5 from it, and return True if the value we end up with it 5.
+
+    You don't get anything for free this far into the quiz, you can't
+    use the == operator or the - operator, and you must use two of the
+    functions you've already written.
+
+    TIP: you've already written a function that returns True if the value is 5
+    TIP: you've already written a function that subtracts 5
+    """
+
+    return None
+
+
     """Return a list of pets whose name contains the character 'letter'"""
     # fmt: off
     pets = [

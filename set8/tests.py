@@ -5,7 +5,7 @@ This file tests your code. It'll check that the work in each
 of the exercise files does what it's supposed to.
 """
 
-
+import inspect
 import importlib.util as importUtils
 import os
 import string
@@ -20,6 +20,7 @@ sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 
 from code_helpers import ex_runs, finish_up, load_exercise_file, test
 from treats import nyan_cat
+
 
 EM = Fore.YELLOW
 NORM = Fore.WHITE
@@ -39,6 +40,8 @@ def exam_test(
     args,
     function_to_test,
     finishing_function=None,
+    inspection_function=None,
+    inspection_args=[],
     extra_message="",
     chdir=False,
 ):
@@ -52,6 +55,13 @@ def exam_test(
         if chdir:
             if "quiz" not in os.getcwd():
                 os.chdir("./quiz")
+
+        if inspection_function:
+            testResults.append(
+                test(inspection_function(*inspection_args), extra_message)
+            )
+            return
+
         got = function_to_test(*args)
         if chdir:
             if "set" in os.getcwd():
@@ -196,6 +206,47 @@ def theTests(path_to_code_to_check="../me"):
             extra_message="💖💘💝💖💗💓💞😻😍🥰❤️🧡💛💚💙💜🤎🖤🤎🤍🫀🫀🫀🫀🫀🫀🫀🫀🫀🫀🫀🫀🫀",
         )
 
+        exam_test(
+            True,
+            [10],
+            exam.the_chain_gang_5,
+            extra_message="⛓️⛓️⛓️⛓️⛓️",
+        )
+        exam_test(
+            False,
+            [11],
+            exam.the_chain_gang_5,
+            extra_message="⛓️⛓️💥⛓️⛓️",
+        )
+
+        def check_for_contains(the_function, look_for, target_count):
+            function_text = inspect.getsource(the_function)
+            count = function_text.count(look_for)
+            if count != target_count:
+                print(
+                    f"The way you've written {the_function.__name__} means that it contains "
+                    f"{count} instances of {look_for}, but it should contain "
+                    f"{target_count}. That {target_count} is in the docstring!"
+                )
+            return count == target_count  # There's one in the docstring
+
+        exam_test(
+            True,
+            [9],
+            exam.the_chain_gang_5,
+            extra_message="🦹‍♀️⛓️🦹‍♀️⛓️🦹‍♀️ check that the_chain_gang_5 doesn't use ==",
+            inspection_function=check_for_contains,
+            inspection_args=[exam.the_chain_gang_5, "==", 1],
+        )
+        exam_test(
+            True,
+            [9],
+            exam.the_chain_gang_5,
+            extra_message="🦹‍♀️⛓️🦹‍♀️⛓️🦹‍♀️ check that the_chain_gang_5 doesn't use -",
+            inspection_function=check_for_contains,
+            inspection_args=[exam.the_chain_gang_5, "-", 1],
+        )
+
         exam_test(["red fox"], ["x"], exam.pet_filter)
         exam_test([], ["q"], exam.pet_filter)
         exam_test(
@@ -300,9 +351,11 @@ def theTests(path_to_code_to_check="../me"):
         "Cowabunga! You've got all the tests passing!\n"
         "Well done, that's all the exercises for this term out of the way!"
     )
-    print(testResults)
+    # print(testResults)
 
-    f = finish_up(testResults, message, nyan_cat(), week_number=8)
+    f = finish_up(
+        testResults, message, nyan_cat(), week_number=8, print_results_summary=False
+    )
     return f
 
 
