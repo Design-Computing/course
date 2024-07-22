@@ -10,8 +10,8 @@ import os
 import random
 import string
 import time
+from typing import Any
 import requests
-from typing import Dict, List
 
 
 def give_me_five() -> int:
@@ -26,17 +26,17 @@ def password_please() -> str:
     return None
 
 
-def list_please() -> list:
+def list_please() -> list[Any]:
     """Returns a list, you can put anything in the list."""
     return None
 
 
-def int_list_please() -> list:
+def int_list_please() -> list[int]:
     """Returns a list of integers, any integers are fine."""
     return None
 
 
-def string_list_please() -> list:
+def string_list_please() -> list[str]:
     """Returns a list of strings, any string are fine."""
     return None
 
@@ -85,7 +85,7 @@ def n_counter(search_for_this, input_list=[1, 4, 1, 5, 1, 1]) -> int:
     return count
 
 
-def fizz_buzz() -> List:
+def fizz_buzz() -> list:
     """Do the fizzBuzz.
 
     This is the most famous basic programming test of all time!
@@ -138,6 +138,7 @@ def the_chain_gang_5(the_value) -> bool:
     return None
 
 
+def pet_filter(letter="a") -> list:
     """Return a list of pets whose name contains the character 'letter'"""
     # fmt: off
     pets = [
@@ -172,7 +173,7 @@ def best_letter_for_pets() -> str:
     return most_popular_letter
 
 
-def make_filler_text_dictionary() -> Dict:
+def make_filler_text_dictionary() -> dict:
     """Make a dictionary of random words filler text.
     There is a random word generator here:
     https://us-central1-waldenpondpress.cloudfunctions.net/give_me_a_word?wordlength=4
