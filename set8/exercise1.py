@@ -264,6 +264,8 @@ if __name__ == "__main__":
     print("n_counter:", n_counter(7))
     print("fizz_buzz:", fizz_buzz())
     print("put_behind_bars:", set_it_on_fire())
+    print("chaing gang 5", the_chain_gang_5(5))
+    print("chaing gang 5", the_chain_gang_5(10))
     print("pet_filter:", pet_filter())
     print("best_letter_for_pets:", best_letter_for_pets())
     print("make_filler_text_dictionary:", make_filler_text_dictionary())
