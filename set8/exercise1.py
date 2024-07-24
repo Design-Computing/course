@@ -231,6 +231,7 @@ def fast_filler(number_of_words=200) -> str:
     the internet.
     Use the filename "dict_cache.json"
     TIP: you'll need the os and json libraries
+    TIP: This is making sentences. Make the first letter capital, and add a full stop to the end.
     TIP: you'll probably want to use json dumps and loads to get the
     dictionary into and out of the file. Be careful when you read it back in,
     it'll convert integer keys to strings.
