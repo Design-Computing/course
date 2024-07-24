@@ -226,7 +226,8 @@ def theTests(path_to_code_to_check="../me"):
                 print(
                     f"The way you've written {the_function.__name__} means that it contains "
                     f"{count} instances of {look_for}, but it should contain "
-                    f"{target_count}. That {target_count} is in the docstring!"
+                    f"{target_count}. That {target_count} is/are in the "
+                    "docstring/function definition!"
                 )
             return count == target_count  # There's one in the docstring
 
@@ -244,7 +245,7 @@ def theTests(path_to_code_to_check="../me"):
             exam.the_chain_gang_5,
             extra_message="🦹‍♀️⛓️🦹‍♀️⛓️🦹‍♀️ check that the_chain_gang_5 doesn't use -",
             inspection_function=check_for_contains,
-            inspection_args=[exam.the_chain_gang_5, "-", 1],
+            inspection_args=[exam.the_chain_gang_5, "-", 2],
         )
 
         exam_test(["red fox"], ["x"], exam.pet_filter)
