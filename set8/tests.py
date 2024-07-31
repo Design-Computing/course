@@ -312,14 +312,14 @@ def theTests(path_to_code_to_check="../me"):
             [10],
             exam.fast_filler,
             lambda x: x[0] in string.ascii_uppercase and x[1] in string.ascii_lowercase,
-            "Test if fast_filler is capitalised",
+            extra_message="Test if fast_filler is capitalised",
         )
         exam_test(
             True,
             [10],
             exam.fast_filler,
             lambda x: x[-1] == ".",
-            "Test if fast_filler finishes with a .",
+            extra_message="Test if fast_filler finishes with a .",
         )
 
         print(
