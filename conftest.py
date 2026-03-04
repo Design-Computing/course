@@ -8,6 +8,7 @@ import importlib.util as importUtils
 import json
 import os
 import sys
+import re
 from pathlib import Path
 from typing import Any, Dict, List
 
@@ -22,6 +23,9 @@ sys.path.append(os.path.dirname(__file__))
 
 # Import treats for celebration messages
 from treats import deadpool, grumpy, nyan_cat, pikachu, pokeball, squirtle
+
+# Import shared helpers
+from code_helpers import lab_book_entry_completed
 
 # Colors for output
 EM = Fore.YELLOW
@@ -121,37 +125,10 @@ def lab_book_completed(repo_path):
 
     def _check_lab_book(set_number: int) -> bool:
         """Check if the lab book has actual content.
-        
-        Ignores content between <!-- PROMPT START --> and <!-- PROMPT END --> markers,
-        allowing instructors to add helpful prompts without affecting the test.
+
+        Delegates to lab_book_entry_completed from code_helpers.
         """
-        import re
-        
-        lab_book = Path(os.path.join(repo_path, f"set{set_number}/readme.md"))
-        if lab_book.is_file():
-            with open(lab_book, "r", encoding="utf-8", errors="ignore") as f:
-                content = f.read()
-                
-                # Strip out prompt sections (content between HTML comment markers)
-                content = re.sub(
-                    r'<!-- PROMPT START -->.*?<!-- PROMPT END -->',
-                    '',
-                    content,
-                    flags=re.DOTALL | re.IGNORECASE
-                )
-                
-                lines_stripped = [line.strip() for line in content.splitlines() if line.strip() != ""]
-                basic_content = [
-                    "TODO: Reflect on what you learned this week and what is still unclear."
-                ]
-                
-                # If it's just the template, return False
-                if lines_stripped == basic_content:
-                    return False
-                # If there's any content beyond template, return True
-                elif lines_stripped:
-                    return True
-        return False
+        return lab_book_entry_completed(set_number, repo_path)
 
     return _check_lab_book
 
