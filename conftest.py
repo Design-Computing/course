@@ -120,21 +120,36 @@ def lab_book_completed(repo_path):
     """
 
     def _check_lab_book(set_number: int) -> bool:
-        """Check if the lab book has actual content."""
+        """Check if the lab book has actual content.
+        
+        Ignores content between <!-- PROMPT START --> and <!-- PROMPT END --> markers,
+        allowing instructors to add helpful prompts without affecting the test.
+        """
+        import re
+        
         lab_book = Path(os.path.join(repo_path, f"set{set_number}/readme.md"))
         if lab_book.is_file():
             with open(lab_book, "r", encoding="utf-8", errors="ignore") as f:
-                lines = f.readlines()
+                content = f.read()
+                
+                # Strip out prompt sections (content between HTML comment markers)
+                content = re.sub(
+                    r'<!-- PROMPT START -->.*?<!-- PROMPT END -->',
+                    '',
+                    content,
+                    flags=re.DOTALL | re.IGNORECASE
+                )
+                
+                lines_stripped = [line.strip() for line in content.splitlines() if line.strip() != ""]
                 basic_content = [
                     "TODO: Reflect on what you learned this week and what is still unclear."
                 ]
-                lines_stripped = [line.strip() for line in lines if line.strip() != ""]
-
+                
                 # If it's just the template, return False
                 if lines_stripped == basic_content:
                     return False
-                # If there's any content, return True
-                elif lines:
+                # If there's any content beyond template, return True
+                elif lines_stripped:
                     return True
         return False
 
