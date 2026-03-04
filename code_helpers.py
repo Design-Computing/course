@@ -83,7 +83,7 @@ def finish_up(
     print(f"{total}/{out_of} (passed/attempted)")
 
     if getpass.getuser() != "bdoherty":
-        # TODO: what is this doing, and why do we need it?
+        # This stops it writing the results if it's running on Ben's computer. It's a fancier version of:
         # os.getlogin() != "bdoherty":
         write_results(package, week_number, path_to_save_trace_to)
 
@@ -142,9 +142,9 @@ def test_pydocstyle(fileName, flags="-e") -> bool:
             ["pydocstyle", file_path, flags], stdout=subprocess.PIPE
         )
         streamdata = child.communicate()[0]
-        print(("streamdata", streamdata))  # I don't know what streamdata is for
+        print(f"streamdata: {streamdata}")  # I don't know what streamdata is for
         rc = child.returncode
-        print(("returncode", rc))
+        print(f"returncode: {rc}")
         if rc == 0:
             print("all good")
             return True
@@ -152,10 +152,10 @@ def test_pydocstyle(fileName, flags="-e") -> bool:
             print("all good, I think")
             return True
         else:
-            print((f"U haz docstring errorz {grumpy()}"))
+            print(f"U haz docstring errorz {grumpy()}")
             return False
     except Exception as e:
-        print(("failed to doc check", e))
+        print(f"failed to doc check: {e}")
         return False
 
 
@@ -167,7 +167,7 @@ def lab_book_entry_completed(setNumber: int, repo_path: str) -> bool:
             basic_lab_book_content = [
                 "TODO: Reflect on what you learned this week and what is still unclear."
             ]
-            lines_stripped = [l.strip() for l in lines if l.strip() != ""]
+            lines_stripped = [line.strip() for line in lines if line.strip() != ""]
             if lines_stripped == basic_lab_book_content:
                 return False
             elif lines:

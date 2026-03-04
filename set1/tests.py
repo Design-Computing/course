@@ -15,7 +15,7 @@ try:
     from git import Repo
     from PIL import Image
     from ruamel.yaml import YAML
-except:
+except (ImportError, ModuleNotFoundError) as e:
     print(
         "\n",
         "🍌" * 30,
@@ -23,6 +23,7 @@ except:
         "\nto be a pain for you in the long term, but you can keep going, "
         "\nhopefully if you run this command:\n\n",
     )
+    print(f"Missing module: {e}\n")
     packages = "git-python requests ruamel.yaml colorama pillow pandas"
     if platform.system() == "Darwin":
         print(f"\tpip3 install {packages}\n")

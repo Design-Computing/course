@@ -128,7 +128,7 @@ def lab_book_completed(repo_path):
                 basic_content = [
                     "TODO: Reflect on what you learned this week and what is still unclear."
                 ]
-                lines_stripped = [l.strip() for l in lines if l.strip() != ""]
+                lines_stripped = [line.strip() for line in lines if line.strip() != ""]
 
                 # If it's just the template, return False
                 if lines_stripped == basic_content:
