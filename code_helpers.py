@@ -121,10 +121,10 @@ def test(testResult: bool, name: str) -> Dict:
             print((f"{Fore.GREEN}✔ {name}{Style.RESET_ALL}"))
             value = 1
         else:
-            print((f"{Fore.RED}✘ {name}{Style.RESET_ALL}"))
+            print((f"{Fore.MAGENTA}✘ {name}{Style.RESET_ALL}"))
     except Exception as e:
         print(e)
-        print((f"{Fore.RED}✘ {name}{Style.RESET_ALL}"))
+        print((f"{Fore.MAGENTA}✘ {name}{Style.RESET_ALL}"))
 
     return {"value": value, "name": name}
 

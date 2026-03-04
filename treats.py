@@ -282,10 +282,10 @@ def nyan_cat(block: str = "█") -> str:
         BLUE=f"{Style.NORMAL}{Fore.BLUE}",
         BRIGHT_BLUE=f"{Style.BRIGHT}{Fore.BLUE}",
         BRIGHT_GREEN=f"{Style.BRIGHT}{Fore.GREEN}",
-        BRIGHT_RED=f"{Style.BRIGHT}{Fore.RED}",
+        BRIGHT_RED=f"{Style.BRIGHT}{Fore.MAGENTA}",
         BRIGHT_YELLOW=f"{Style.BRIGHT}{Fore.YELLOW}",
         MAGENTA=f"{Style.NORMAL}{Fore.MAGENTA}",
-        RED=f"{Style.NORMAL}{Fore.RED}",
+        RED=f"{Style.NORMAL}{Fore.MAGENTA}",
         WHITE=f"{Style.BRIGHT}{Fore.WHITE}",
         x=block,
     )
