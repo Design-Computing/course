@@ -1,8 +1,9 @@
 """marks your weeks locally and gives you a sense of what's going on.
 
 IMPORTANT:
-You need to move this file into your me directory for it to work. 
+You need to move this file into your me directory for it to work.
 """
+
 import math
 import os
 import json
