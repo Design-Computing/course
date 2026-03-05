@@ -23,7 +23,7 @@ class TestRefactoring:
         import inspect
 
         source = inspect.getsource(exercise1.wordy_pyramid)
-        
+
         # Check that they're using the helper function
         assert "list_of_words_with_lengths" in source, (
             "💡 You should refactor wordy_pyramid to use list_of_words_with_lengths from set 5!\n"
@@ -32,7 +32,7 @@ class TestRefactoring:
             "    from set5.exercise1 import list_of_words_with_lengths\n\n"
             "Then use it to get all the words instead of repeating the API call logic."
         )
-        
+
         # Check that they're not repeating the requests code
         assert source.count("requests.get") <= 1, (
             "💡 You should reduce code duplication!\n"
@@ -82,8 +82,12 @@ class TestRefactoring:
         import inspect
 
         source = inspect.getsource(exercise1.wordy_pyramid)
-        lines = [line for line in source.split("\n") if line.strip() and not line.strip().startswith("#")]
-        
+        lines = [
+            line
+            for line in source.split("\n")
+            if line.strip() and not line.strip().startswith("#")
+        ]
+
         # The refactored version should be much shorter
         assert len(lines) < 20, (
             f"💡 Your refactored function has {len(lines)} non-empty lines.\n"
