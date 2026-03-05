@@ -111,7 +111,7 @@ def write_results(
             json.dump(trace, f, indent=2)
 
 
-def test(testResult: bool, name: str) -> Dict:
+def test(testResult: bool, name: str) -> dict:
     """Report on the test.
 
     Returns 1 and 0 so that the 1s can be summed to give a mark.
