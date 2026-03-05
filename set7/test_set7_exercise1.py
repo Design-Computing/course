@@ -64,7 +64,6 @@ class TestSlicing:
     @pytest.mark.parametrize(
         "list_length",
         [
-            20,  # Edge case: exactly 20 items (entire list)
             21,  # Odd, just over minimum
             22,  # Even, just over minimum
             40,  # Original case, even
@@ -72,6 +71,7 @@ class TestSlicing:
             50,  # Larger even
             67,  # Larger odd
             100,  # Large even
+            20,  # Edge case: exactly 20 items (entire list)
         ],
     )
     def test_moving_middle_pets(self, exercise1, pets, list_length, monkeypatch):
@@ -145,8 +145,8 @@ class TestAppendExtend:
 
         assert result == expected, (
             f"💡 Use .append() to add single items\n"
-            f"my_pets.append('hamster')\n"
-            f"my_pets.append('rabbit')\n\n"
+            f"""`my_pets.append("hamster")\n"""
+            f"""my_pets.append("rabbit")\n\n"""
             f"Expected: {expected}\n"
             f"Got:      {result}"
         )
@@ -158,8 +158,8 @@ class TestAppendExtend:
 
         assert result == expected, (
             f"💡 Use .extend() to add multiple items from a list\n"
-            f"my_pets.extend(['hamster', 'rabbit'])\n"
-            f"my_pets.extend(['guinea pig', 'mouse'])\n\n"
+            f"""my_pets.extend(["hamster", "rabbit"])\n"""
+            f"""my_pets.extend(["guinea pig", "mouse"])\n\n"""
             f"Expected: {expected}\n"
             f"Got:      {result}"
         )
