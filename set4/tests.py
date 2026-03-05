@@ -14,7 +14,6 @@ import sys
 import time
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, List, Optional, Set, Tuple
 
 from colorama import Fore, Style
 from func_timeout import FunctionTimedOut, func_timeout
