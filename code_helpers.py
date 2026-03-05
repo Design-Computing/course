@@ -5,6 +5,7 @@ import importlib.util as importUtils
 import inspect
 import json
 import os
+import re
 import subprocess
 import threading
 import traceback
@@ -161,30 +162,31 @@ def test_pydocstyle(fileName, flags="-e") -> bool:
 
 def lab_book_entry_completed(setNumber: int, repo_path: str) -> bool:
     """Check if a lab book has been completed with student content.
-    
+
     Ignores content between <!-- PROMPT START --> and <!-- PROMPT END --> markers,
     allowing instructors to add helpful prompts without affecting the test.
     """
-    import re
-    
+
     lab_book = Path(os.path.join(repo_path, f"set{setNumber}/readme.md"))
     if lab_book.is_file():
         with open(lab_book, "r", encoding="utf-8", errors="ignore") as f:
             content = f.read()
-            
+
             # Strip out prompt sections (content between HTML comment markers)
             content = re.sub(
-                r'<!-- PROMPT START -->.*?<!-- PROMPT END -->',
-                '',
+                r"<!-- PROMPT START -->.*?<!-- PROMPT END -->",
+                "",
                 content,
-                flags=re.DOTALL | re.IGNORECASE
+                flags=re.DOTALL | re.IGNORECASE,
             )
-            
-            lines_stripped = [line.strip() for line in content.splitlines() if line.strip() != ""]
+
+            lines_stripped = [
+                line.strip() for line in content.splitlines() if line.strip() != ""
+            ]
             basic_lab_book_content = [
                 "TODO: Reflect on what you learned this week and what is still unclear."
             ]
-            
+
             if lines_stripped == basic_lab_book_content:
                 return False
             elif lines_stripped:

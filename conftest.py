@@ -276,6 +276,8 @@ def pytest_collection_modifyitems(config, items):
             item.add_marker(pytest.mark.set4)
         elif "set5" in str(item.fspath):
             item.add_marker(pytest.mark.set5)
+        elif "set6" in str(item.fspath):
+            item.add_marker(pytest.mark.set6)
         elif "set8" in str(item.fspath):
             item.add_marker(pytest.mark.set8)
 
