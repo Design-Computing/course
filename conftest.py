@@ -10,7 +10,7 @@ import os
 import sys
 import re
 from pathlib import Path
-from typing import Any, Dict, List
+from typing import Any
 
 import pytest
 from colorama import Fore, Style, init as colorama_init
@@ -238,7 +238,7 @@ class ProgressTracker:
         """Add a test result."""
         self.results.append({"name": name, "value": 1 if passed else 0})
 
-    def get_summary(self) -> Dict[str, Any]:
+    def get_summary(self) -> dict[str, Any]:
         """Get summary of results."""
         total = sum(r["value"] for r in self.results)
         return {"mark": total, "of_total": len(self.results), "results": self.results}

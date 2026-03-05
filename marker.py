@@ -7,22 +7,21 @@ import math
 import os
 import json
 import string
-from typing import List
 
 
-def bin_vals(vals: List[int], value: int) -> int:
+def bin_vals(vals: list[int], value: int) -> int:
     vals.sort(reverse=True)
     for v in vals:
         if value > v:
             return v
 
 
-def to_ints(s: str) -> List[int]:
+def to_ints(s: str) -> list[int]:
     letters = string.ascii_letters + " '-"
     return [letters.index(x) for x in s]
 
 
-def from_ints(indeces: List[int]) -> str:
+def from_ints(indeces: list[int]) -> str:
     letters = string.ascii_letters + " '-"
     return "".join([letters[x] for x in indeces])
 
@@ -67,7 +66,7 @@ def get_marks(file_name="trace.json"):
     return marks, targets
 
 
-def do_tests(set_numbers: List[int]) -> None:
+def do_tests(set_numbers: list[int]) -> None:
     for set_name in [f"set{i}" for i in set_numbers]:
         path = os.path.normpath(f"../course/{set_name}/tests.py")
         command = f"python {path}"

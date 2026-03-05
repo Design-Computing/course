@@ -10,7 +10,7 @@ import subprocess
 import threading
 import traceback
 from pathlib import Path
-from typing import Dict, List, Optional, Set, Tuple, Union
+from typing import Optional, Union
 
 import colorama
 import pandas as pd
@@ -54,13 +54,13 @@ def terse_results(results):
 
 
 def finish_up(
-    testResults: List[dict],
+    testResults: list[dict],
     message: str,
     the_treat: str,
     week_number: int = 0,
     path_to_save_trace_to: str = "../me",
     print_results_summary=True,
-) -> Dict[str, Union[int, str, List[dict]]]:
+) -> dict[str, Union[int, str, list[dict]]]:
     if print_results_summary:
         print(
             "\n\nResult summary:  (👆 scroll up for more details ☝)\n"
@@ -92,7 +92,7 @@ def finish_up(
 
 
 def write_results(
-    package: Dict[str, Union[int, str, List[dict]]],
+    package: dict[str, Union[int, str, list[dict]]],
     week_number: int = 0,
     path_to_save_trace_to: str = "../me",
 ) -> None:
