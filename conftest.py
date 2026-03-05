@@ -67,6 +67,10 @@ def load_exercise():
         if path is None:
             path = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "me"))
 
+        # Add path to sys.path so package imports work
+        if path not in sys.path:
+            sys.path.insert(0, path)
+
         exercise_path = os.path.join(
             path, f"set{set_number}", f"exercise{exercise_number}.py"
         )
