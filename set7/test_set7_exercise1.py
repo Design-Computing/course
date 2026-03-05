@@ -1,6 +1,7 @@
 """Test Set 7 Exercise 1 - List Operations and Comprehensions."""
 
 import pytest
+from importlib import import_module
 
 
 @pytest.fixture
@@ -60,39 +61,54 @@ class TestSlicing:
             f"Got:      {result}"
         )
 
-    def test_moving_middle_pets(self, exercise1):
-        """Test getting middle 20 pets from unknown length list."""
+    @pytest.mark.parametrize(
+        "list_length",
+        [
+            20,  # Edge case: exactly 20 items (entire list)
+            21,  # Odd, just over minimum
+            22,  # Even, just over minimum
+            40,  # Original case, even
+            41,  # Original case + 1, odd
+            50,  # Larger even
+            67,  # Larger odd
+            100,  # Large even
+        ],
+    )
+    def test_moving_middle_pets(self, exercise1, pets, list_length, monkeypatch):
+        """Test getting middle 20 pets from lists of various lengths."""
+        # Create a test list of the specified length
+        # Duplicate and slice the pets list to get desired length
+        repetitions = (list_length // len(pets)) + 1
+        test_pets = (pets * repetitions)[:list_length]
+
+        # Patch the pets list in the exercise module
+        ex = import_module("set7.exercise1")
+        monkeypatch.setattr(ex, "pets", test_pets)
+
+        # Call the function
         result = exercise1.moving_middle_pets()
 
         # Should return list of 20 items
         assert isinstance(result, list), f"Expected list, got {type(result)}"
         assert len(result) == 20, (
-            f"💡 Should return exactly 20 items\n"
+            f"💡 Should return exactly 20 items (list_length={list_length})\n"
             f"Expected length: 20\n"
             f"Got length:      {len(result)}"
         )
 
-        # Verify it's actually from the middle
-        # For a list of 40, middle 20 is indices 10-30
-        expected = result  # Will be pets[10:30] if implemented correctly
-        from importlib import import_module
+        # Calculate expected middle 20
+        start = (list_length - 20) // 2
+        end = start + 20
+        expected = test_pets[start:end]
 
-        ex = import_module("set7.exercise1")
-        if hasattr(ex, "pets"):
-            pets_list = ex.pets
-            if len(pets_list) == 40:
-                length = len(pets_list)
-                start = (length - 20) // 2
-                end = start + 20
-                expected = pets_list[start:end]
-                assert result == expected, (
-                    f"💡 Calculate indices based on list length\n"
-                    f"For a list of {length}, middle 20 should start at index {start}\n"
-                    f"Hint: start = (len(pets) - 20) // 2\n"
-                    f"      end = start + 20\n\n"
-                    f"Expected: {expected}\n"
-                    f"Got:      {result}"
-                )
+        assert result == expected, (
+            f"💡 Calculate indices based on list length\n"
+            f"For a list of {list_length}, middle 20 should start at index {start}\n"
+            f"Hint: start = (len(pets) - 20) // 2\n"
+            f"      end = start + 20\n\n"
+            f"Expected: {expected}\n"
+            f"Got:      {result}"
+        )
 
     def test_reverse_pets(self, exercise1, pets):
         """Test reversing the pets list."""
